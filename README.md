@@ -1,1 +1,11 @@
-# P2pMarketF1
+
+  # P2p
+
+  This is a code bundle for P2p. The original project is available at https://www.figma.com/design/uHvyQtht0QcU7CkHCj6wpZ/P2p.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  
