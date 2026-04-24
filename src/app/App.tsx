@@ -193,6 +193,70 @@ function Skeleton({ w, h, round }: { w: number | string; h: number; round?: bool
   return <div style={{ width: w, height: h, borderRadius: round ? "50%" : 6, background: "linear-gradient(90deg, rgba(0,229,255,0.04), rgba(0,229,255,0.14), rgba(0,229,255,0.04))", backgroundSize: "200% 100%", animation: "chxShim 1.4s linear infinite" }} />;
 }
 
+function PremiumIcon({ kind }: { kind: "escrow" | "verified" | "payments" | "support" }) {
+  const id = `pi-${kind}`;
+  return (
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+      <defs>
+        <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={kind === "verified" || kind === "support" ? "rgba(139,92,246,0.35)" : "rgba(0,229,255,0.35)"} />
+          <stop offset="100%" stopColor={kind === "verified" || kind === "support" ? "rgba(139,92,246,0.08)" : "rgba(0,229,255,0.06)"} />
+        </linearGradient>
+        <linearGradient id={`${id}-stroke`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={kind === "verified" || kind === "support" ? "#C7B5FF" : "#9FF5FF"} />
+          <stop offset="100%" stopColor={kind === "verified" || kind === "support" ? PURPLE : CYAN} />
+        </linearGradient>
+        <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={kind === "verified" || kind === "support" ? "#B49BFF" : "#7DF2FF"} />
+          <stop offset="100%" stopColor={kind === "verified" || kind === "support" ? "#5B2EE0" : "#0096D6"} />
+        </linearGradient>
+        <radialGradient id={`${id}-glow`} cx="0.5" cy="0.5" r="0.6">
+          <stop offset="0%" stopColor={kind === "verified" || kind === "support" ? PURPLE : CYAN} stopOpacity="0.5" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+        <filter id={`${id}-blur`}><feGaussianBlur stdDeviation="2" /></filter>
+      </defs>
+      <circle cx="22" cy="22" r="20" fill={`url(#${id}-glow)`} opacity="0.7" />
+      <rect x="4" y="4" width="36" height="36" rx="11" fill={`url(#${id}-bg)`} stroke={`url(#${id}-stroke)`} strokeWidth="1.2" />
+      <rect x="5" y="5" width="34" height="16" rx="10" fill="url(#chx-sheen-grad)" opacity="0.18" />
+      {kind === "escrow" && (
+        <g>
+          <path d="M22 11 L31 14.5 V20.5 C31 25.5 27 29.5 22 31.5 C17 29.5 13 25.5 13 20.5 V14.5 Z" fill={`url(#${id}-fill)`} stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M18 21.5 L21 24.5 L26.5 18.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <path d="M16 13.5 L26 13.5" stroke="#fff" strokeOpacity="0.25" strokeWidth="0.6" />
+        </g>
+      )}
+      {kind === "verified" && (
+        <g>
+          <path d="M22 10 L26 13 L31 12.5 L31.5 17.5 L34 21 L31.5 24.5 L31 29.5 L26 29 L22 32 L18 29 L13 29.5 L12.5 24.5 L10 21 L12.5 17.5 L13 12.5 L18 13 Z" fill={`url(#${id}-fill)`} stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M17 21.5 L20.5 25 L27 17.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </g>
+      )}
+      {kind === "payments" && (
+        <g>
+          <rect x="11" y="15" width="22" height="15" rx="3" fill={`url(#${id}-fill)`} stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <rect x="11" y="18" width="22" height="3" fill="#fff" fillOpacity="0.25" />
+          <rect x="14" y="25" width="6" height="2" rx="1" fill="#fff" fillOpacity="0.6" />
+          <rect x="22" y="25" width="3" height="2" rx="1" fill="#fff" fillOpacity="0.6" />
+          <circle cx="29" cy="14" r="3.5" fill="#fff" fillOpacity="0.85" />
+          <circle cx="26" cy="14" r="3.5" fill={CYAN} fillOpacity="0.7" />
+        </g>
+      )}
+      {kind === "support" && (
+        <g>
+          <path d="M13 22 V19 C13 14 17 10.5 22 10.5 C27 10.5 31 14 31 19 V22" stroke={`url(#${id}-stroke)`} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <rect x="11" y="22" width="5" height="9" rx="2" fill={`url(#${id}-fill)`} stroke="#fff" strokeOpacity="0.4" strokeWidth="0.5" />
+          <rect x="28" y="22" width="5" height="9" rx="2" fill={`url(#${id}-fill)`} stroke="#fff" strokeOpacity="0.4" strokeWidth="0.5" />
+          <circle cx="22" cy="33" r="1.5" fill={PURPLE} />
+          <path d="M28 31 V32 C28 33 27 33.5 26 33.5 H23" stroke={`url(#${id}-stroke)`} strokeWidth="1.2" fill="none" strokeLinecap="round" />
+        </g>
+      )}
+      {/* top sheen */}
+      <rect x="6" y="5.5" width="32" height="2" rx="1" fill="#fff" fillOpacity="0.18" />
+    </svg>
+  );
+}
+
 function TrustChip({ icon, label, tone }: { icon: React.ReactNode; label: string; tone: "cyan" | "purple" | "green" }) {
   const c = tone === "cyan" ? CYAN : tone === "purple" ? PURPLE : GREEN;
   const bg = tone === "cyan" ? "rgba(0,229,255,0.08)" : tone === "purple" ? "rgba(139,92,246,0.08)" : "rgba(74,222,128,0.08)";
@@ -261,7 +325,30 @@ export default function App() {
         .chx-blink { animation: chxBlink 1.4s ease-in-out infinite; }
         .chx-spin-slow { animation: chxSpin 18s linear infinite; transform-origin: 152px 95px; }
         .chx-ib-border::before { content: ""; position: absolute; inset: -1px; border-radius: 22px; padding: 1px; background: linear-gradient(120deg, rgba(0,229,255,0.7), rgba(139,92,246,0.5), rgba(0,229,255,0.7), rgba(139,92,246,0.5)); background-size: 200% 200%; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: chxBorder 6s linear infinite; pointer-events: none; }
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        ::selection { background: rgba(0,229,255,0.32); color: #fff; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0,229,255,0.35), rgba(139,92,246,0.35)); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(0,229,255,0.6), rgba(139,92,246,0.6)); }
+        html, body { background: #05070F; }
+        @keyframes chxTickerDot { 0%,100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px ${GREEN}; } 50% { transform: scale(1.4); opacity: 0.7; box-shadow: 0 0 14px ${GREEN}; } }
+        .chx-ticker-dot { animation: chxTickerDot 1.8s ease-in-out infinite; }
       `}</style>
+
+      {/* STATUS MICROBAR */}
+      <div style={{ position: "relative", zIndex: 21, padding: "5px 16px", background: "linear-gradient(90deg, rgba(0,12,30,0.85), rgba(8,4,30,0.85))", borderBottom: `1px solid rgba(74,222,128,0.12)`, fontSize: 10.5, color: TEXT_DIM, display: "flex", alignItems: "center", justifyContent: "center", gap: 14, letterSpacing: "0.05em" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span className="chx-ticker-dot" style={{ width: 6, height: 6, borderRadius: 99, background: GREEN }} />
+          <span style={{ color: "#C6E8D2", fontWeight: 600 }}>All systems operational</span>
+        </span>
+        <span style={{ width: 1, height: 10, background: STROKE }} />
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+          <Lock size={9} color={CYAN} />
+          <span>Encrypted session</span>
+        </span>
+        <span style={{ width: 1, height: 10, background: STROKE, display: "none" }} className="chx-hide-narrow" />
+      </div>
 
       {/* HEADER */}
       <header style={{ position: "sticky", top: 0, zIndex: 20, padding: "14px 16px", background: "rgba(5,7,15,0.72)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${STROKE}`, boxShadow: `0 1px 0 rgba(0,229,255,0.08), 0 8px 24px rgba(0,0,0,0.4)` }}>
@@ -568,17 +655,17 @@ export default function App() {
         {/* TRUST CARDS */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           {([
-            { Icon: Shield, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const, kind: "default" },
-            { Icon: BadgeCheck, label: "Verified Traders", desc: "", color: "purple" as const, kind: "soon" },
-            { Icon: CreditCard, label: "Multiple Payments", desc: "Bank, e-wallets, and more", color: "cyan" as const, kind: "payments" },
-            { Icon: Headphones, label: "24/7 Support", desc: "We're here whenever you need us", color: "purple" as const, kind: "default" },
-          ]).map(({ Icon, label, desc, color, kind }) => {
+            { iconKind: "escrow" as const, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const, kind: "default" },
+            { iconKind: "verified" as const, label: "Verified Traders", desc: "", color: "purple" as const, kind: "soon" },
+            { iconKind: "payments" as const, label: "Multiple Payments", desc: "Bank, e-wallets, and more", color: "cyan" as const, kind: "payments" },
+            { iconKind: "support" as const, label: "24/7 Support", desc: "We're here whenever you need us", color: "purple" as const, kind: "default" },
+          ]).map(({ iconKind, label, desc, color, kind }) => {
             const tint = color === "cyan" ? "0,229,255" : "139,92,246";
             return (
               <div key={label} className="chx-card-hover" style={{ position: "relative", borderRadius: 22, padding: 16, background: `linear-gradient(180deg, rgba(13,20,40,0.7), rgba(8,12,28,0.85))`, border: `1px solid rgba(${tint},0.22)`, boxShadow: `0 1px 0 rgba(255,255,255,0.05) inset, 0 0 22px rgba(${tint},0.1), 0 8px 22px rgba(0,0,0,0.35)`, cursor: "pointer", minHeight: 130 }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, rgba(${tint},0.5), transparent)` }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  <IconTile color={color} size={46}><Icon size={20} /></IconTile>
+                  <div style={{ filter: `drop-shadow(0 0 10px rgba(${tint},0.5))` }}><PremiumIcon kind={iconKind} /></div>
                   <div>
                     <div style={{ color: "#F8FAFF", fontSize: 13.5, fontWeight: 700 }}>{label}</div>
                     {kind === "soon" ? (
@@ -600,6 +687,34 @@ export default function App() {
               </div>
             );
           })}
+        </div>
+
+        {/* PREMIUM FOOTER */}
+        <div style={{ marginTop: 18, padding: "20px 16px 4px", borderTop: `1px solid ${STROKE}`, position: "relative" }}>
+          <div style={{ position: "absolute", left: 0, right: 0, top: -1, height: 1, background: `linear-gradient(90deg, transparent, ${CYAN}, ${PURPLE}, transparent)`, opacity: 0.35 }} />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+            <ShieldLogo />
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+              <span style={{ color: "#fff", fontSize: 13, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif" }}>COINHUBX</span>
+              <span style={{ color: TEXT_MUTE, fontSize: 8, fontWeight: 600, letterSpacing: "0.28em", marginTop: 2 }}>EST · 2026</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+            {["256-BIT TLS", "COLD STORAGE", "PROOF-OF-RESERVES", "GDPR"].map((b) => (
+              <span key={b} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.16em", color: TEXT_DIM, padding: "4px 8px", borderRadius: 6, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}` }}>{b}</span>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", color: TEXT_MUTE, fontSize: 10.5, lineHeight: 1.55, maxWidth: 360, margin: "0 auto" }}>
+            Trade responsibly. Crypto assets are volatile and your capital is at risk.
+          </div>
+          <div style={{ marginTop: 10, display: "flex", justifyContent: "center", gap: 14, fontSize: 10.5, color: TEXT_DIM }}>
+            {["Terms", "Privacy", "Security", "Support"].map((l) => (
+              <a key={l} href="#" style={{ color: TEXT_DIM, textDecoration: "none" }}>{l}</a>
+            ))}
+          </div>
+          <div style={{ marginTop: 14, textAlign: "center", color: TEXT_MUTE, fontSize: 9.5, letterSpacing: "0.08em" }}>
+            © 2026 CoinHubX · All rights reserved
+          </div>
         </div>
       </main>
     </div>
