@@ -38,9 +38,9 @@ const TEXT_MUTE = "#5B6A8A";
 const STROKE = "rgba(120,170,220,0.12)";
 
 const ShieldLogo = () => (
-  <div style={{ position: "relative", width: 44, height: 44, borderRadius: 13, background: "linear-gradient(135deg, rgba(0,229,255,0.22), rgba(139,92,246,0.14))", border: `1px solid ${CYAN_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 22px rgba(0,229,255,0.55), 0 0 40px rgba(139,92,246,0.25), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3)` }}>
-    <div style={{ position: "absolute", inset: -8, borderRadius: 18, background: "radial-gradient(circle, rgba(0,229,255,0.4), transparent 70%)", filter: "blur(8px)", zIndex: -1 }} />
-    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textShadow: `0 0 8px ${CYAN}, 0 1px 0 rgba(0,0,0,0.4)` }}>CHX</span>
+  <div style={{ position: "relative", width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg, #00C2FF 0%, #3A7BFF 100%)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 16px rgba(0,194,255,0.45), 0 4px 12px rgba(58,123,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)" }}>
+    <div style={{ position: "absolute", inset: -6, borderRadius: 14, background: "radial-gradient(circle, rgba(0,194,255,0.4), transparent 70%)", filter: "blur(6px)", zIndex: -1 }} />
+    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, letterSpacing: 0, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 0 rgba(0,0,0,0.25)" }}>CHX</span>
   </div>
 );
 
