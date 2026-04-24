@@ -1,5 +1,6 @@
 import { useState } from "react";
 import escrowShieldImg from "../imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg";
+import chxLogo from "../imports/image.png";
 import {
   Bell,
   Menu,
@@ -38,10 +39,24 @@ const TEXT_DIM = "#A8B5D1";
 const TEXT_MUTE = "#5B6A8A";
 const STROKE = "rgba(120,170,220,0.12)";
 
-const ShieldLogo = ({ size = 38 }: { size?: number }) => (
-  <div style={{ position: "relative", width: size, height: size, borderRadius: 10, background: "linear-gradient(135deg, #00C2FF 0%, #3A7BFF 100%)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 16px rgba(0,194,255,0.45), 0 4px 12px rgba(58,123,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)" }}>
-    <div style={{ position: "absolute", inset: -6, borderRadius: 14, background: "radial-gradient(circle, rgba(0,194,255,0.4), transparent 70%)", filter: "blur(6px)", zIndex: -1 }} />
-    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 0 rgba(0,0,0,0.25)" }}>CHX</span>
+const ShieldLogo = ({ size = 44 }: { size?: number }) => (
+  <div style={{ position: "relative", width: size, height: size, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ position: "absolute", inset: -8, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,194,255,0.6), rgba(58,123,255,0.3) 50%, transparent 75%)", filter: "blur(8px)", zIndex: 0 }} />
+    <img
+      src={chxLogo}
+      alt="CoinHubX"
+      style={{
+        position: "relative",
+        zIndex: 1,
+        width: "108%",
+        height: "108%",
+        objectFit: "contain",
+        mixBlendMode: "screen",
+        filter: "brightness(1.1) contrast(1.2) saturate(1.25) drop-shadow(0 0 8px rgba(0,194,255,0.55))",
+        WebkitMaskImage: "radial-gradient(ellipse 50% 55% at 50% 50%, #000 75%, transparent 100%)",
+        maskImage: "radial-gradient(ellipse 50% 55% at 50% 50%, #000 75%, transparent 100%)",
+      }}
+    />
   </div>
 );
 
@@ -192,6 +207,65 @@ type ListState = { kind: "loading" } | { kind: "empty" } | { kind: "error" } | {
 
 function Skeleton({ w, h, round }: { w: number | string; h: number; round?: boolean }) {
   return <div style={{ width: w, height: h, borderRadius: round ? "50%" : 6, background: "linear-gradient(90deg, rgba(0,229,255,0.04), rgba(0,229,255,0.14), rgba(0,229,255,0.04))", backgroundSize: "200% 100%", animation: "chxShim 1.4s linear infinite" }} />;
+}
+
+function MiniPremiumIcon({ kind, size = 30 }: { kind: "lock" | "check" | "alert" | "clock" | "inbox"; size?: number }) {
+  const id = `mp-${kind}`;
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      <defs>
+        <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(139,92,246,0.32)" />
+          <stop offset="100%" stopColor="rgba(139,92,246,0.06)" />
+        </linearGradient>
+        <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#C7B5FF" />
+          <stop offset="100%" stopColor="#5B2EE0" />
+        </linearGradient>
+        <radialGradient id={`${id}-glow`} cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0%" stopColor="#B49BFF" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+      <rect x="2" y="2" width="28" height="28" rx="9" fill={`url(#${id}-bg)`} stroke="rgba(180,150,255,0.5)" strokeWidth="1" />
+      <rect x="3" y="3" width="26" height="11" rx="8" fill={`url(#${id}-glow)`} opacity="0.65" />
+      <rect x="4.5" y="4" width="23" height="1.5" rx="0.75" fill="#fff" fillOpacity="0.2" />
+      {kind === "lock" && (
+        <g>
+          <path d="M11 14 V11 C11 8.5 13 6.5 16 6.5 C19 6.5 21 8.5 21 11 V14" stroke="url(#mp-lock-fill)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+          <rect x="9" y="14" width="14" height="11" rx="2.5" fill="url(#mp-lock-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.5" />
+          <circle cx="16" cy="19" r="1.4" fill="#fff" fillOpacity="0.85" />
+          <rect x="15.4" y="20" width="1.2" height="3" rx="0.6" fill="#fff" fillOpacity="0.85" />
+        </g>
+      )}
+      {kind === "check" && (
+        <g>
+          <circle cx="16" cy="16" r="9" fill="url(#mp-check-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M11.5 16.5 L14.5 19.5 L20.5 13" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </g>
+      )}
+      {kind === "alert" && (
+        <g>
+          <path d="M16 6 L26 24 H6 Z" fill="url(#mp-alert-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" strokeLinejoin="round" />
+          <rect x="15" y="12" width="2" height="6.5" rx="1" fill="#fff" />
+          <circle cx="16" cy="21" r="1.2" fill="#fff" />
+        </g>
+      )}
+      {kind === "clock" && (
+        <g>
+          <circle cx="16" cy="16" r="9" fill="url(#mp-clock-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M16 11 V16 L19.5 18" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <circle cx="16" cy="16" r="1.2" fill="#fff" />
+        </g>
+      )}
+      {kind === "inbox" && (
+        <g>
+          <path d="M6 16 L9 8 H23 L26 16 V23 C26 24 25 25 24 25 H8 C7 25 6 24 6 23 Z" fill="url(#mp-inbox-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" strokeLinejoin="round" />
+          <path d="M6 16 H11 L13 18 H19 L21 16 H26" stroke="#fff" strokeOpacity="0.7" strokeWidth="1.4" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+        </g>
+      )}
+    </svg>
+  );
 }
 
 function PremiumIcon({ kind }: { kind: "escrow" | "verified" | "payments" | "support" }) {
@@ -386,7 +460,7 @@ export default function App() {
           </div>
           {/* Trust chips */}
           <div style={{ position: "relative", marginTop: 16, display: "flex", flexWrap: "wrap", gap: 6 }}>
-            <TrustChip tone="green" icon={<span style={{ width: 6, height: 6, borderRadius: 99, background: GREEN, boxShadow: `0 0 6px ${GREEN}`, animation: "chxPulse 1.6s infinite" }} />} label="LIVE" />
+            <TrustChip tone="green" icon={<span style={{ position: "relative", width: 8, height: 8, borderRadius: 99, background: `radial-gradient(circle at 30% 30%, #B8FFD9, ${GREEN} 60%, #0A8B3D)`, boxShadow: `0 0 10px ${GREEN}, 0 0 20px rgba(74,222,128,0.6), inset 0 1px 0 rgba(255,255,255,0.4)`, animation: "chxPulse 1.6s infinite" }} />} label="LIVE" />
             <TrustChip tone="purple" icon={<Lock size={11} />} label="Escrow enabled" />
             <TrustChip tone="cyan" icon={<BadgeCheck size={12} />} label="Verified traders" />
             <TrustChip tone="cyan" icon={<Zap size={11} />} label="Fast settlement" />
@@ -455,16 +529,17 @@ export default function App() {
               <div style={{ color: TEXT, fontSize: 16, fontWeight: 700 }}>Marketplace</div>
               <div style={{ color: TEXT_DIM, fontSize: 11.5, marginTop: 2 }}>Browse offers and pick your trader</div>
             </div>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", color: TEXT_MUTE, padding: "4px 8px", borderRadius: 6, background: "rgba(120,170,220,0.06)", border: `1px solid ${STROKE}` }}>MANUAL</span>
+            <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.18em", color: "#9FE9FF", padding: "5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.12), rgba(0,229,255,0.04))", border: `1px solid rgba(0,229,255,0.3)`, boxShadow: "0 0 12px rgba(0,229,255,0.2), inset 0 1px 0 rgba(255,255,255,0.08)" }}>MANUAL</span>
           </div>
 
           {/* Buy/Sell + asset */}
           <div style={{ display: "flex", gap: 10 }}>
-            <div style={{ flex: 1, display: "flex", padding: 4, borderRadius: 14, background: "rgba(8,12,26,0.8)", border: `1px solid ${STROKE}` }}>
+            <div style={{ flex: 1, position: "relative", display: "flex", padding: 4, borderRadius: 14, background: "linear-gradient(180deg, rgba(5,8,20,0.9), rgba(8,12,26,0.7))", border: `1px solid ${STROKE}`, boxShadow: "inset 0 2px 6px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(255,255,255,0.04)" }}>
+              <div style={{ position: "absolute", top: 4, bottom: 4, left: side === "buy" ? 4 : "calc(50% + 0px)", width: "calc(50% - 4px)", borderRadius: 10, background: side === "buy" ? `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 35%, #00A8CC 100%)` : `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 35%, #5B2EE0 100%)`, boxShadow: side === "buy" ? `0 4px 12px rgba(0,229,255,0.45), 0 0 20px rgba(0,229,255,0.4), inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1.5px 0 rgba(0,40,60,0.4)` : `0 4px 12px rgba(139,92,246,0.45), 0 0 20px rgba(139,92,246,0.4), inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1.5px 0 rgba(40,15,80,0.4)`, transition: "left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s ease, box-shadow 0.28s ease" }} />
               {(["buy", "sell"] as const).map((s) => {
                 const active = side === s;
                 return (
-                  <button key={s} onClick={() => setSide(s)} style={{ flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 700, letterSpacing: "0.02em", textTransform: "capitalize", background: active ? `linear-gradient(180deg, ${CYAN}, #00B8D4)` : "transparent", boxShadow: active ? `0 0 16px rgba(0,229,255,0.4)` : "none", fontFamily: "inherit" }}>{s}</button>
+                  <button key={s} onClick={() => setSide(s)} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
                 );
               })}
             </div>
@@ -477,8 +552,8 @@ export default function App() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, height: 46, padding: "0 14px", borderRadius: 14, background: "rgba(8,12,26,0.8)", border: `1px solid ${STROKE}` }}>
             <Search size={15} color={TEXT_MUTE} />
             <input placeholder="Amount or payment method…" style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: TEXT, fontSize: 13, fontFamily: "inherit" }} />
-            <button style={{ display: "flex", alignItems: "center", gap: 6, color: TEXT_DIM, fontSize: 12, fontWeight: 600, background: "transparent", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
-              <SlidersHorizontal size={13} />
+            <button style={{ display: "flex", alignItems: "center", gap: 6, color: "#D5DEF1", fontSize: 11.5, fontWeight: 700, padding: "6px 11px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.1), rgba(0,229,255,0.03))", border: `1px solid rgba(0,229,255,0.25)`, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 0 10px rgba(0,229,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
+              <SlidersHorizontal size={12} color={CYAN} />
               Filters
             </button>
           </div>
@@ -491,9 +566,9 @@ export default function App() {
                 {offersState.kind === "live" ? `· ${offersState.offers.length}` : ""}
               </span>
             </div>
-            <button style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "transparent", border: "none", color: CYAN, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
+            <button style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02))", border: `1px solid rgba(0,229,255,0.22)`, color: CYAN, fontSize: 11.5, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)" }}>
               Sort: Price
-              <ChevronDown size={12} />
+              <ChevronDown size={11} />
             </button>
           </div>
 
@@ -517,11 +592,23 @@ export default function App() {
           )}
 
           {offersState.kind === "empty" && (
-            <Card accent="none" style={{ padding: "34px 18px", textAlign: "center" }}>
-              <div style={{ width: 52, height: 52, borderRadius: 14, margin: "0 auto 12px", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,229,255,0.08)", border: `1px solid ${CYAN_SOFT}`, color: CYAN, boxShadow: `0 0 20px rgba(0,229,255,0.18)` }}>
-                <Inbox size={22} />
+            <Card accent="none" style={{ padding: "34px 18px", textAlign: "center", overflow: "hidden", position: "relative" }}>
+              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(280px 180px at 50% 0%, rgba(0,229,255,0.1), transparent 60%)", pointerEvents: "none" }} />
+              <div style={{ position: "relative", margin: "0 auto 12px", width: 64, height: 64, display: "flex", alignItems: "center", justifyContent: "center", filter: "drop-shadow(0 0 14px rgba(0,229,255,0.45))" }}>
+                <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,229,255,0.3), transparent 70%)", filter: "blur(8px)" }} />
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={{ position: "relative" }}>
+                  <defs>
+                    <linearGradient id="ib-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,229,255,0.32)" /><stop offset="100%" stopColor="rgba(0,229,255,0.06)" /></linearGradient>
+                    <linearGradient id="ib-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#9FF5FF" /><stop offset="100%" stopColor="#0096D6" /></linearGradient>
+                  </defs>
+                  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#ib-bg)" stroke="rgba(159,245,255,0.5)" strokeWidth="1.2" />
+                  <rect x="7" y="7" width="50" height="20" rx="15" fill="#fff" fillOpacity="0.06" />
+                  <path d="M14 32 L19 18 H45 L50 32 V44 C50 46 48 48 46 48 H18 C16 48 14 46 14 44 Z" fill="url(#ib-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.8" strokeLinejoin="round" />
+                  <path d="M14 32 H22 L25 36 H39 L42 32 H50" stroke="#fff" strokeOpacity="0.7" strokeWidth="2" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+                  <circle cx="32" cy="14" r="2" fill={CYAN} opacity="0.85"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" /></circle>
+                </svg>
               </div>
-              <div style={{ color: TEXT, fontSize: 14, fontWeight: 700 }}>No live P2P offers available yet.</div>
+              <div style={{ color: TEXT, fontSize: 14, fontWeight: 700, letterSpacing: "-0.005em" }}>No live P2P offers available yet</div>
               <div style={{ color: TEXT_DIM, fontSize: 12, marginTop: 4 }}>Check back soon — traders will post offers here.</div>
             </Card>
           )}
@@ -608,16 +695,16 @@ export default function App() {
 
             <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                { Icon: Lock, text: "Funds are locked in escrow when a trade begins" },
-                { Icon: CheckCircle2, text: "Seller only receives funds after buyer confirmation" },
-                { Icon: AlertTriangle, text: "Disputes can be opened and reviewed by our team" },
-                { Icon: Clock, text: "Trade status is tracked step by step in real time" },
-              ].map(({ Icon, text }, i) => (
+                { kind: "lock" as const, text: "Funds are locked in escrow when a trade begins" },
+                { kind: "check" as const, text: "Seller only receives funds after buyer confirmation" },
+                { kind: "alert" as const, text: "Disputes can be opened and reviewed by our team" },
+                { kind: "clock" as const, text: "Trade status is tracked step by step in real time" },
+              ].map(({ kind, text }, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 29, height: 29, borderRadius: 9, background: "linear-gradient(180deg, rgba(139,92,246,0.18), rgba(139,92,246,0.06))", border: `1px solid ${PURPLE_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, flexShrink: 0, boxShadow: `0 0 10px rgba(139,92,246,0.25), inset 0 1px 0 rgba(255,255,255,0.06)` }}>
-                    <Icon size={14} />
+                  <div style={{ flexShrink: 0, filter: "drop-shadow(0 0 8px rgba(139,92,246,0.35))" }}>
+                    <MiniPremiumIcon kind={kind} size={32} />
                   </div>
-                  <span style={{ color: "#C8D4ED", fontSize: 12.5, lineHeight: 1.4 }}>{text}</span>
+                  <span style={{ color: "#D5DEF1", fontSize: 12.5, lineHeight: 1.4 }}>{text}</span>
                 </div>
               ))}
             </div>
@@ -692,7 +779,10 @@ export default function App() {
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
             {["256-BIT TLS", "COLD STORAGE", "PROOF-OF-RESERVES", "GDPR"].map((b) => (
-              <span key={b} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.16em", color: TEXT_DIM, padding: "4px 8px", borderRadius: 6, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}` }}>{b}</span>
+              <span key={b} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 8.5, fontWeight: 700, letterSpacing: "0.16em", color: "#C8D4ED", padding: "4px 9px", borderRadius: 999, background: "linear-gradient(180deg, rgba(13,20,40,0.8), rgba(8,12,28,0.6))", border: `1px solid rgba(0,229,255,0.18)`, boxShadow: "0 0 10px rgba(0,229,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+                <CheckCircle2 size={9} color={CYAN} />
+                {b}
+              </span>
             ))}
           </div>
           <div style={{ textAlign: "center", color: TEXT_MUTE, fontSize: 10.5, lineHeight: 1.55, maxWidth: 360, margin: "0 auto" }}>
