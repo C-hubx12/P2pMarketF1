@@ -1,4 +1,5 @@
 import { useState } from "react";
+import escrowShieldImg from "../imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg";
 import {
   Bell,
   Menu,
@@ -37,10 +38,10 @@ const TEXT_DIM = "#A8B5D1";
 const TEXT_MUTE = "#5B6A8A";
 const STROKE = "rgba(120,170,220,0.12)";
 
-const ShieldLogo = () => (
-  <div style={{ position: "relative", width: 38, height: 38, borderRadius: 10, background: "linear-gradient(135deg, #00C2FF 0%, #3A7BFF 100%)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 16px rgba(0,194,255,0.45), 0 4px 12px rgba(58,123,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)" }}>
+const ShieldLogo = ({ size = 38 }: { size?: number }) => (
+  <div style={{ position: "relative", width: size, height: size, borderRadius: 10, background: "linear-gradient(135deg, #00C2FF 0%, #3A7BFF 100%)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 0 16px rgba(0,194,255,0.45), 0 4px 12px rgba(58,123,255,0.35), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(0,0,0,0.2)" }}>
     <div style={{ position: "absolute", inset: -6, borderRadius: 14, background: "radial-gradient(circle, rgba(0,194,255,0.4), transparent 70%)", filter: "blur(6px)", zIndex: -1 }} />
-    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, letterSpacing: 0, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 0 rgba(0,0,0,0.25)" }}>CHX</span>
+    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 0 rgba(0,0,0,0.25)" }}>CHX</span>
   </div>
 );
 
@@ -588,22 +589,12 @@ export default function App() {
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(320px 180px at 100% 0%, rgba(139,92,246,0.18), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
-                <div style={{ position: "absolute", inset: -6, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,229,255,0.32), rgba(139,92,246,0.18) 50%, transparent 75%)`, filter: "blur(10px)" }} />
+              <div style={{ position: "relative", width: 52, height: 52, flexShrink: 0 }}>
+                <div style={{ position: "absolute", inset: -6, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,229,255,0.32), rgba(139,92,246,0.18) 50%, transparent 75%)", filter: "blur(10px)" }} />
                 <img
-                  src="/src/imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg"
-                  alt="Escrow shield"
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    mixBlendMode: "screen",
-                    filter: "brightness(0.92) contrast(1.05) saturate(0.95)",
-                    WebkitMaskImage: "radial-gradient(circle at 50% 50%, #000 55%, transparent 75%)",
-                    maskImage: "radial-gradient(circle at 50% 50%, #000 55%, transparent 75%)",
-                    animation: "chxFloat 4s ease-in-out infinite",
-                  }}
+                  src={escrowShieldImg}
+                  alt=""
+                  style={{ position: "relative", width: "100%", height: "100%", objectFit: "contain", mixBlendMode: "screen", filter: "brightness(0.9) contrast(1.15) saturate(1.1) drop-shadow(0 0 10px rgba(0,229,255,0.45))", WebkitMaskImage: "radial-gradient(ellipse 48% 52% at 50% 50%, #000 70%, transparent 100%)", maskImage: "radial-gradient(ellipse 48% 52% at 50% 50%, #000 70%, transparent 100%)" }}
                 />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
