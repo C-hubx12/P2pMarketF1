@@ -33,16 +33,14 @@ const PURPLE = "#8B5CF6";
 const PURPLE_SOFT = "rgba(139,92,246,0.35)";
 const GREEN = "#4ADE80";
 const TEXT = "#F1F5FF";
-const TEXT_DIM = "#8B9CC2";
+const TEXT_DIM = "#A8B5D1";
 const TEXT_MUTE = "#5B6A8A";
 const STROKE = "rgba(120,170,220,0.12)";
 
 const ShieldLogo = () => (
-  <div style={{ width: 42, height: 42, borderRadius: 13, background: "linear-gradient(180deg, rgba(0,229,255,0.12), rgba(139,92,246,0.08))", border: `1px solid ${CYAN_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px rgba(0,229,255,0.25), inset 0 1px 0 rgba(255,255,255,0.06)` }}>
-    <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
-      <path d="M11 1.5 L20 5 V11 C20 16.5 15.5 20.5 11 22.5 C6.5 20.5 2 16.5 2 11 V5 Z" stroke={CYAN} strokeWidth="1.5" fill="rgba(0,229,255,0.06)" />
-      <path d="M7.5 11.5 L10 14 L14.5 9" stroke={CYAN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+  <div style={{ position: "relative", width: 44, height: 44, borderRadius: 13, background: "linear-gradient(135deg, rgba(0,229,255,0.22), rgba(139,92,246,0.14))", border: `1px solid ${CYAN_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 22px rgba(0,229,255,0.55), 0 0 40px rgba(139,92,246,0.25), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3)` }}>
+    <div style={{ position: "absolute", inset: -8, borderRadius: 18, background: "radial-gradient(circle, rgba(0,229,255,0.4), transparent 70%)", filter: "blur(8px)", zIndex: -1 }} />
+    <span style={{ color: "#fff", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textShadow: `0 0 8px ${CYAN}, 0 1px 0 rgba(0,0,0,0.4)` }}>CHX</span>
   </div>
 );
 
@@ -78,7 +76,7 @@ const HeroIllustration = () => (
         <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
       </filter>
     </defs>
-    <ellipse cx="110" cy="110" rx="100" ry="70" fill="url(#hGlowBg)" />
+    <ellipse className="chx-glow-pulse" cx="110" cy="110" rx="100" ry="70" fill="url(#hGlowBg)" />
     {/* Phone - tilted 3D */}
     <g transform="translate(55 30) rotate(-10 45 70)">
       <rect x="-2" y="-2" width="94" height="144" rx="18" fill={PURPLE} opacity="0.35" filter="url(#hBlur)" />
@@ -94,16 +92,16 @@ const HeroIllustration = () => (
       <rect x="12" y="104" width="50" height="6" rx="2" fill="#1b2448" />
     </g>
     {/* Coin floating front */}
-    <g filter="url(#hGlow)">
+    <g className="chx-float" filter="url(#hGlow)">
       <circle cx="152" cy="95" r="26" fill="url(#hCoin)" stroke="#E9F7FF" strokeWidth="1.2" />
       <circle cx="152" cy="95" r="21" fill="none" stroke={CYAN} strokeWidth="0.8" opacity="0.6" />
       <text x="152" y="105" textAnchor="middle" fontSize="24" fontFamily="Georgia, serif" fontWeight="700" fill="#1B2A52">₮</text>
     </g>
     {/* Curved arrows */}
     <g filter="url(#hGlow)">
-      <path d="M35 75 Q90 30 160 55" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path className="chx-dash" d="M35 75 Q90 30 160 55" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
       <polygon points="155,46 170,55 153,64" fill={PURPLE} />
-      <path d="M170 140 Q115 170 45 145" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path className="chx-dash" d="M170 140 Q115 170 45 145" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
       <polygon points="52,137 38,145 53,154" fill={CYAN} />
     </g>
     {/* Small escrow shield badge */}
@@ -220,19 +218,60 @@ export default function App() {
   const statsState: ListState = { kind: "empty" };
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: "radial-gradient(600px 360px at 0% -5%, rgba(0,229,255,0.14), transparent 60%), radial-gradient(600px 360px at 100% 0%, rgba(139,92,246,0.18), transparent 60%), radial-gradient(800px 500px at 50% 110%, rgba(46,123,255,0.12), transparent 60%), linear-gradient(180deg, " + BG_1 + " 0%, " + BG_2 + " 50%, " + BG_1 + " 100%)", color: TEXT, fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
+    <div style={{ position: "relative", minHeight: "100vh", background: "radial-gradient(700px 400px at 0% -5%, rgba(0,229,255,0.18), transparent 60%), radial-gradient(700px 400px at 100% 5%, rgba(139,92,246,0.22), transparent 60%), radial-gradient(600px 400px at 100% 50%, rgba(46,123,255,0.12), transparent 60%), radial-gradient(800px 500px at 50% 110%, rgba(46,123,255,0.14), transparent 60%), linear-gradient(180deg, " + BG_1 + " 0%, " + BG_2 + " 50%, " + BG_1 + " 100%)", color: TEXT, fontFamily: "'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif" }}>
+      {/* Animated background orbs */}
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
+        <div style={{ position: "absolute", top: "10%", left: "-10%", width: 320, height: 320, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,229,255,0.18), transparent 70%)`, filter: "blur(40px)", animation: "chxFloat 9s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", top: "40%", right: "-12%", width: 360, height: 360, borderRadius: "50%", background: `radial-gradient(circle, rgba(139,92,246,0.16), transparent 70%)`, filter: "blur(40px)", animation: "chxFloat 11s ease-in-out infinite reverse" }} />
+        <div style={{ position: "absolute", bottom: "5%", left: "30%", width: 280, height: 280, borderRadius: "50%", background: `radial-gradient(circle, rgba(46,123,255,0.14), transparent 70%)`, filter: "blur(40px)", animation: "chxFloat 13s ease-in-out infinite" }} />
+        {/* Grid pattern */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px)`, backgroundSize: "50px 50px", maskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent)", WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent)" }} />
+      </div>
+
       <style>{`
         @keyframes chxShim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         @keyframes chxPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes chxFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes chxSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes chxGlowPulse { 0%,100% { opacity: 0.55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+        @keyframes chxDash { to { stroke-dashoffset: -40; } }
+        @keyframes chxScan { 0% { transform: translateY(-100%); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(220%); opacity: 0; } }
+        @keyframes chxBtnSheen { 0% { transform: translateX(-120%) skewX(-20deg); } 100% { transform: translateX(240%) skewX(-20deg); } }
+        @keyframes chxBorder { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes chxBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+        @keyframes chxTilt { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-7px) rotate(1.5deg); } }
+        @keyframes chxFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes chxBadgePulse { 0%,100% { box-shadow: 0 0 12px rgba(139,92,246,0.4), inset 0 0 10px rgba(139,92,246,0.25), 0 0 0 0 rgba(139,92,246,0.35); } 50% { box-shadow: 0 0 22px rgba(139,92,246,0.7), inset 0 0 14px rgba(139,92,246,0.4), 0 0 0 5px rgba(139,92,246,0); } }
+        .chx-badge-pulse { animation: chxBadgePulse 2.6s ease-in-out infinite; }
         input::placeholder { color: ${TEXT_MUTE}; }
         select { color-scheme: dark; }
+        input:focus, select:focus { border-color: ${CYAN} !important; box-shadow: 0 0 0 3px rgba(0,229,255,0.15), inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 12px rgba(0,229,255,0.08) !important; }
+        button { transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease; }
+        button:hover { filter: brightness(1.08); }
+        button:active { transform: scale(0.97); }
+        .chx-card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+        .chx-card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,229,255,0.18), 0 0 28px rgba(139,92,246,0.12); }
+        .chx-phone-anim { animation: chxTilt 6s ease-in-out infinite; transform-origin: center; }
+        option { animation: chxFadeIn 0.18s ease-out; }
+        .chx-float { animation: chxFloat 3.2s ease-in-out infinite; }
+        .chx-glow-pulse { animation: chxGlowPulse 2.6s ease-in-out infinite; transform-origin: center; }
+        .chx-dash { stroke-dasharray: 6 10; animation: chxDash 2.2s linear infinite; }
+        .chx-scan { position: absolute; left: 0; right: 0; height: 30%; background: linear-gradient(180deg, transparent, rgba(0,229,255,0.35), transparent); pointer-events: none; animation: chxScan 3.5s ease-in-out infinite; }
+        .chx-sheen { position: absolute; top: 0; bottom: 0; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent); animation: chxBtnSheen 3.8s ease-in-out infinite; pointer-events: none; }
+        .chx-blink { animation: chxBlink 1.4s ease-in-out infinite; }
+        .chx-spin-slow { animation: chxSpin 18s linear infinite; transform-origin: 152px 95px; }
+        .chx-ib-border::before { content: ""; position: absolute; inset: -1px; border-radius: 22px; padding: 1px; background: linear-gradient(120deg, rgba(0,229,255,0.7), rgba(139,92,246,0.5), rgba(0,229,255,0.7), rgba(139,92,246,0.5)); background-size: 200% 200%; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: chxBorder 6s linear infinite; pointer-events: none; }
       `}</style>
 
       {/* HEADER */}
-      <header style={{ position: "sticky", top: 0, zIndex: 20, padding: "14px 16px", background: "rgba(5,7,15,0.72)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${STROKE}` }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 20, padding: "14px 16px", background: "rgba(5,7,15,0.72)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${STROKE}`, boxShadow: `0 1px 0 rgba(0,229,255,0.08), 0 8px 24px rgba(0,0,0,0.4)` }}>
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 1, background: `linear-gradient(90deg, transparent, ${CYAN}, ${PURPLE}, transparent)`, opacity: 0.5 }} />
         <div style={{ display: "flex", alignItems: "center", gap: 10, maxWidth: 720, margin: "0 auto" }}>
           <ShieldLogo />
-          <span style={{ color: TEXT, fontSize: 18, fontWeight: 700, letterSpacing: "-0.01em" }}>CoinHubX</span>
+          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+            <span style={{ color: "#fff", fontSize: 16, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif", textShadow: `0 0 14px rgba(0,229,255,0.45)` }}>COINHUBX</span>
+            <span style={{ color: CYAN, fontSize: 8.5, fontWeight: 600, letterSpacing: "0.32em", marginTop: 3, opacity: 0.85 }}>CRYPTO · P2P</span>
+          </div>
           <div style={{ flex: 1 }} />
           <Pill><span style={{ fontSize: 14 }}>🇬🇧</span><span>English</span></Pill>
           <RoundBtn glow>
@@ -243,17 +282,19 @@ export default function App() {
         </div>
       </header>
 
-      <main style={{ maxWidth: 520, margin: "0 auto", padding: "14px 14px 40px", display: "flex", flexDirection: "column", gap: 14 }}>
+      <main style={{ position: "relative", zIndex: 1, maxWidth: 520, margin: "0 auto", padding: "14px 14px 40px", display: "flex", flexDirection: "column", gap: 14 }}>
 
         {/* HERO */}
-        <Card accent="cyan" style={{ padding: 20, overflow: "hidden" }}>
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(460px 220px at 100% 10%, rgba(139,92,246,0.22), transparent 60%), radial-gradient(420px 260px at 0% 100%, rgba(0,229,255,0.18), transparent 60%)", pointerEvents: "none" }} />
+        <Card accent="cyan" style={{ padding: 20, overflow: "hidden", background: "linear-gradient(135deg, rgba(20,30,60,0.7) 0%, rgba(8,12,30,0.85) 60%, rgba(20,15,45,0.75) 100%)", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 36px rgba(0,229,255,0.12), 0 0 60px rgba(139,92,246,0.08)` }}>
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(460px 220px at 100% 10%, rgba(139,92,246,0.28), transparent 60%), radial-gradient(420px 260px at 0% 100%, rgba(0,229,255,0.22), transparent 60%)", pointerEvents: "none" }} />
+          {/* CHX watermark */}
+          <div style={{ position: "absolute", right: -20, bottom: -30, fontSize: 140, fontWeight: 800, letterSpacing: "-0.04em", color: "rgba(255,255,255,0.025)", pointerEvents: "none", lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}>CHX</div>
           <div style={{ position: "relative", display: "flex", gap: 12, alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.05, background: `linear-gradient(90deg, ${CYAN}, #9FE9FF 60%, ${PURPLE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.02em" }}>P2P Marketplace</div>
-              <div style={{ marginTop: 8, color: TEXT_DIM, fontSize: 13, lineHeight: 1.45 }}>Buy and sell crypto directly with verified traders.</div>
+              <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.05, background: `linear-gradient(135deg, #FFFFFF 0%, ${CYAN} 60%, ${PURPLE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.025em", filter: "drop-shadow(0 0 10px rgba(0,229,255,0.2))" }}>P2P Marketplace</div>
+              <div style={{ marginTop: 8, color: "#B6C5E2", fontSize: 13, lineHeight: 1.45 }}>Buy and sell crypto directly with verified traders.</div>
             </div>
-            <div style={{ width: 150, height: 130, flexShrink: 0 }}><HeroIllustration /></div>
+            <div className="chx-phone-anim" style={{ width: 150, height: 130, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
           </div>
           {/* Trust chips */}
           <div style={{ position: "relative", marginTop: 16, display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -273,6 +314,7 @@ export default function App() {
 
         {/* INSTANT BUY — primary flow, bright & prominent */}
         <Card accent="cyan" bright style={{ padding: 18, overflow: "hidden" }}>
+          <div className="chx-ib-border" style={{ position: "absolute", inset: 0, borderRadius: 22, pointerEvents: "none" }} />
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(300px 160px at 90% -10%, rgba(0,229,255,0.18), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -304,7 +346,8 @@ export default function App() {
               </Field>
             </div>
 
-            <button style={{ position: "relative", marginTop: 14, width: "100%", height: 52, borderRadius: 14, border: "1px solid rgba(180,230,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 20%, #0096D6 60%, ${BLUE} 100%)`, color: "#fff", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 14px 32px rgba(46,123,255,0.55), 0 0 40px rgba(0,229,255,0.45), inset 0 2px 0 rgba(255,255,255,0.55), inset 0 -2px 0 rgba(0,30,60,0.45), inset 0 0 0 1px rgba(255,255,255,0.15)`, textShadow: "0 1px 1px rgba(0,0,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <button style={{ position: "relative", overflow: "hidden", marginTop: 14, width: "100%", height: 52, borderRadius: 14, border: "1px solid rgba(180,230,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 20%, #0096D6 60%, ${BLUE} 100%)`, color: "#fff", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 14px 32px rgba(46,123,255,0.55), 0 0 40px rgba(0,229,255,0.45), inset 0 2px 0 rgba(255,255,255,0.55), inset 0 -2px 0 rgba(0,30,60,0.45), inset 0 0 0 1px rgba(255,255,255,0.15)`, textShadow: "0 1px 1px rgba(0,0,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <span className="chx-sheen" />
               <Zap size={16} fill="#fff" /> Find Best Offer
             </button>
 
@@ -444,7 +487,8 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <button style={{ position: "relative", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
+                <button style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
+                  <span className="chx-sheen" />
                   {side === "buy" ? "Buy" : "Sell"} {asset}
                 </button>
               </div>
@@ -457,13 +501,30 @@ export default function App() {
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(320px 180px at 100% 0%, rgba(139,92,246,0.18), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <IconTile color="purple" size={44}><Shield size={20} /></IconTile>
+              <div style={{ position: "relative", width: 56, height: 56, flexShrink: 0 }}>
+                <div style={{ position: "absolute", inset: -6, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,229,255,0.32), rgba(139,92,246,0.18) 50%, transparent 75%)`, filter: "blur(10px)" }} />
+                <img
+                  src="/src/imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg"
+                  alt="Escrow shield"
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    mixBlendMode: "screen",
+                    filter: "brightness(0.92) contrast(1.05) saturate(0.95)",
+                    WebkitMaskImage: "radial-gradient(circle at 50% 50%, #000 55%, transparent 75%)",
+                    maskImage: "radial-gradient(circle at 50% 50%, #000 55%, transparent 75%)",
+                    animation: "chxFloat 4s ease-in-out infinite",
+                  }}
+                />
+              </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ color: TEXT, fontSize: 15, fontWeight: 700 }}>Escrow Protection</span>
-                  <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.14em", color: GREEN, padding: "3px 8px", borderRadius: 999, background: "rgba(74,222,128,0.1)", border: `1px solid rgba(74,222,128,0.35)` }}>ACTIVE</span>
+                  <span className="chx-badge-pulse" style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.14em", color: "#E8DCFF", padding: "3.5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(139,92,246,0.28), rgba(139,92,246,0.12))", border: `1px solid rgba(180,150,255,0.5)` }}>ACTIVE</span>
                 </div>
-                <div style={{ color: TEXT_DIM, fontSize: 12, marginTop: 3 }}>Every trade is fully protected, start to finish.</div>
+                <div style={{ color: TEXT_DIM, fontSize: 12, marginTop: 3 }}>Funds are locked and only released when both sides confirm.</div>
               </div>
             </div>
 
@@ -475,10 +536,29 @@ export default function App() {
                 { Icon: Clock, text: "Trade status is tracked step by step in real time" },
               ].map(({ Icon, text }, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 26, height: 26, borderRadius: 8, background: "rgba(139,92,246,0.1)", border: `1px solid ${PURPLE_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, flexShrink: 0 }}>
-                    <Icon size={13} />
+                  <div style={{ width: 29, height: 29, borderRadius: 9, background: "linear-gradient(180deg, rgba(139,92,246,0.18), rgba(139,92,246,0.06))", border: `1px solid ${PURPLE_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, flexShrink: 0, boxShadow: `0 0 10px rgba(139,92,246,0.25), inset 0 1px 0 rgba(255,255,255,0.06)` }}>
+                    <Icon size={14} />
                   </div>
-                  <span style={{ color: TEXT_DIM, fontSize: 12.5, lineHeight: 1.4 }}>{text}</span>
+                  <span style={{ color: "#C8D4ED", fontSize: 12.5, lineHeight: 1.4 }}>{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Step indicator */}
+            <div style={{ position: "relative", marginTop: 14, display: "flex", alignItems: "center", gap: 6, padding: "11px 12px", borderRadius: 12, background: "linear-gradient(180deg, rgba(139,92,246,0.1), rgba(139,92,246,0.04))", border: `1px solid ${PURPLE_SOFT}`, boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04)` }}>
+              {/* Connecting glow line */}
+              <div style={{ position: "absolute", left: 28, right: 28, top: "50%", height: 1, background: `linear-gradient(90deg, rgba(139,92,246,0.5), rgba(0,229,255,0.35), rgba(139,92,246,0.5))`, transform: "translateY(-50%)", boxShadow: `0 0 6px rgba(139,92,246,0.4)`, pointerEvents: "none" }} />
+              {[
+                { Icon: Lock, label: "Lock", active: true },
+                { Icon: CreditCard, label: "Pay", active: false },
+                { Icon: CheckCircle2, label: "Confirm", active: false },
+                { Icon: Zap, label: "Release", active: false },
+              ].map(({ Icon, label, active }) => (
+                <div key={label} style={{ position: "relative", display: "flex", alignItems: "center", gap: 5, flex: 1, justifyContent: "flex-start" }}>
+                  <div style={{ width: 22, height: 22, borderRadius: 99, background: active ? `linear-gradient(180deg, ${PURPLE}, #6D3DD8)` : "rgba(139,92,246,0.14)", border: active ? `1px solid rgba(180,150,255,0.7)` : `1px solid ${PURPLE_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: active ? "#fff" : PURPLE, boxShadow: active ? `0 0 12px rgba(139,92,246,0.7), inset 0 1px 0 rgba(255,255,255,0.3)` : `0 0 4px rgba(139,92,246,0.25)`, flexShrink: 0, zIndex: 1 }}>
+                    <Icon size={11} />
+                  </div>
+                  <span style={{ fontSize: 10.5, fontWeight: active ? 700 : 600, color: active ? "#F1F5FF" : TEXT_DIM, letterSpacing: "0.04em" }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -486,23 +566,40 @@ export default function App() {
         </Card>
 
         {/* TRUST CARDS */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           {([
-            { Icon: Shield, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const },
-            { Icon: BadgeCheck, label: "Verified Traders", desc: "Trader verification coming soon", color: "purple" as const },
-            { Icon: CreditCard, label: "Multiple Payments", desc: "Bank, e-wallets, and more", color: "cyan" as const },
-            { Icon: Headphones, label: "24/7 Support", desc: "We're here whenever you need us", color: "purple" as const },
-          ]).map(({ Icon, label, desc, color }) => (
-            <Card key={label} accent="none" style={{ padding: 14 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <IconTile color={color} size={38}><Icon size={16} /></IconTile>
-                <div>
-                  <div style={{ color: TEXT, fontSize: 13, fontWeight: 700 }}>{label}</div>
-                  <div style={{ color: TEXT_DIM, fontSize: 11.5, marginTop: 3, lineHeight: 1.35 }}>{desc}</div>
+            { Icon: Shield, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const, kind: "default" },
+            { Icon: BadgeCheck, label: "Verified Traders", desc: "", color: "purple" as const, kind: "soon" },
+            { Icon: CreditCard, label: "Multiple Payments", desc: "Bank, e-wallets, and more", color: "cyan" as const, kind: "payments" },
+            { Icon: Headphones, label: "24/7 Support", desc: "We're here whenever you need us", color: "purple" as const, kind: "default" },
+          ]).map(({ Icon, label, desc, color, kind }) => {
+            const tint = color === "cyan" ? "0,229,255" : "139,92,246";
+            return (
+              <div key={label} className="chx-card-hover" style={{ position: "relative", borderRadius: 22, padding: 16, background: `linear-gradient(180deg, rgba(13,20,40,0.7), rgba(8,12,28,0.85))`, border: `1px solid rgba(${tint},0.22)`, boxShadow: `0 1px 0 rgba(255,255,255,0.05) inset, 0 0 22px rgba(${tint},0.1), 0 8px 22px rgba(0,0,0,0.35)`, cursor: "pointer", minHeight: 130 }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, rgba(${tint},0.5), transparent)` }} />
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  <IconTile color={color} size={46}><Icon size={20} /></IconTile>
+                  <div>
+                    <div style={{ color: "#F8FAFF", fontSize: 13.5, fontWeight: 700 }}>{label}</div>
+                    {kind === "soon" ? (
+                      <span style={{ display: "inline-block", marginTop: 6, fontSize: 9.5, fontWeight: 800, letterSpacing: "0.14em", color: PURPLE, padding: "3px 8px", borderRadius: 999, background: "rgba(139,92,246,0.12)", border: `1px solid ${PURPLE_SOFT}`, boxShadow: `0 0 10px rgba(139,92,246,0.3)` }}>COMING SOON</span>
+                    ) : kind === "payments" ? (
+                      <>
+                        <div style={{ color: TEXT_DIM, fontSize: 11.5, marginTop: 3, lineHeight: 1.35 }}>{desc}</div>
+                        <div style={{ display: "flex", gap: 5, marginTop: 8 }}>
+                          {["VISA", "MC", "BANK"].map((p) => (
+                            <div key={p} style={{ height: 18, padding: "0 7px", borderRadius: 4, background: "rgba(0,229,255,0.06)", border: `1px solid rgba(0,229,255,0.2)`, color: "#C8D4ED", fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", display: "flex", alignItems: "center", justifyContent: "center" }}>{p}</div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div style={{ color: TEXT_DIM, fontSize: 11.5, marginTop: 3, lineHeight: 1.35 }}>{desc}</div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </Card>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
