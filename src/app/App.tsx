@@ -156,17 +156,19 @@ function IconTile({ color, children, size = 38 }: { color: "cyan" | "purple" | "
 }
 
 const input: React.CSSProperties = {
-  height: 44,
-  padding: "0 14px",
-  borderRadius: 12,
-  background: "rgba(5,8,20,0.7)",
-  border: `1px solid ${STROKE}`,
+  height: 48,
+  padding: "0 16px",
+  borderRadius: 14,
+  background: "linear-gradient(180deg, rgba(5,8,20,0.85), rgba(8,12,28,0.65))",
+  border: `1px solid rgba(0,229,255,0.18)`,
   color: TEXT,
-  fontSize: 13.5,
+  fontSize: 14,
+  fontWeight: 500,
   outline: "none",
   width: "100%",
   fontFamily: "inherit",
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.02), inset 0 0 10px rgba(0,0,0,0.35)",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 14px rgba(0,229,255,0.04), inset 0 0 0 1px rgba(0,0,0,0.2)",
+  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
 };
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -202,7 +204,7 @@ function AssetSelector({ value, onChange }: { value: string; onChange: (v: strin
   );
 }
 
-type Offer = { id: string; name: string; letter: string; accent: "cyan" | "purple"; rating: number; completion: number; trades: number; limit: string; price: string; available: string; methods: string[]; topPick?: boolean };
+type Offer = { id: string; name: string; letter: string; accent: "cyan" | "purple"; rating: number; completion: number; trades: number; limit: string; price: string; available: string; methods: string[]; online?: boolean; responseMin?: number; topPick?: boolean };
 type ListState = { kind: "loading" } | { kind: "empty" } | { kind: "error" } | { kind: "live"; offers: Offer[] };
 
 function Skeleton({ w, h, round }: { w: number | string; h: number; round?: boolean }) {
@@ -444,7 +446,7 @@ export default function App() {
         </div>
       </header>
 
-      <main style={{ position: "relative", zIndex: 1, maxWidth: 520, margin: "0 auto", padding: "14px 14px 40px", display: "flex", flexDirection: "column", gap: 14 }}>
+      <main style={{ position: "relative", zIndex: 1, maxWidth: 520, margin: "0 auto", padding: "20px 14px 48px", display: "flex", flexDirection: "column", gap: 24 }}>
 
         {/* HERO */}
         <Card accent="cyan" style={{ padding: 20, overflow: "hidden", background: "linear-gradient(135deg, rgba(20,30,60,0.7) 0%, rgba(8,12,30,0.85) 60%, rgba(20,15,45,0.75) 100%)", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 36px rgba(0,229,255,0.12), 0 0 60px rgba(139,92,246,0.08)` }}>
@@ -474,23 +476,29 @@ export default function App() {
           </Card>
         )}
 
+        {/* SECTION LABEL */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: -6, marginBottom: -10, padding: "0 4px" }}>
+          <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.22em", color: CYAN, padding: "3px 9px", borderRadius: 6, background: "rgba(0,229,255,0.08)", border: `1px solid ${CYAN_SOFT}` }}>01 · PRIMARY</span>
+          <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${CYAN_SOFT}, transparent)` }} />
+        </div>
+
         {/* INSTANT BUY — primary flow, bright & prominent */}
-        <Card accent="cyan" bright style={{ padding: 18, overflow: "hidden" }}>
+        <Card accent="cyan" bright style={{ padding: 24, overflow: "hidden", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 56px rgba(0,229,255,0.22), 0 20px 50px rgba(0,80,140,0.35)` }}>
           <div className="chx-ib-border" style={{ position: "absolute", inset: 0, borderRadius: 22, pointerEvents: "none" }} />
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(300px 160px at 90% -10%, rgba(0,229,255,0.18), transparent 60%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(360px 200px at 90% -10%, rgba(0,229,255,0.22), transparent 60%), radial-gradient(280px 200px at 10% 110%, rgba(46,123,255,0.16), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <IconTile color="cyan" size={44}><Zap size={20} fill={CYAN} /></IconTile>
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <IconTile color="cyan" size={52}><Zap size={24} fill={CYAN} /></IconTile>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                  <span style={{ color: TEXT, fontSize: 16, fontWeight: 700 }}>Instant Buy</span>
-                  <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.14em", padding: "3px 8px", borderRadius: 999, background: "rgba(0,229,255,0.14)", color: CYAN, border: `1px solid ${CYAN_SOFT}`, boxShadow: `0 0 10px rgba(0,229,255,0.3)` }}>AUTO-MATCH</span>
+                  <span style={{ color: "#FFFFFF", fontSize: 19, fontWeight: 700, letterSpacing: "-0.01em" }}>Instant Buy</span>
+                  <span className="chx-badge-pulse" style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.16em", padding: "3.5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08))", color: "#9FF5FF", border: `1px solid rgba(159,245,255,0.5)` }}>AUTO-MATCH</span>
                 </div>
-                <div style={{ color: TEXT_DIM, fontSize: 12, marginTop: 3 }}>We'll match you with the best available seller.</div>
+                <div style={{ color: "#B6C5E2", fontSize: 13, marginTop: 4, lineHeight: 1.4 }}>We'll match you with the best available seller automatically.</div>
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 20 }}>
               <Field label="AMOUNT">
                 <input placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} style={input} inputMode="decimal" />
               </Field>
@@ -499,7 +507,7 @@ export default function App() {
               </Field>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
               <Field label="ASSET">
                 <AssetSelector value={asset} onChange={setAsset} />
               </Field>
@@ -508,22 +516,31 @@ export default function App() {
               </Field>
             </div>
 
-            <button style={{ position: "relative", overflow: "hidden", marginTop: 14, width: "100%", height: 52, borderRadius: 14, border: "1px solid rgba(180,230,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 20%, #0096D6 60%, ${BLUE} 100%)`, color: "#fff", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 14px 32px rgba(46,123,255,0.55), 0 0 40px rgba(0,229,255,0.45), inset 0 2px 0 rgba(255,255,255,0.55), inset 0 -2px 0 rgba(0,30,60,0.45), inset 0 0 0 1px rgba(255,255,255,0.15)`, textShadow: "0 1px 1px rgba(0,0,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <button style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
               <span className="chx-sheen" />
-              <Zap size={16} fill="#fff" /> Find Best Offer
+              <Zap size={18} fill="#fff" /> Find Best Offer
             </button>
 
-            <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 10, background: "rgba(139,92,246,0.07)", border: `1px solid ${PURPLE_SOFT}` }}>
-              <Lock size={13} color={PURPLE} />
-              <span style={{ color: TEXT_DIM, fontSize: 11.5, lineHeight: 1.4 }}>
-                Funds are protected by escrow until both sides complete the trade.
-              </span>
+            <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 12, padding: "13px 14px", borderRadius: 14, background: "linear-gradient(180deg, rgba(139,92,246,0.14), rgba(139,92,246,0.04))", border: `1px solid ${PURPLE_SOFT}`, boxShadow: `0 0 18px rgba(139,92,246,0.15), inset 0 1px 0 rgba(255,255,255,0.04)` }}>
+              <div style={{ width: 32, height: 32, borderRadius: 10, background: "linear-gradient(180deg, rgba(139,92,246,0.3), rgba(139,92,246,0.08))", border: `1px solid rgba(180,150,255,0.5)`, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", flexShrink: 0, boxShadow: `0 0 12px rgba(139,92,246,0.5), inset 0 1px 0 rgba(255,255,255,0.15)` }}>
+                <Lock size={14} />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ color: "#F1F5FF", fontSize: 12.5, fontWeight: 700 }}>Protected by escrow</div>
+                <div style={{ color: TEXT_DIM, fontSize: 11, marginTop: 1, lineHeight: 1.35 }}>Funds release only when both sides confirm the trade.</div>
+              </div>
             </div>
           </div>
         </Card>
 
+        {/* SECTION LABEL */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: -10, padding: "0 4px" }}>
+          <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.22em", color: TEXT_DIM, padding: "3px 9px", borderRadius: 6, background: "rgba(120,170,220,0.06)", border: `1px solid ${STROKE}` }}>02 · MANUAL</span>
+          <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${STROKE}, transparent)` }} />
+        </div>
+
         {/* MARKETPLACE LIST — second flow, manual browsing */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 4 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 4px" }}>
             <div>
               <div style={{ color: TEXT, fontSize: 16, fontWeight: 700 }}>Marketplace</div>
@@ -635,17 +652,29 @@ export default function App() {
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <IconTile color={o.accent} size={40}><span style={{ fontSize: 15, fontWeight: 800 }}>{o.letter}</span></IconTile>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, color: TEXT, fontSize: 14, fontWeight: 700 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: TEXT, fontSize: 14, fontWeight: 700 }}>
                     {o.name}
                     <BadgeCheck size={13} color={CYAN} />
+                    {o.online && (
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em", color: GREEN, padding: "2px 6px", borderRadius: 999, background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.35)" }}>
+                        <span style={{ width: 5, height: 5, borderRadius: 99, background: GREEN, boxShadow: `0 0 6px ${GREEN}` }} />
+                        ONLINE
+                      </span>
+                    )}
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: 11, color: TEXT_DIM }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4, fontSize: 11, color: TEXT_DIM, flexWrap: "wrap" }}>
                     <Star size={10} color="#FFB547" fill="#FFB547" />
-                    {o.rating}
+                    <span style={{ color: "#F1F5FF", fontWeight: 600 }}>{o.rating}</span>
                     <span style={{ opacity: 0.4 }}>·</span>
-                    {o.completion}%
+                    <span><span style={{ color: GREEN, fontWeight: 600 }}>{o.completion}%</span> completion</span>
                     <span style={{ opacity: 0.4 }}>·</span>
                     {o.trades} trades
+                    {o.responseMin !== undefined && (
+                      <>
+                        <span style={{ opacity: 0.4 }}>·</span>
+                        <Clock size={9} /> ~{o.responseMin}m
+                      </>
+                    )}
                   </div>
                   <div style={{ fontSize: 11, color: TEXT_MUTE, marginTop: 2 }}>{o.limit}</div>
                 </div>
