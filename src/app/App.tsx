@@ -402,6 +402,21 @@ export default function App() {
         .chx-blink { animation: chxBlink 1.4s ease-in-out infinite; }
         .chx-spin-slow { animation: chxSpin 18s linear infinite; transform-origin: 152px 95px; }
         .chx-ib-border::before { content: ""; position: absolute; inset: -1px; border-radius: 22px; padding: 1px; background: linear-gradient(120deg, rgba(0,229,255,0.7), rgba(139,92,246,0.5), rgba(0,229,255,0.7), rgba(139,92,246,0.5)); background-size: 200% 200%; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: chxBorder 6s linear infinite; pointer-events: none; }
+        .chx-main { max-width: 520px; }
+        .chx-grid-row { display: contents; }
+        .chx-col { display: contents; }
+        @media (min-width: 960px) {
+          .chx-main { max-width: 1180px !important; }
+          .chx-grid-row { display: grid !important; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: start; }
+          .chx-col { display: flex !important; flex-direction: column; gap: 22px; }
+          .chx-col-right { position: sticky !important; top: 84px; }
+          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 360px; align-items: center; gap: 32px; }
+          .chx-hero-illus { width: 360px !important; height: 280px !important; }
+          .chx-hero-title { font-size: 44px !important; }
+          .chx-hero-sub { font-size: 16px !important; }
+          .chx-trust-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
+          .chx-ib-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
+        }
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
         ::selection { background: rgba(0,229,255,0.32); color: #fff; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -430,7 +445,7 @@ export default function App() {
       {/* HEADER */}
       <header style={{ position: "sticky", top: 0, zIndex: 20, padding: "14px 16px", background: "rgba(5,7,15,0.72)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${STROKE}`, boxShadow: `0 1px 0 rgba(0,229,255,0.08), 0 8px 24px rgba(0,0,0,0.4)` }}>
         <div style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 1, background: `linear-gradient(90deg, transparent, ${CYAN}, ${PURPLE}, transparent)`, opacity: 0.5 }} />
-        <div style={{ display: "flex", alignItems: "center", gap: 10, maxWidth: 720, margin: "0 auto" }}>
+        <div className="chx-main" style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 auto" }}>
           <ShieldLogo />
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
             <span style={{ color: "#fff", fontSize: 16, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif", textShadow: `0 0 14px rgba(0,229,255,0.45)` }}>COINHUBX</span>
@@ -446,19 +461,19 @@ export default function App() {
         </div>
       </header>
 
-      <main style={{ position: "relative", zIndex: 1, maxWidth: 520, margin: "0 auto", padding: "20px 14px 48px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <main className="chx-main" style={{ position: "relative", zIndex: 1, margin: "0 auto", padding: "20px 14px 48px", display: "flex", flexDirection: "column", gap: 24 }}>
 
         {/* HERO */}
         <Card accent="cyan" style={{ padding: 20, overflow: "hidden", background: "linear-gradient(135deg, rgba(20,30,60,0.7) 0%, rgba(8,12,30,0.85) 60%, rgba(20,15,45,0.75) 100%)", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 36px rgba(0,229,255,0.12), 0 0 60px rgba(139,92,246,0.08)` }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(460px 220px at 100% 10%, rgba(139,92,246,0.28), transparent 60%), radial-gradient(420px 260px at 0% 100%, rgba(0,229,255,0.22), transparent 60%)", pointerEvents: "none" }} />
           {/* CHX watermark */}
           <div style={{ position: "absolute", right: -20, bottom: -30, fontSize: 140, fontWeight: 800, letterSpacing: "-0.04em", color: "rgba(255,255,255,0.025)", pointerEvents: "none", lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}>CHX</div>
-          <div style={{ position: "relative", display: "flex", gap: 12, alignItems: "center" }}>
+          <div className="chx-hero-grid" style={{ position: "relative", display: "flex", gap: 12, alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.05, background: `linear-gradient(135deg, #FFFFFF 0%, ${CYAN} 60%, ${PURPLE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.025em", filter: "drop-shadow(0 0 10px rgba(0,229,255,0.2))" }}>P2P Marketplace</div>
-              <div style={{ marginTop: 8, color: "#B6C5E2", fontSize: 13, lineHeight: 1.45 }}>Buy and sell crypto directly with verified traders.</div>
+              <div className="chx-hero-title" style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.1, background: `linear-gradient(135deg, #FFFFFF 0%, ${CYAN} 60%, ${PURPLE} 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.015em", paddingRight: 6, paddingBottom: 4, display: "inline-block" }}>P2P Marketplace</div>
+              <div className="chx-hero-sub" style={{ marginTop: 10, color: "#B6C5E2", fontSize: 13, lineHeight: 1.45, maxWidth: 540 }}>Buy and sell crypto directly with verified traders. Protected by escrow, settled in seconds.</div>
             </div>
-            <div className="chx-phone-anim" style={{ width: 150, height: 130, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
+            <div className="chx-phone-anim chx-hero-illus" style={{ width: 150, height: 130, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
           </div>
           {/* Trust chips */}
           <div style={{ position: "relative", marginTop: 16, display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -476,6 +491,8 @@ export default function App() {
           </Card>
         )}
 
+        <div className="chx-grid-row">
+        <div className="chx-col">
         {/* SECTION LABEL */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: -6, marginBottom: -10, padding: "0 4px" }}>
           <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.22em", color: CYAN, padding: "3px 9px", borderRadius: 6, background: "rgba(0,229,255,0.08)", border: `1px solid ${CYAN_SOFT}` }}>01 · PRIMARY</span>
@@ -700,6 +717,8 @@ export default function App() {
           ))}
         </div>
 
+        </div>
+        <div className="chx-col chx-col-right">
         {/* ESCROW PROTECTION — expanded */}
         <Card accent="purple" style={{ padding: 18, overflow: "hidden" }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(320px 180px at 100% 0%, rgba(139,92,246,0.18), transparent 60%)", pointerEvents: "none" }} />
@@ -759,8 +778,10 @@ export default function App() {
           </div>
         </Card>
 
-        {/* TRUST CARDS */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        </div>
+        </div>
+        {/* TRUST CARDS — full width below the grid */}
+        <div className="chx-trust-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 4 }}>
           {([
             { iconKind: "escrow" as const, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const, kind: "default" },
             { iconKind: "verified" as const, label: "Verified Traders", desc: "", color: "purple" as const, kind: "soon" },
