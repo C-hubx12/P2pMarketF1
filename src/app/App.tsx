@@ -41,20 +41,17 @@ const STROKE = "rgba(120,170,220,0.12)";
 
 const ShieldLogo = ({ size = 44 }: { size?: number }) => (
   <div style={{ position: "relative", width: size, height: size, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-    <div style={{ position: "absolute", inset: -8, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,194,255,0.6), rgba(58,123,255,0.3) 50%, transparent 75%)", filter: "blur(8px)", zIndex: 0 }} />
+    <div style={{ position: "absolute", inset: -6, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,194,255,0.5), rgba(58,123,255,0.22) 55%, transparent 75%)", filter: "blur(8px)", zIndex: 0 }} />
     <img
       src={chxLogo}
       alt="CoinHubX"
       style={{
         position: "relative",
         zIndex: 1,
-        width: "108%",
-        height: "108%",
+        width: "100%",
+        height: "100%",
         objectFit: "contain",
-        mixBlendMode: "screen",
-        filter: "brightness(1.1) contrast(1.2) saturate(1.25) drop-shadow(0 0 8px rgba(0,194,255,0.55))",
-        WebkitMaskImage: "radial-gradient(ellipse 50% 55% at 50% 50%, #000 75%, transparent 100%)",
-        maskImage: "radial-gradient(ellipse 50% 55% at 50% 50%, #000 75%, transparent 100%)",
+        filter: "drop-shadow(0 0 8px rgba(0,194,255,0.45))",
       }}
     />
   </div>
@@ -137,10 +134,10 @@ function RoundBtn({ children, glow }: { children: React.ReactNode; glow?: boolea
   return <button style={{ position: "relative", width: 40, height: 40, borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${glow ? CYAN_SOFT : STROKE}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: glow ? `0 0 14px rgba(0,229,255,0.2)` : "none" }}>{children}</button>;
 }
 
-function Card({ children, accent = "cyan", bright, style }: { children: React.ReactNode; accent?: "cyan" | "purple" | "none"; bright?: boolean; style?: React.CSSProperties }) {
+function Card({ children, accent = "cyan", bright, style, className }: { children: React.ReactNode; accent?: "cyan" | "purple" | "none"; bright?: boolean; style?: React.CSSProperties; className?: string }) {
   const ring = accent === "cyan" ? `1px solid rgba(0,229,255,${bright ? 0.45 : 0.22})` : accent === "purple" ? `1px solid rgba(139,92,246,${bright ? 0.45 : 0.22})` : `1px solid ${STROKE}`;
   const glow = accent === "cyan" ? `0 0 ${bright ? 40 : 24}px rgba(0,229,255,${bright ? 0.18 : 0.05})` : accent === "purple" ? `0 0 ${bright ? 40 : 24}px rgba(139,92,246,${bright ? 0.18 : 0.05})` : "none";
-  return <div style={{ position: "relative", borderRadius: 22, background: bright ? "linear-gradient(180deg, rgba(16,24,52,0.8), rgba(8,12,30,0.9))" : CARD_BG, border: ring, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, ${glow}`, ...style }}>{children}</div>;
+  return <div className={className} style={{ position: "relative", borderRadius: 22, background: bright ? "linear-gradient(180deg, rgba(16,24,52,0.8), rgba(8,12,30,0.9))" : CARD_BG, border: ring, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, ${glow}`, ...style }}>{children}</div>;
 }
 
 function IconTile({ color, children, size = 38 }: { color: "cyan" | "purple" | "blue"; children: React.ReactNode; size?: number }) {
@@ -405,18 +402,28 @@ export default function App() {
         .chx-main { max-width: 520px; }
         .chx-grid-row { display: contents; }
         .chx-col { display: contents; }
-        @media (min-width: 960px) {
-          .chx-main { max-width: 1180px !important; }
-          .chx-grid-row { display: grid !important; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: start; }
-          .chx-col { display: flex !important; flex-direction: column; gap: 22px; }
-          .chx-col-right { position: sticky !important; top: 84px; }
-          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 360px; align-items: center; gap: 32px; }
-          .chx-hero-illus { width: 360px !important; height: 280px !important; }
-          .chx-hero-title { font-size: 44px !important; }
-          .chx-hero-sub { font-size: 16px !important; }
-          .chx-trust-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
-          .chx-ib-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
+        @media (min-width: 1024px) {
+          .chx-main { max-width: 1360px !important; padding: 36px 48px 72px !important; gap: 48px !important; }
+          .chx-grid-row { display: grid !important; grid-template-columns: 1.55fr 1fr; gap: 40px; align-items: start; }
+          .chx-col { display: flex !important; flex-direction: column; gap: 28px; }
+          .chx-col-right { position: sticky !important; top: 96px; }
+          .chx-hero-card { padding: 56px 56px !important; min-height: 320px; }
+          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 460px; align-items: center; gap: 64px; }
+          .chx-hero-illus { width: 460px !important; height: 360px !important; }
+          .chx-hero-title { font-size: 60px !important; line-height: 1.02 !important; letter-spacing: -0.02em !important; }
+          .chx-hero-sub { font-size: 17px !important; max-width: 600px !important; margin-top: 18px !important; line-height: 1.55 !important; }
+          .chx-trust-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; gap: 22px !important; }
+          .chx-trust-card { padding: 26px !important; min-height: 180px !important; }
+          .chx-ib-card { padding: 36px !important; }
+          .chx-ib-title { font-size: 26px !important; }
+          .chx-ib-cta { height: 66px !important; font-size: 17px !important; }
+          .chx-section-title { font-size: 22px !important; }
+          .chx-nav-desktop { display: flex !important; }
         }
+        .chx-nav-desktop { display: none; gap: 6px; align-items: center; margin-left: 32px; }
+        .chx-nav-desktop a { padding: 8px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 500; color: rgba(214,222,240,0.72); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s, background 0.2s; }
+        .chx-nav-desktop a:hover { color: #fff; background: rgba(0,229,255,0.06); }
+        .chx-nav-desktop a.active { color: #9FF5FF; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.22); }
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
         ::selection { background: rgba(0,229,255,0.32); color: #fff; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -451,6 +458,14 @@ export default function App() {
             <span style={{ color: "#fff", fontSize: 16, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif", textShadow: `0 0 14px rgba(0,229,255,0.45)` }}>COINHUBX</span>
             <span style={{ color: CYAN, fontSize: 8.5, fontWeight: 600, letterSpacing: "0.32em", marginTop: 3, opacity: 0.85 }}>CRYPTO · P2P</span>
           </div>
+          <nav className="chx-nav-desktop">
+            <a href="#">Dashboard</a>
+            <a href="#">Markets</a>
+            <a href="#">Trade</a>
+            <a href="#" className="active">P2P</a>
+            <a href="#">Wallets</a>
+            <a href="#">History</a>
+          </nav>
           <div style={{ flex: 1 }} />
           <Pill><span style={{ fontSize: 14 }}>🇬🇧</span><span>English</span></Pill>
           <RoundBtn glow>
@@ -464,7 +479,7 @@ export default function App() {
       <main className="chx-main" style={{ position: "relative", zIndex: 1, margin: "0 auto", padding: "20px 14px 48px", display: "flex", flexDirection: "column", gap: 24 }}>
 
         {/* HERO */}
-        <Card accent="cyan" style={{ padding: 20, overflow: "hidden", background: "linear-gradient(135deg, rgba(20,30,60,0.7) 0%, rgba(8,12,30,0.85) 60%, rgba(20,15,45,0.75) 100%)", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 36px rgba(0,229,255,0.12), 0 0 60px rgba(139,92,246,0.08)` }}>
+        <Card accent="cyan" className="chx-hero-card" style={{ padding: 20, overflow: "hidden", background: "linear-gradient(135deg, rgba(20,30,60,0.7) 0%, rgba(8,12,30,0.85) 60%, rgba(20,15,45,0.75) 100%)", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 36px rgba(0,229,255,0.12), 0 0 60px rgba(139,92,246,0.08)` }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(460px 220px at 100% 10%, rgba(139,92,246,0.28), transparent 60%), radial-gradient(420px 260px at 0% 100%, rgba(0,229,255,0.22), transparent 60%)", pointerEvents: "none" }} />
           {/* CHX watermark */}
           <div style={{ position: "absolute", right: -20, bottom: -30, fontSize: 140, fontWeight: 800, letterSpacing: "-0.04em", color: "rgba(255,255,255,0.025)", pointerEvents: "none", lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}>CHX</div>
@@ -500,7 +515,7 @@ export default function App() {
         </div>
 
         {/* INSTANT BUY — primary flow, bright & prominent */}
-        <Card accent="cyan" bright style={{ padding: 24, overflow: "hidden", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 56px rgba(0,229,255,0.22), 0 20px 50px rgba(0,80,140,0.35)` }}>
+        <Card accent="cyan" bright className="chx-ib-card" style={{ padding: 24, overflow: "hidden", boxShadow: `0 1px 0 rgba(255,255,255,0.06) inset, 0 0 56px rgba(0,229,255,0.22), 0 20px 50px rgba(0,80,140,0.35)` }}>
           <div className="chx-ib-border" style={{ position: "absolute", inset: 0, borderRadius: 22, pointerEvents: "none" }} />
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(360px 200px at 90% -10%, rgba(0,229,255,0.22), transparent 60%), radial-gradient(280px 200px at 10% 110%, rgba(46,123,255,0.16), transparent 60%)", pointerEvents: "none" }} />
           <div style={{ position: "relative" }}>
@@ -508,7 +523,7 @@ export default function App() {
               <IconTile color="cyan" size={52}><Zap size={24} fill={CYAN} /></IconTile>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                  <span style={{ color: "#FFFFFF", fontSize: 19, fontWeight: 700, letterSpacing: "-0.01em" }}>Instant Buy</span>
+                  <span className="chx-ib-title" style={{ color: "#FFFFFF", fontSize: 19, fontWeight: 700, letterSpacing: "-0.01em" }}>Instant Buy</span>
                   <span className="chx-badge-pulse" style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.16em", padding: "3.5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08))", color: "#9FF5FF", border: `1px solid rgba(159,245,255,0.5)` }}>AUTO-MATCH</span>
                 </div>
                 <div style={{ color: "#B6C5E2", fontSize: 13, marginTop: 4, lineHeight: 1.4 }}>We'll match you with the best available seller automatically.</div>
@@ -533,7 +548,7 @@ export default function App() {
               </Field>
             </div>
 
-            <button style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            <button className="chx-ib-cta" style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
               <span className="chx-sheen" />
               <Zap size={18} fill="#fff" /> Find Best Offer
             </button>
@@ -560,7 +575,7 @@ export default function App() {
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 4 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 4px" }}>
             <div>
-              <div style={{ color: TEXT, fontSize: 16, fontWeight: 700 }}>Marketplace</div>
+              <div className="chx-section-title" style={{ color: TEXT, fontSize: 16, fontWeight: 700 }}>Marketplace</div>
               <div style={{ color: TEXT_DIM, fontSize: 11.5, marginTop: 2 }}>Browse offers and pick your trader</div>
             </div>
             <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.18em", color: "#9FE9FF", padding: "5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.12), rgba(0,229,255,0.04))", border: `1px solid rgba(0,229,255,0.3)`, boxShadow: "0 0 12px rgba(0,229,255,0.2), inset 0 1px 0 rgba(255,255,255,0.08)" }}>MANUAL</span>
@@ -790,7 +805,7 @@ export default function App() {
           ]).map(({ iconKind, label, desc, color, kind }) => {
             const tint = color === "cyan" ? "0,229,255" : "139,92,246";
             return (
-              <div key={label} className="chx-card-hover" style={{ position: "relative", borderRadius: 22, padding: 16, background: `linear-gradient(180deg, rgba(13,20,40,0.7), rgba(8,12,28,0.85))`, border: `1px solid rgba(${tint},0.22)`, boxShadow: `0 1px 0 rgba(255,255,255,0.05) inset, 0 0 22px rgba(${tint},0.1), 0 8px 22px rgba(0,0,0,0.35)`, cursor: "pointer", minHeight: 130 }}>
+              <div key={label} className="chx-card-hover chx-trust-card" style={{ position: "relative", borderRadius: 22, padding: 16, background: `linear-gradient(180deg, rgba(13,20,40,0.7), rgba(8,12,28,0.85))`, border: `1px solid rgba(${tint},0.22)`, boxShadow: `0 1px 0 rgba(255,255,255,0.05) inset, 0 0 22px rgba(${tint},0.1), 0 8px 22px rgba(0,0,0,0.35)`, cursor: "pointer", minHeight: 130 }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, rgba(${tint},0.5), transparent)` }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   <div style={{ filter: `drop-shadow(0 0 10px rgba(${tint},0.5))` }}><PremiumIcon kind={iconKind} /></div>
