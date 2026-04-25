@@ -424,6 +424,11 @@ export default function App() {
         .chx-nav-desktop a { padding: 8px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 500; color: rgba(214,222,240,0.72); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s, background 0.2s; }
         .chx-nav-desktop a:hover { color: #fff; background: rgba(0,229,255,0.06); }
         .chx-nav-desktop a.active { color: #9FF5FF; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.22); }
+        .chx-stats-ribbon { grid-template-columns: 1fr 1fr !important; }
+        @media (min-width: 1024px) {
+          .chx-stats-ribbon { grid-template-columns: 1fr 1fr 1fr 1fr !important; gap: 22px !important; }
+          .chx-ib-grid { grid-template-columns: 1.2fr 1fr 1fr 1.4fr !important; gap: 16px !important; }
+        }
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
         ::selection { background: rgba(0,229,255,0.32); color: #fff; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -499,6 +504,24 @@ export default function App() {
           </div>
         </Card>
 
+        {/* STATS RIBBON — desktop-prominent live metrics */}
+        <div className="chx-stats-ribbon" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+          {[
+            { label: "24H VOLUME", value: "$184.2M", tint: "0,229,255" },
+            { label: "TRADERS ONLINE", value: "12,847", tint: "74,222,128", live: true },
+            { label: "TRADES TODAY", value: "38,912", tint: "0,229,255" },
+            { label: "AVG SETTLEMENT", value: "47s", tint: "139,92,246" },
+          ].map((s) => (
+            <div key={s.label} style={{ position: "relative", padding: "16px 18px", borderRadius: 16, background: `linear-gradient(180deg, rgba(13,20,40,0.8), rgba(8,12,28,0.9))`, border: `1px solid rgba(${s.tint},0.22)`, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, 0 0 18px rgba(${s.tint},0.08)` }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#8FA0BD", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.18em" }}>
+                {s.live && <span className="chx-ticker-dot" style={{ width: 6, height: 6, borderRadius: 99, background: GREEN, boxShadow: `0 0 8px ${GREEN}` }} />}
+                {s.label}
+              </div>
+              <div style={{ marginTop: 6, color: "#F8FAFF", fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", fontFamily: "'Space Grotesk', sans-serif" }}>{s.value}</div>
+            </div>
+          ))}
+        </div>
+
         {/* STATS — only if real data exists (hidden when empty) */}
         {statsState.kind !== "empty" && (
           <Card accent="cyan" style={{ padding: 14 }}>
@@ -530,16 +553,13 @@ export default function App() {
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 20 }}>
+            <div className="chx-ib-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 20 }}>
               <Field label="AMOUNT">
                 <input placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} style={input} inputMode="decimal" />
               </Field>
               <Field label="CURRENCY">
                 <SelectBox value={currency} options={["USD", "EUR", "GBP", "AUD", "CAD"]} onChange={setCurrency} />
               </Field>
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
               <Field label="ASSET">
                 <AssetSelector value={asset} onChange={setAsset} />
               </Field>
