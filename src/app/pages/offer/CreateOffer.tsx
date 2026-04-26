@@ -16,8 +16,6 @@ export default function CreateOffer() {
   const navigate = useNavigate();
   const { addOffer } = useOffers();
 
-  if (!user) return <Navigate to={`/auth/signup?next=${encodeURIComponent("/p2p/create")}`} replace />;
-
   const [step, setStep] = useState(0);
   const [side, setSide] = useState<"buy" | "sell">("sell");
   const [asset, setAsset] = useState("USDT");
@@ -25,8 +23,10 @@ export default function CreateOffer() {
   const [available, setAvailable] = useState("5000");
   const [min, setMin] = useState("50");
   const [max, setMax] = useState("2000");
-  const [methods, setMethods] = useState<PaymentMethod[]>([user.payment?.method as PaymentMethod || "Bank Transfer"]);
-  const [terms, setTerms] = useState(user.terms || "Pay only to the exact account shown. Use the reference exactly as displayed.");
+  const [methods, setMethods] = useState<PaymentMethod[]>([(user?.payment?.method as PaymentMethod) || "Bank Transfer"]);
+  const [terms, setTerms] = useState(user?.terms || "Pay only to the exact account shown. Use the reference exactly as displayed.");
+
+  if (!user) return <Navigate to={`/auth/signup?next=${encodeURIComponent("/p2p/create")}`} replace />;
 
   const next = () => setStep((s) => Math.min(5, s + 1));
   const back = () => (step === 0 ? navigate("/p2p") : setStep((s) => s - 1));

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../auth/AuthContext";
 import { useOffers } from "../offers/OfferStore";
 import escrowShieldImg from "../../imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg";
 import chxLogo from "../../imports/image.png";
-import { EscrowShield3D } from "../p2p/PaymentSelect";
+import { EscrowShield3D, PaymentSelect, PaymentMethod, PAYMENT_METHODS, PaymentIcon } from "../p2p/PaymentSelect";
+import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
 import {
   Bell,
   Menu,
@@ -347,12 +348,70 @@ function TrustChip({ icon, label, tone }: { icon: React.ReactNode; label: string
   );
 }
 
+function PaymentMethodFilter({ value, onChange }: { value: "All" | PaymentMethod; onChange: (v: "All" | PaymentMethod) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  const allOpts: ("All" | PaymentMethod)[] = ["All", ...PAYMENT_METHODS];
+  return (
+    <div ref={ref} style={{ position: "relative" }}>
+      <button type="button" onClick={() => setOpen((o) => !o)} style={{
+        height: 48, padding: "0 14px", borderRadius: 14, width: "100%",
+        background: "linear-gradient(180deg, rgba(5,8,20,0.85), rgba(8,12,28,0.65))",
+        border: `1px solid ${open ? CYAN_SOFT : "rgba(0,229,255,0.18)"}`,
+        boxShadow: open ? `0 0 0 1px ${CYAN_SOFT}, 0 0 18px rgba(0,229,255,0.22)` : "inset 0 1px 0 rgba(255,255,255,0.04)",
+        display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontFamily: "inherit",
+      }}>
+        {value === "All" ? (
+          <div style={{ width: 26, height: 26, borderRadius: 8, background: "linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,229,255,0.04))", border: `1px solid ${CYAN_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: CYAN, fontSize: 11, fontWeight: 800 }}>★</div>
+        ) : (
+          <PaymentIcon method={value} size={26} />
+        )}
+        <span style={{ flex: 1, textAlign: "left", color: TEXT, fontSize: 13, fontWeight: 700 }}>{value === "All" ? "All Payment Methods" : value}</span>
+        <ChevronDown size={14} color={TEXT_DIM} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform 0.18s ease" }} />
+      </button>
+      {open && (
+        <div style={{
+          position: "absolute", zIndex: 60, top: "calc(100% + 6px)", left: 0, right: 0, maxHeight: 360, overflowY: "auto", padding: 6,
+          borderRadius: 14, border: `1px solid ${CYAN_SOFT}`,
+          background: "linear-gradient(180deg, rgba(16,24,52,0.96), rgba(8,12,30,0.98))",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.55), 0 0 26px rgba(0,229,255,0.22)",
+        }}>
+          {allOpts.map((m) => {
+            const sel = m === value;
+            return (
+              <button key={m} type="button" onClick={() => { onChange(m); setOpen(false); }} style={{
+                width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "9px 10px", borderRadius: 10, border: 0,
+                background: sel ? "linear-gradient(180deg, rgba(0,229,255,0.18), rgba(0,229,255,0.06))" : "transparent",
+                color: TEXT, cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+              }}
+              onMouseEnter={(e) => { if (!sel) e.currentTarget.style.background = "rgba(0,229,255,0.06)"; }}
+              onMouseLeave={(e) => { if (!sel) e.currentTarget.style.background = "transparent"; }}>
+                {m === "All" ? (
+                  <div style={{ width: 26, height: 26, borderRadius: 8, background: "linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,229,255,0.04))", border: `1px solid ${CYAN_SOFT}`, display: "flex", alignItems: "center", justifyContent: "center", color: CYAN, fontSize: 11, fontWeight: 800 }}>★</div>
+                ) : (
+                  <PaymentIcon method={m} size={26} />
+                )}
+                <span style={{ flex: 1, fontSize: 13, fontWeight: 700, color: TEXT }}>{m === "All" ? "All Payment Methods" : m}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function MarketplacePage() {
   const navigate = useNavigate();
   const [side, setSide] = useState<"buy" | "sell">("buy");
   const [asset, setAsset] = useState("USDT");
   const [currency, setCurrency] = useState("USD");
-  const [payMethod, setPayMethod] = useState("All Payment Methods");
+  const [payMethod, setPayMethod] = useState<"All" | PaymentMethod>("All");
   const [amount, setAmount] = useState("");
 
   const { isLoggedIn } = useAuth();
@@ -479,10 +538,11 @@ export default function MarketplacePage() {
             <a href="#">Trade</a>
             <a href="#" className="active">P2P</a>
             <a href="#">Wallets</a>
-            <a href="#">History</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/p2p/my-ads"); }}>My Ads</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/p2p/history"); }}>History</a>
           </nav>
           <div style={{ flex: 1 }} />
-          <Pill><span style={{ fontSize: 14 }}>🇬🇧</span><span>English</span></Pill>
+          <Pill><span style={{ fontSize: 14 }}>{findCurrency(currency).flag}</span><span>{currency}</span></Pill>
           <RoundBtn glow>
             <Bell size={16} color={TEXT} />
             <span style={{ position: "absolute", top: 8, right: 9, width: 7, height: 7, borderRadius: 99, background: CYAN, boxShadow: `0 0 8px ${CYAN}` }} />
@@ -550,13 +610,13 @@ export default function MarketplacePage() {
                 <input placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} style={input} inputMode="decimal" />
               </Field>
               <Field label="CURRENCY">
-                <SelectBox value={currency} options={["USD", "EUR", "GBP", "AUD", "CAD"]} onChange={setCurrency} />
+                <CurrencySelect value={currency} onChange={setCurrency} />
               </Field>
               <Field label="ASSET">
                 <AssetSelector value={asset} onChange={setAsset} />
               </Field>
               <Field label="PAYMENT">
-                <SelectBox value={payMethod} options={["All Payment Methods", "Bank Transfer", "PayPal", "Wise", "Revolut"]} onChange={setPayMethod} />
+                <PaymentMethodFilter value={payMethod} onChange={setPayMethod} />
               </Field>
             </div>
 
@@ -565,11 +625,14 @@ export default function MarketplacePage() {
               <Zap size={18} fill="#fff" /> Find Best Offer
             </button>
 
-            <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 14, padding: "13px 14px", borderRadius: 14, background: "linear-gradient(180deg, rgba(0,229,255,0.10), rgba(0,229,255,0.02))", border: `1px solid rgba(0,229,255,0.28)`, boxShadow: `0 0 18px rgba(0,229,255,0.12), inset 0 1px 0 rgba(255,255,255,0.04)` }}>
-              <EscrowShield3D size={42} />
+            <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: 16, background: "linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.06))", border: `1.5px solid rgba(0,229,255,0.65)`, boxShadow: `0 0 32px rgba(0,229,255,0.35), 0 8px 22px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.10)` }}>
+              <EscrowShield3D size={48} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ color: "#F1F5FF", fontSize: 12.5, fontWeight: 700 }}>Protected by escrow</div>
-                <div style={{ color: TEXT_DIM, fontSize: 11, marginTop: 1, lineHeight: 1.35 }}>Funds release only when both sides confirm the trade.</div>
+                <div style={{ color: "#FFFFFF", fontSize: 13, fontWeight: 800, letterSpacing: "-0.005em" }}>Protected by escrow</div>
+                <div style={{ color: "#C8D4ED", fontSize: 11.5, marginTop: 2, lineHeight: 1.4 }}>Funds release only when both sides confirm the trade.</div>
+              </div>
+              <div style={{ padding: "5px 9px", borderRadius: 99, background: "rgba(0,229,255,0.18)", border: `1px solid rgba(0,229,255,0.6)`, color: CYAN, fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", display: "inline-flex", gap: 6, alignItems: "center", whiteSpace: "nowrap" }}>
+                <span style={{ width: 6, height: 6, borderRadius: 99, background: CYAN, boxShadow: `0 0 8px ${CYAN}` }} /> ACTIVE
               </div>
             </div>
           </div>

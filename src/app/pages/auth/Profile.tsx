@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { User as UserIcon, Globe } from "lucide-react";
+import { User as UserIcon } from "lucide-react";
 import { AuthShell } from "./AuthShell";
-import { Field, SelectBox, input, primaryBtnStyle, secondaryBtnStyle, TEXT_DIM } from "../../p2p/shared";
+import { Field, input, primaryBtnStyle, secondaryBtnStyle, TEXT_DIM } from "../../p2p/shared";
+import { CurrencySelect, CountrySelect } from "../../p2p/CurrencySelect";
 import { useAuth } from "../../auth/AuthContext";
-
-const COUNTRIES = ["United Kingdom", "United States", "France", "Germany", "Spain", "Italy", "Australia", "India", "UAE"];
-const CURRENCIES = ["GBP", "USD", "EUR", "AED", "AUD", "INR"];
 
 export default function Profile() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const { update } = useAuth();
   const [name, setName] = useState("");
-  const [country, setCountry] = useState("United Kingdom");
+  const [country, setCountry] = useState("GB");
   const [currency, setCurrency] = useState("GBP");
 
   const submit = () => {
@@ -32,13 +30,10 @@ export default function Profile() {
           </div>
         </Field>
         <Field label="COUNTRY">
-          <div style={{ position: "relative" }}>
-            <Globe size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: TEXT_DIM, zIndex: 1 }} />
-            <div style={{ paddingLeft: 26 }}><SelectBox value={country} options={COUNTRIES} onChange={setCountry} /></div>
-          </div>
+          <CountrySelect value={country} onChange={setCountry} />
         </Field>
         <Field label="DEFAULT CURRENCY">
-          <SelectBox value={currency} options={CURRENCIES} onChange={setCurrency} />
+          <CurrencySelect value={currency} onChange={setCurrency} />
         </Field>
         <div style={{ marginTop: 8, display: "flex", gap: 12 }}>
           <button onClick={() => navigate(-1)} style={{ ...secondaryBtnStyle(54), flex: 1 }}>Back</button>

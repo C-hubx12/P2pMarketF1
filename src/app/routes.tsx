@@ -21,6 +21,8 @@ import SellerTerms from "./pages/auth/SellerTerms";
 import CreateOffer from "./pages/offer/CreateOffer";
 import OfferPublished from "./pages/offer/OfferPublished";
 import OrderDetails from "./pages/order/OrderDetails";
+import MyAds from "./pages/dashboard/MyAds";
+import TradeHistory from "./pages/dashboard/TradeHistory";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/p2p" replace /> },
@@ -38,6 +40,8 @@ export const router = createBrowserRouter([
   { path: "/p2p/create", Component: CreateOffer },
   { path: "/p2p/offer-published/:id", Component: OfferPublished },
   { path: "/p2p/order/:id", Component: OrderDetails },
+  { path: "/p2p/my-ads", Component: MyAds },
+  { path: "/p2p/history", Component: TradeHistory },
   { path: "/auth/signup", Component: Signup },
   { path: "/auth/login", Component: Login },
   { path: "/auth/email", Component: EmailVerify },

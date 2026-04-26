@@ -338,8 +338,19 @@ const ICONS: Record<PaymentMethod, (p: IconProps) => JSX.Element> = {
 export function EscrowShield3D({ size = 44, pulse = true }: { size?: number; pulse?: boolean }) {
   return (
     <div style={{ position: "relative", width: size, height: size, flexShrink: 0 }} className={pulse ? "chx-escrow-pulse" : undefined}>
-      <div style={{ position: "absolute", inset: -size * 0.22, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,229,255,0.32), transparent 70%)`, filter: "blur(10px)", pointerEvents: "none" }} />
-      <img src={escrowShieldImg} alt="Escrow protection" style={{ position: "relative", width: size, height: size, objectFit: "contain", filter: `drop-shadow(0 6px 12px rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(0,229,255,0.45))` }} />
+      <div style={{ position: "absolute", inset: -size * 0.28, borderRadius: "50%", background: `radial-gradient(circle, rgba(0,229,255,0.55), rgba(0,229,255,0.18) 38%, transparent 72%)`, filter: "blur(12px)", pointerEvents: "none" }} />
+      <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: "relative", overflow: "visible", filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(0,229,255,0.5))" }}>
+        <defs>
+          <filter id="chxShieldSoftEdge">
+            <feGaussianBlur stdDeviation="0.6" />
+          </filter>
+          <mask id="chxShieldMask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+            <rect x="0" y="0" width="100" height="100" fill="black" />
+            <path d="M50 3 L90 16 V47 C90 70 74 87 50 97 C26 87 10 70 10 47 V16 Z" fill="white" filter="url(#chxShieldSoftEdge)" />
+          </mask>
+        </defs>
+        <image href={escrowShieldImg} x="-2" y="-2" width="104" height="104" preserveAspectRatio="xMidYMid slice" mask="url(#chxShieldMask)" />
+      </svg>
 
       <style>{`
         .chx-escrow-pulse { animation: chxEscrowPulse 3.2s ease-in-out infinite; }

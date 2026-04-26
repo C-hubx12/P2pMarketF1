@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Navigate } from "react-router";
 import { Lock, AlertTriangle, MessageCircle } from "lucide-react";
 import { Shell } from "../../p2p/Shell";
 import { Card, Stepper, SELL_STEPS, primaryBtnStyle, secondaryBtnStyle, PURPLE, TEXT, TEXT_DIM, TEXT_MUTE, STROKE } from "../../p2p/shared";
+import { EscrowBadge } from "../../p2p/EscrowBadge";
 
 export default function SellLocked() {
   const navigate = useNavigate();
@@ -45,6 +46,8 @@ export default function SellLocked() {
               <div style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "0.18em", color: TEXT_MUTE }}>BUYER PAYMENT WINDOW</div>
               <div className="chx-timer-pulse" style={{ marginTop: 4, fontSize: 28, fontWeight: 800, color: PURPLE, fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em" }}>{mins}:{secs}</div>
             </div>
+
+            <EscrowBadge tone="purple" title="USDT held by CoinHubX escrow" sub="Funds release only after you confirm payment lands in your bank." status="LOCKED" style={{ marginBottom: 14 }} />
 
             <div style={{ display: "flex", flexDirection: "column", gap: 1, borderRadius: 14, overflow: "hidden", border: `1px solid ${STROKE}` }}>
               <Row label="Payment method" value={state.method || "—"} />

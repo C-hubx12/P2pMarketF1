@@ -9,10 +9,11 @@ import { useAuth } from "../../auth/AuthContext";
 export default function SellSetup() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  if (!isLoggedIn) return <Navigate to={`/auth/signup?next=${encodeURIComponent("/p2p/sell")}`} replace />;
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [method, setMethod] = useState<PaymentMethod>("Bank Transfer");
+
+  if (!isLoggedIn) return <Navigate to={`/auth/signup?next=${encodeURIComponent("/p2p/sell")}`} replace />;
 
   const valid = amount && parseFloat(amount) > 0;
 

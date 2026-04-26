@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { Copy, AlertTriangle, Check } from "lucide-react";
+import { Copy, AlertTriangle, Check, Clock } from "lucide-react";
 import { Shell } from "../../p2p/Shell";
 import { Card, Stepper, BUY_STEPS, MOCK_SELLER, primaryBtnStyle, secondaryBtnStyle, CYAN, TEXT, TEXT_DIM, TEXT_MUTE, STROKE } from "../../p2p/shared";
 import { EscrowShield3D } from "../../p2p/PaymentSelect";
+import { StateCard } from "../../p2p/StateCard";
 
 export default function BuyPayment() {
   const navigate = useNavigate();
@@ -27,6 +28,22 @@ export default function BuyPayment() {
     setCopied(key);
     setTimeout(() => setCopied(null), 1400);
   };
+
+  if (secondsLeft === 0) {
+    return (
+      <Shell back="/p2p">
+        <StateCard
+          tone="warn"
+          icon={<Clock size={26} />}
+          eyebrow="ORDER EXPIRED"
+          title="Payment window closed"
+          sub="The 15-minute payment window has ended. Escrow has been released back to the seller."
+          primary={{ label: "Back to P2P", onClick: () => navigate("/p2p") }}
+          secondary={{ label: "Try another seller", onClick: () => navigate("/p2p/buy") }}
+        />
+      </Shell>
+    );
+  }
 
   return (
     <Shell back="/p2p/buy/confirm">

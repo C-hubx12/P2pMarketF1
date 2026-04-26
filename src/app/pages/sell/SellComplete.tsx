@@ -2,6 +2,7 @@ import { useNavigate, useLocation, Navigate } from "react-router";
 import { Activity, ArrowRight } from "lucide-react";
 import { Shell } from "../../p2p/Shell";
 import { Card, Stepper, SELL_STEPS, primaryBtnStyle, secondaryBtnStyle, GREEN, TEXT, TEXT_DIM, TEXT_MUTE, STROKE } from "../../p2p/shared";
+import { EscrowBadge } from "../../p2p/EscrowBadge";
 
 export default function SellComplete() {
   const navigate = useNavigate();
@@ -27,7 +28,9 @@ export default function SellComplete() {
         <div style={{ marginTop: 6, fontSize: 24, fontWeight: 800, color: TEXT }}>Trade completed</div>
         <div style={{ marginTop: 6, fontSize: 13, color: TEXT_DIM }}>{state.amount} USDT released to the buyer.</div>
 
-        <div style={{ marginTop: 22, padding: 16, borderRadius: 14, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}` }}>
+        <EscrowBadge tone="green" title="Escrow released · settlement final" sub="The buyer received USDT and your fiat is confirmed in your account." status="RELEASED" style={{ marginTop: 20, textAlign: "left" }} />
+
+        <div style={{ marginTop: 18, padding: 16, borderRadius: 14, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}` }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.16em", color: TEXT_MUTE, marginBottom: 10 }}>RATE THE BUYER</div>
           <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
             {[1, 2, 3, 4, 5].map((n) => (

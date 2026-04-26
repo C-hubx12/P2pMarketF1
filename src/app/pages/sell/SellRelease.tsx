@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Navigate } from "react-router";
 import { AlertTriangle, Shield, X } from "lucide-react";
 import { Shell } from "../../p2p/Shell";
 import { Card, Stepper, SELL_STEPS, primaryBtnStyle, secondaryBtnStyle, CYAN, BLUE, TEXT, TEXT_DIM, TEXT_MUTE, STROKE } from "../../p2p/shared";
+import { EscrowBadge } from "../../p2p/EscrowBadge";
 
 export default function SellRelease() {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ export default function SellRelease() {
           <div style={{ marginTop: 6, fontSize: 22, fontWeight: 800, color: TEXT, lineHeight: 1.25 }}>Confirm payment has arrived in your account</div>
           <div style={{ marginTop: 8, fontSize: 13, color: TEXT_DIM, lineHeight: 1.5, maxWidth: 440, margin: "8px auto 0" }}>Releasing USDT is final. Once released, the funds leave escrow permanently. Only proceed if the {state.currency || "fiat"} payment is verified in your account.</div>
         </div>
+
+        <EscrowBadge tone="cyan" title="Awaiting your release" sub="USDT remains locked. One tap moves it from escrow to the buyer's wallet." status="AWAITING" style={{ marginBottom: 18 }} />
 
         <Checklist items={["I have checked my bank/payment app", "The full amount has cleared", "The sender name matches the buyer"]} />
 

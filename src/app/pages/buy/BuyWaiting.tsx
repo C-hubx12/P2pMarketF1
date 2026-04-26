@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router";
 import { MessageCircle, AlertTriangle, Check } from "lucide-react";
 import { Shell } from "../../p2p/Shell";
 import { Card, Stepper, BUY_STEPS, MOCK_SELLER, primaryBtnStyle, secondaryBtnStyle, CYAN, GREEN, TEXT, TEXT_DIM, TEXT_MUTE, STROKE, BLUE } from "../../p2p/shared";
+import { EscrowBadge } from "../../p2p/EscrowBadge";
 
 const TIMELINE = [
   { label: "Order placed", desc: "Escrow locked" },
@@ -28,6 +29,7 @@ export default function BuyWaiting() {
       <Stepper steps={BUY_STEPS} current={3} />
 
       <Card accent="cyan" style={{ padding: 28, maxWidth: 720, margin: "0 auto", width: "100%" }}>
+        <EscrowBadge tone="cyan" title="Funds locked in escrow" sub="USDT can only be released to you. We're watching the transfer in real time." status="LOCKED" style={{ marginBottom: 18 }} />
         <div style={{ position: "relative", width: 92, height: 92, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `2px solid rgba(0,229,255,0.3)`, animation: "chxRing 1.8s ease-out infinite" }} />
           <div style={{ position: "absolute", inset: 8, borderRadius: "50%", border: `2px solid rgba(0,229,255,0.5)`, animation: "chxRing 1.8s ease-out 0.4s infinite" }} />
