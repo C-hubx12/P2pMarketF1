@@ -7,6 +7,7 @@ import chxLogo from "../../imports/image.png";
 import { EscrowShield3D, PaymentSelect, PaymentMethod, PAYMENT_METHODS, PaymentIcon } from "../p2p/PaymentSelect";
 import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
 import { AssetSelect } from "../p2p/AssetSelect";
+import { isPreviewMode, setPreviewMode, exitPreview } from "../p2p/PreviewBoot";
 import {
   Bell,
   Menu,
@@ -417,8 +418,14 @@ export default function MarketplacePage() {
 
   const { isLoggedIn } = useAuth();
   const { offers: storeOffers } = useOffers();
-  const goSell = () => navigate(isLoggedIn ? "/p2p/sell" : `/auth/signup?next=${encodeURIComponent("/p2p/sell")}`);
-  const goCreate = () => navigate(isLoggedIn ? "/p2p/create" : `/auth/signup?next=${encodeURIComponent("/p2p/create")}`);
+  const [preview, setPreview] = useState<boolean>(() => isPreviewMode());
+  const skipAuth = isLoggedIn || preview;
+  const goSell = () => navigate(skipAuth ? "/p2p/sell" : `/auth/signup?next=${encodeURIComponent("/p2p/sell")}`);
+  const goCreate = () => navigate(skipAuth ? "/p2p/create" : `/auth/signup?next=${encodeURIComponent("/p2p/create")}`);
+  const togglePreview = () => {
+    if (preview) { exitPreview(); setPreview(false); window.location.reload(); }
+    else { setPreviewMode(true); setPreview(true); window.location.reload(); }
+  };
 
   // No fake data — real offers come from backend or user-published store
   const [offersState, setOffersState] = useState<ListState>({ kind: "empty" });
@@ -543,6 +550,22 @@ export default function MarketplacePage() {
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/p2p/history"); }}>History</a>
           </nav>
           <div style={{ flex: 1 }} />
+          <button
+            onClick={togglePreview}
+            title={preview ? "Exit preview mode" : "Enter preview mode — explore all flows without signup"}
+            style={{
+              height: 32, padding: "0 12px", borderRadius: 99, cursor: "pointer", fontFamily: "inherit",
+              fontSize: 11, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase",
+              display: "inline-flex", alignItems: "center", gap: 6,
+              background: preview ? `linear-gradient(180deg, rgba(0,229,255,0.28), rgba(0,229,255,0.10))` : "rgba(8,12,26,0.6)",
+              border: `1px solid ${preview ? CYAN : STROKE}`,
+              color: preview ? CYAN : TEXT_DIM,
+              boxShadow: preview ? `0 0 16px rgba(0,229,255,0.35)` : "none",
+            }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: 99, background: preview ? CYAN : TEXT_MUTE, boxShadow: preview ? `0 0 8px ${CYAN}` : "none" }} />
+            {preview ? "Preview" : "Preview off"}
+          </button>
           <Pill><span style={{ fontSize: 14 }}>{findCurrency(currency).flag}</span><span>{currency}</span></Pill>
           <RoundBtn glow>
             <Bell size={16} color={TEXT} />
