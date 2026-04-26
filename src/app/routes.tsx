@@ -24,11 +24,13 @@ import OrderDetails from "./pages/order/OrderDetails";
 import MyAds from "./pages/dashboard/MyAds";
 import TradeHistory from "./pages/dashboard/TradeHistory";
 import { seedPreviewIfNeeded } from "./p2p/PreviewBoot";
+import PreviewIndex from "./pages/PreviewIndex";
 
 seedPreviewIfNeeded();
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/p2p" replace /> },
+  { path: "/preview", Component: PreviewIndex },
   { path: "/p2p", Component: MarketplacePage },
   { path: "/p2p/buy", Component: BuySetup },
   { path: "/p2p/buy/confirm", Component: BuyConfirm },
