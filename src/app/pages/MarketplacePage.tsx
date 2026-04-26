@@ -6,6 +6,7 @@ import escrowShieldImg from "../../imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_
 import chxLogo from "../../imports/image.png";
 import { EscrowShield3D, PaymentSelect, PaymentMethod, PAYMENT_METHODS, PaymentIcon } from "../p2p/PaymentSelect";
 import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
+import { AssetSelect } from "../p2p/AssetSelect";
 import {
   Bell,
   Menu,
@@ -371,7 +372,7 @@ function PaymentMethodFilter({ value, onChange }: { value: "All" | PaymentMethod
         ) : (
           <PaymentIcon method={value} size={26} />
         )}
-        <span style={{ flex: 1, textAlign: "left", color: TEXT, fontSize: 13, fontWeight: 700 }}>{value === "All" ? "All Payment Methods" : value}</span>
+        <span style={{ flex: 1, minWidth: 0, textAlign: "left", color: TEXT, fontSize: 13, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{value === "All" ? "All methods" : value}</span>
         <ChevronDown size={14} color={TEXT_DIM} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform 0.18s ease" }} />
       </button>
       {open && (
@@ -599,7 +600,7 @@ export default function MarketplacePage() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                   <span className="chx-ib-title" style={{ color: "#FFFFFF", fontSize: 19, fontWeight: 700, letterSpacing: "-0.01em" }}>Instant Buy</span>
-                  <span className="chx-badge-pulse" style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.16em", padding: "3.5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08))", color: "#9FF5FF", border: `1px solid rgba(159,245,255,0.5)` }}>AUTO-MATCH</span>
+                  <span className="chx-badge-pulse" style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.14em", padding: "4px 10px", borderRadius: 999, background: `${CYAN}1F`, color: CYAN, border: `1px solid ${CYAN}66`, display: "inline-flex", gap: 6, alignItems: "center" }}><span style={{ width: 6, height: 6, borderRadius: 99, background: CYAN, boxShadow: `0 0 8px ${CYAN}` }} />AUTO-MATCH</span>
                 </div>
                 <div style={{ color: "#B6C5E2", fontSize: 13, marginTop: 4, lineHeight: 1.4 }}>We'll match you with the best available seller automatically.</div>
               </div>
@@ -613,7 +614,7 @@ export default function MarketplacePage() {
                 <CurrencySelect value={currency} onChange={setCurrency} />
               </Field>
               <Field label="ASSET">
-                <AssetSelector value={asset} onChange={setAsset} />
+                <AssetSelect value={asset} onChange={setAsset} />
               </Field>
               <Field label="PAYMENT">
                 <PaymentMethodFilter value={payMethod} onChange={setPayMethod} />
@@ -666,7 +667,7 @@ export default function MarketplacePage() {
               })}
             </div>
             <div style={{ width: 128 }}>
-              <AssetSelector value={asset} onChange={setAsset} />
+              <AssetSelect value={asset} onChange={setAsset} />
             </div>
           </div>
 
