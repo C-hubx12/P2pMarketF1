@@ -23,6 +23,7 @@ import OfferPublished from "./pages/offer/OfferPublished";
 import OrderDetails from "./pages/order/OrderDetails";
 import MyAds from "./pages/dashboard/MyAds";
 import TradeHistory from "./pages/dashboard/TradeHistory";
+import ProfilePage from "./pages/ProfilePage";
 import { seedPreviewIfNeeded } from "./p2p/PreviewBoot";
 import PreviewIndex from "./pages/PreviewIndex";
 
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
   { path: "/p2p/create", Component: CreateOffer },
   { path: "/p2p/offer-published/:id", Component: OfferPublished },
   { path: "/p2p/order/:id", Component: OrderDetails },
+  { path: "/p2p/profile/:username", Component: ProfilePage },
   { path: "/p2p/my-ads", Component: MyAds },
   { path: "/p2p/history", Component: TradeHistory },
 

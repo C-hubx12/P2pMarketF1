@@ -8,6 +8,7 @@ import { EscrowShield3D, PaymentSelect, PaymentMethod, PAYMENT_METHODS, PaymentI
 import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
 import { AssetSelect } from "../p2p/AssetSelect";
 import { isPreviewMode, setPreviewMode, exitPreview } from "../p2p/PreviewBoot";
+import { AdRow } from "../components/p2p/AdRow";
 import {
   Bell,
   Menu,
@@ -781,50 +782,35 @@ export default function MarketplacePage() {
           {storeOffers.filter((o) => o.side === side).length > 0 && (
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }}>
               {storeOffers.filter((o) => o.side === side).map((o) => (
-                <Card key={o.id} accent={side === "sell" ? "purple" : "cyan"} style={{ padding: 14 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <IconTile color={side === "sell" ? "purple" : "cyan"} size={40}><span style={{ fontSize: 15, fontWeight: 800 }}>{(o.ownerName?.[0] || "Y").toUpperCase()}</span></IconTile>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ color: TEXT, fontSize: 14, fontWeight: 700 }}>{o.ownerName} <BadgeCheck size={13} color={CYAN} style={{ display: "inline", verticalAlign: "middle" }} /></div>
-                      <div style={{ color: TEXT_DIM, fontSize: 11, marginTop: 3 }}>{o.trades} trades · limits {o.min}–{o.max}</div>
-                    </div>
-                    <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <div style={{ color: side === "sell" ? PURPLE : CYAN, fontSize: 16, fontWeight: 700 }}>{o.price}</div>
-                      <div style={{ color: TEXT_MUTE, fontSize: 10.5 }}>{o.available}</div>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px dashed rgba(255,255,255,0.06)`, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <button onClick={() => navigate(`/p2p/order/${o.id}`)} style={{ height: 36, padding: "0 18px", borderRadius: 10, border: `1px solid ${STROKE}`, background: side === "sell" ? `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 30%, #5B2EE0 75%, #2E0E80 100%)` : `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: side === "sell" ? "#fff" : "#04121E", fontSize: 12, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase" }}>Open</button>
-                  </div>
-                </Card>
+                <AdRow
+                  key={o.id}
+                  id={o.id}
+                  side={o.side}
+                  accent={o.side === "sell" ? "purple" : "cyan"}
+                  letter={(o.ownerName?.[0] || "Y").toUpperCase()}
+                  name={o.ownerName}
+                  online={true}
+                  rating={o.rating || "4.9"}
+                  trades={o.trades || 0}
+                  completion={98.5}
+                  price={o.price}
+                  available={o.available}
+                  limit={`${o.min} – ${o.max}`}
+                  methods={o.methods}
+                  badges={["top", "verified"]}
+                />
               ))}
             </div>
           )}
 
           {offersState.kind === "empty" && storeOffers.filter((o) => o.side === side).length === 0 && (
-            <Card accent="none" style={{ padding: "34px 18px", textAlign: "center", overflow: "hidden", position: "relative" }}>
-              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(280px 180px at 50% 0%, rgba(0,229,255,0.1), transparent 60%)", pointerEvents: "none" }} />
-              <div style={{ position: "relative", margin: "0 auto 12px", width: 64, height: 64, display: "flex", alignItems: "center", justifyContent: "center", filter: "drop-shadow(0 0 14px rgba(0,229,255,0.45))" }}>
-                <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,229,255,0.3), transparent 70%)", filter: "blur(8px)" }} />
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={{ position: "relative" }}>
-                  <defs>
-                    <linearGradient id="ib-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,229,255,0.32)" /><stop offset="100%" stopColor="rgba(0,229,255,0.06)" /></linearGradient>
-                    <linearGradient id="ib-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#9FF5FF" /><stop offset="100%" stopColor="#0096D6" /></linearGradient>
-                  </defs>
-                  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#ib-bg)" stroke="rgba(159,245,255,0.5)" strokeWidth="1.2" />
-                  <rect x="7" y="7" width="50" height="20" rx="15" fill="#fff" fillOpacity="0.06" />
-                  <path d="M14 32 L19 18 H45 L50 32 V44 C50 46 48 48 46 48 H18 C16 48 14 46 14 44 Z" fill="url(#ib-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.8" strokeLinejoin="round" />
-                  <path d="M14 32 H22 L25 36 H39 L42 32 H50" stroke="#fff" strokeOpacity="0.7" strokeWidth="2" fill="none" strokeLinejoin="round" strokeLinecap="round" />
-                  <circle cx="32" cy="14" r="2" fill={CYAN} opacity="0.85"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" /></circle>
-                </svg>
+            <Card accent="none" style={{ padding: "40px 20px", textAlign: "center", overflow: "hidden", position: "relative" }}>
+              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(280px 180px at 50% 0%, rgba(0,229,255,0.05), transparent 60%)", pointerEvents: "none" }} />
+              <div style={{ width: 64, height: 64, margin: "0 auto 16px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: `1px dashed ${STROKE}`, display: "flex", alignItems: "center", justifyContent: "center", color: TEXT_DIM }}>
+                <Search size={28} opacity={0.6} />
               </div>
-              <div style={{ color: TEXT, fontSize: 14, fontWeight: 700, letterSpacing: "-0.005em" }}>No live P2P offers available yet</div>
-              <div style={{ color: TEXT_DIM, fontSize: 12, marginTop: 4 }}>Start a trade or create your own offer.</div>
-              <div style={{ marginTop: 16, display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                <button onClick={() => navigate("/p2p/buy")} style={{ position: "relative", height: 40, padding: "0 18px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase", boxShadow: `0 6px 14px rgba(0,120,160,0.5), 0 0 18px rgba(0,229,255,0.45), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -1.5px 0 rgba(0,50,70,0.35)` }}>Buy USDT</button>
-                <button onClick={goSell} style={{ position: "relative", height: 40, padding: "0 18px", borderRadius: 12, border: "1px solid rgba(199,181,255,0.7)", background: `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 30%, #5B2EE0 75%, #2E0E80 100%)`, color: "#fff", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase", boxShadow: `0 6px 14px rgba(91,46,224,0.5), 0 0 18px rgba(139,92,246,0.45), inset 0 1.5px 0 rgba(255,255,255,0.45), inset 0 -1.5px 0 rgba(20,5,60,0.4)` }}>Sell USDT</button>
-                <button onClick={goCreate} style={{ position: "relative", height: 40, padding: "0 18px", borderRadius: 12, border: `1px solid ${STROKE}`, background: "linear-gradient(180deg, rgba(13,20,40,0.7), rgba(8,12,28,0.85))", color: TEXT, fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase" }}>Create Offer</button>
-              </div>
+              <div style={{ color: TEXT, fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", marginBottom: 6 }}>No offers available right now</div>
+              <div style={{ color: TEXT_DIM, fontSize: 13, maxWidth: 280, margin: "0 auto" }}>Try adjusting your filters or check back soon.</div>
             </Card>
           )}
 
@@ -841,60 +827,24 @@ export default function MarketplacePage() {
           )}
 
           {offersState.kind === "live" && offersState.offers.map((o) => (
-            <Card key={o.id} accent={o.topPick ? "cyan" : "none"} style={{ padding: 14 }}>
-              {o.topPick && (
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 6, background: "rgba(0,229,255,0.1)", border: `1px solid ${CYAN_SOFT}`, color: CYAN, fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", marginBottom: 10 }}>
-                  <TrendingUp size={10} /> TOP PICK
-                </div>
-              )}
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <IconTile color={o.accent} size={40}><span style={{ fontSize: 15, fontWeight: 800 }}>{o.letter}</span></IconTile>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: TEXT, fontSize: 14, fontWeight: 700 }}>
-                    {o.name}
-                    <BadgeCheck size={13} color={CYAN} />
-                    {o.online && (
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em", color: GREEN, padding: "2px 6px", borderRadius: 999, background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.35)" }}>
-                        <span style={{ width: 5, height: 5, borderRadius: 99, background: GREEN, boxShadow: `0 0 6px ${GREEN}` }} />
-                        ONLINE
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4, fontSize: 11, color: TEXT_DIM, flexWrap: "wrap" }}>
-                    <Star size={10} color="#FFB547" fill="#FFB547" />
-                    <span style={{ color: "#F1F5FF", fontWeight: 600 }}>{o.rating}</span>
-                    <span style={{ opacity: 0.4 }}>·</span>
-                    <span><span style={{ color: GREEN, fontWeight: 600 }}>{o.completion}%</span> completion</span>
-                    <span style={{ opacity: 0.4 }}>·</span>
-                    {o.trades} trades
-                    {o.responseMin !== undefined && (
-                      <>
-                        <span style={{ opacity: 0.4 }}>·</span>
-                        <Clock size={9} /> ~{o.responseMin}m
-                      </>
-                    )}
-                  </div>
-                  <div style={{ fontSize: 11, color: TEXT_MUTE, marginTop: 2 }}>{o.limit}</div>
-                </div>
-                <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div style={{ color: CYAN, fontSize: 16, fontWeight: 700 }}>{o.price}</div>
-                  <div style={{ color: TEXT_MUTE, fontSize: 10.5 }}>{o.available}</div>
-                </div>
-              </div>
-              <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8, justifyContent: "space-between" }}>
-                <div style={{ display: "flex", gap: 6 }}>
-                  {[Building2, CreditCard, Wallet].map((Icon, i) => (
-                    <div key={i} style={{ width: 26, height: 22, borderRadius: 5, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}`, display: "flex", alignItems: "center", justifyContent: "center", color: TEXT_DIM }}>
-                      <Icon size={11} />
-                    </div>
-                  ))}
-                </div>
-                <button onClick={() => side === "buy" ? navigate("/p2p/buy") : goSell()} style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
-                  <span className="chx-sheen" />
-                  {side === "buy" ? "Buy" : "Sell"} {asset}
-                </button>
-              </div>
-            </Card>
+            <AdRow
+              key={o.id}
+              id={o.id}
+              side={side}
+              accent={o.accent}
+              letter={o.letter}
+              name={o.name}
+              online={!!o.online}
+              rating={o.rating}
+              trades={o.trades}
+              completion={o.completion}
+              price={o.price}
+              available={o.available}
+              limit={o.limit}
+              methods={o.methods}
+              badges={["top", "verified"]}
+              topPick={o.topPick}
+            />
           ))}
         </div>
 
