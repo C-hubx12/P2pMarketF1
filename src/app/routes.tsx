@@ -23,6 +23,8 @@ import OfferPublished from "./pages/offer/OfferPublished";
 import OrderDetails from "./pages/order/OrderDetails";
 import MyAds from "./pages/dashboard/MyAds";
 import TradeHistory from "./pages/dashboard/TradeHistory";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDisputeQueue from "./pages/admin/AdminDisputeQueue";
 import { seedPreviewIfNeeded } from "./p2p/PreviewBoot";
 import PreviewIndex from "./pages/PreviewIndex";
 
@@ -58,6 +60,9 @@ export const router = createBrowserRouter([
   { path: "/p2p/profile-setup-preview", Component: Profile },
   { path: "/p2p/order-details-preview", Component: OrderDetails },
   { path: "/p2p/dispute-preview", Component: OrderDetails },
+  
+  { path: "/admin", Component: AdminDashboard },
+  { path: "/admin/disputes", Component: AdminDisputeQueue },
 
   { path: "/auth/signup", Component: Signup },
   { path: "/auth/login", Component: Login },

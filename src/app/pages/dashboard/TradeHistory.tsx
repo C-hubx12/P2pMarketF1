@@ -51,19 +51,19 @@ export default function TradeHistory() {
           </div>
         ) : (
           <div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr 1fr 0.9fr 1.1fr 1fr 0.7fr", gap: 12, padding: "12px 18px", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.14em", color: TEXT_MUTE, borderBottom: `1px solid ${STROKE}` }}>
-              <span>SIDE</span><span>PARTY</span><span>AMOUNT</span><span>PRICE</span><span>DATE</span><span>STATUS</span><span></span>
+            <div className="chx-history-row chx-history-header" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr 1fr 0.9fr 1.1fr 1fr 0.7fr", gap: 12, padding: "12px 18px", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.14em", color: TEXT_MUTE, borderBottom: `1px solid ${STROKE}` }}>
+              <span>SIDE</span><span>PARTY</span><span>AMOUNT</span><span>PRICE</span><span className="chx-hide-mobile">DATE</span><span>STATUS</span><span></span>
             </div>
             {rows.map((r) => {
               const t = STATUS_TONE[r.status];
               const Icon = t.icon;
               return (
-                <div key={r.id} style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr 1fr 0.9fr 1.1fr 1fr 0.7fr", gap: 12, padding: "14px 18px", alignItems: "center", borderBottom: `1px solid ${STROKE}`, fontSize: 13 }}>
+                <div key={r.id} className="chx-history-row" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr 1fr 0.9fr 1.1fr 1fr 0.7fr", gap: 12, padding: "14px 18px", alignItems: "center", borderBottom: `1px solid ${STROKE}`, fontSize: 13 }}>
                   <span style={{ fontWeight: 800, color: r.side === "buy" ? CYAN : "#C7B5FF", letterSpacing: "0.08em" }}>{r.side.toUpperCase()}</span>
                   <span style={{ color: TEXT, fontWeight: 600 }}>{r.party}</span>
                   <span style={{ color: TEXT, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{r.amount}</span>
                   <span style={{ color: TEXT_DIM, fontVariantNumeric: "tabular-nums" }}>{r.price}</span>
-                  <span style={{ color: TEXT_DIM, fontSize: 12 }}>{r.date}</span>
+                  <span className="chx-hide-mobile" style={{ color: TEXT_DIM, fontSize: 12 }}>{r.date}</span>
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px", borderRadius: 99, background: t.bg, border: `1px solid ${t.border}`, color: t.c, fontSize: 11, fontWeight: 700, justifySelf: "start" }}>
                     <Icon size={12} />{t.label}
                   </span>
@@ -76,8 +76,13 @@ export default function TradeHistory() {
       </Card>
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 880px) {
+          .chx-hide-mobile { display: none !important; }
+          .chx-history-row { grid-template-columns: 0.6fr 1fr 1fr 1fr 0.6fr !important; gap: 8px !important; padding: 14px 12px !important; }
+        }
+        @media (max-width: 640px) {
           .chx-history-row { grid-template-columns: 1fr 1fr !important; }
+          .chx-history-header { display: none !important; }
         }
       `}</style>
     </Shell>

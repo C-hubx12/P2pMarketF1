@@ -19,8 +19,12 @@ export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; 
         @keyframes chxCheck { 0% { stroke-dashoffset: 60; opacity: 0 } 60% { opacity: 1 } 100% { stroke-dashoffset: 0; opacity: 1 } }
         @keyframes chxRing { 0% { transform: scale(0.6); opacity: 0.9 } 100% { transform: scale(1.6); opacity: 0 } }
         @keyframes chxShimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
-        .chx-shell-main { width: 100%; max-width: 980px; margin: 0 auto; padding: 24px 18px 80px; position: relative; z-index: 1; display: flex; flex-direction: column; gap: 22px; }
+        .chx-shell-main { width: 100%; max-width: 600px; margin: 0 auto; padding: 24px 18px 80px; position: relative; z-index: 1; display: flex; flex-direction: column; gap: 22px; }
         .chx-grid-2 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        @media (min-width: 768px) {
+          .chx-shell-main { max-width: 980px; padding: 32px 24px 80px; }
+          .chx-grid-2 { grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: start; }
+        }
         @media (min-width: 1024px) { .chx-shell-main { max-width: 1240px; padding: 32px 32px 100px; } .chx-grid-2 { grid-template-columns: 1.4fr 1fr; gap: 22px; } }
       `}</style>
 

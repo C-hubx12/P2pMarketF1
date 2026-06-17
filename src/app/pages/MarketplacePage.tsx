@@ -479,6 +479,17 @@ export default function MarketplacePage() {
         .chx-main { max-width: 520px; }
         .chx-grid-row { display: contents; }
         .chx-col { display: contents; }
+        @media (min-width: 768px) {
+          .chx-main { max-width: 920px !important; padding: 28px 32px 56px !important; gap: 32px !important; }
+          .chx-grid-row { display: grid !important; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: start; }
+          .chx-col { display: flex !important; flex-direction: column; gap: 24px; }
+          .chx-col-right { position: sticky !important; top: 80px; }
+          .chx-hero-card { padding: 40px 40px !important; min-height: 240px; }
+          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 300px; align-items: center; gap: 32px; }
+          .chx-hero-illus { width: 300px !important; height: 260px !important; }
+          .chx-trust-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+          .chx-ib-grid { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+        }
         @media (min-width: 1024px) {
           .chx-main { max-width: 1360px !important; padding: 36px 48px 72px !important; gap: 48px !important; }
           .chx-grid-row { display: grid !important; grid-template-columns: 1.55fr 1fr; gap: 40px; align-items: start; }

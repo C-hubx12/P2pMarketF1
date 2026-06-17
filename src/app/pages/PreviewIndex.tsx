@@ -67,6 +67,14 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Admin Panel",
+    tone: "#F87171",
+    items: [
+      { label: "P2P Dashboard",      path: "/admin",          sub: "System metrics & overview" },
+      { label: "Dispute Queue",      path: "/admin/disputes", sub: "Active disputes & SLA" },
+    ],
+  },
+  {
     title: "Dashboard",
     tone: PURPLE,
     items: [
