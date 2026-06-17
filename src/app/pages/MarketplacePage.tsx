@@ -492,21 +492,22 @@ export default function MarketplacePage() {
           .chx-ib-grid { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
         }
         @media (min-width: 1024px) {
-          .chx-main { max-width: 1360px !important; padding: 36px 48px 72px !important; gap: 48px !important; }
-          .chx-grid-row { display: grid !important; grid-template-columns: 1.55fr 1fr; gap: 40px; align-items: start; }
+          .chx-main { max-width: 1100px !important; padding: 48px !important; gap: 40px !important; }
+          .chx-grid-row { display: grid !important; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: start; }
           .chx-col { display: flex !important; flex-direction: column; gap: 28px; }
           .chx-col-right { position: sticky !important; top: 96px; }
-          .chx-hero-card { padding: 56px 56px !important; min-height: 320px; }
-          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 460px; align-items: center; gap: 64px; }
-          .chx-hero-illus { width: 460px !important; height: 360px !important; }
-          .chx-hero-title { font-size: 60px !important; line-height: 1.02 !important; letter-spacing: -0.02em !important; }
-          .chx-hero-sub { font-size: 17px !important; max-width: 600px !important; margin-top: 18px !important; line-height: 1.55 !important; }
+          .chx-hero-card { padding: 48px !important; min-height: 280px; }
+          .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 380px; align-items: center; gap: 48px; }
+          .chx-hero-illus { width: 380px !important; height: 320px !important; }
+          .chx-hero-title { font-size: 54px !important; line-height: 1.05 !important; letter-spacing: -0.02em !important; }
+          .chx-hero-title span { display: inline-block !important; }
+          .chx-hero-sub { font-size: 16px !important; max-width: 500px !important; margin-top: 18px !important; line-height: 1.55 !important; }
           .chx-trust-grid { grid-template-columns: 1fr 1fr 1fr 1fr !important; gap: 22px !important; }
-          .chx-trust-card { padding: 26px !important; min-height: 180px !important; }
-          .chx-ib-card { padding: 36px !important; }
-          .chx-ib-title { font-size: 26px !important; }
-          .chx-ib-cta { height: 66px !important; font-size: 17px !important; }
-          .chx-section-title { font-size: 22px !important; }
+          .chx-trust-card { padding: 24px !important; min-height: 160px !important; }
+          .chx-ib-card { padding: 32px !important; }
+          .chx-ib-title { font-size: 22px !important; }
+          .chx-ib-cta { height: 56px !important; font-size: 16px !important; }
+          .chx-section-title { font-size: 20px !important; }
           .chx-nav-desktop { display: flex !important; }
         }
         .chx-nav-desktop { display: none; gap: 6px; align-items: center; margin-left: 32px; }
@@ -606,9 +607,10 @@ export default function MarketplacePage() {
           <div style={{ position: "absolute", right: -20, bottom: -30, fontSize: 140, fontWeight: 800, letterSpacing: "-0.04em", color: "rgba(255,255,255,0.025)", pointerEvents: "none", lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}>CHX</div>
           <div className="chx-hero-grid" style={{ position: "relative", display: "flex", gap: 12, alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="chx-hero-title" style={{ fontSize: 32, fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
-                <div style={{ color: "#FFF" }}>P2P</div>
-                <div style={{ background: `linear-gradient(135deg, ${CYAN} 0%, #3B82F6 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", paddingRight: 4, paddingBottom: 2, display: "inline-block" }}>Marketplace</div>
+              <div className="chx-hero-title" style={{ fontSize: 28, fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
+                <span style={{ color: "#FFF" }}>P2P </span>
+                <br className="chx-hide-desktop" />
+                <span style={{ background: `linear-gradient(135deg, ${CYAN} 0%, #3B82F6 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", paddingRight: 4, paddingBottom: 2 }}>Marketplace</span>
               </div>
               <div className="chx-hero-sub" style={{ marginTop: 12, color: "#B6C5E2", fontSize: 13, lineHeight: 1.5, maxWidth: 220 }}>Buy and sell crypto directly with verified traders. Protected by escrow, settled in seconds.</div>
               {/* Trust chips - DESKTOP ONLY (renders directly under text) */}
@@ -619,7 +621,7 @@ export default function MarketplacePage() {
                 <TrustChip tone="cyan" icon={<Zap size={13} />} label="Fast settlement" />
               </div>
             </div>
-            <div className="chx-phone-anim chx-hero-illus" style={{ width: 140, height: 140, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
+            <div className="chx-phone-anim chx-hero-illus" style={{ width: 110, height: 110, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
           </div>
           
           {/* Trust chips - MOBILE ONLY (renders below illustration exactly matching the screenshot) */}
@@ -668,7 +670,7 @@ export default function MarketplacePage() {
               </div>
             </div>
 
-            <div className="chx-ib-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 20 }}>
+            <div className="chx-ib-grid" style={{ display: "grid", gap: 12, marginTop: 20 }}>
               <Field label="AMOUNT">
                 <input placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} style={input} inputMode="decimal" />
               </Field>
@@ -786,11 +788,13 @@ export default function MarketplacePage() {
                       <div style={{ color: TEXT, fontSize: 14, fontWeight: 700 }}>{o.ownerName} <BadgeCheck size={13} color={CYAN} style={{ display: "inline", verticalAlign: "middle" }} /></div>
                       <div style={{ color: TEXT_DIM, fontSize: 11, marginTop: 3 }}>{o.trades} trades · limits {o.min}–{o.max}</div>
                     </div>
-                    <div style={{ textAlign: "right" }}>
+                    <div style={{ textAlign: "right", flexShrink: 0 }}>
                       <div style={{ color: side === "sell" ? PURPLE : CYAN, fontSize: 16, fontWeight: 700 }}>{o.price}</div>
                       <div style={{ color: TEXT_MUTE, fontSize: 10.5 }}>{o.available}</div>
                     </div>
-                    <button onClick={() => navigate(`/p2p/order/${o.id}`)} style={{ marginLeft: 10, height: 36, padding: "0 14px", borderRadius: 10, border: `1px solid ${STROKE}`, background: side === "sell" ? `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 30%, #5B2EE0 75%, #2E0E80 100%)` : `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: side === "sell" ? "#fff" : "#04121E", fontSize: 12, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase" }}>Open</button>
+                  </div>
+                  <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px dashed rgba(255,255,255,0.06)`, display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                    <button onClick={() => navigate(`/p2p/order/${o.id}`)} style={{ height: 36, padding: "0 18px", borderRadius: 10, border: `1px solid ${STROKE}`, background: side === "sell" ? `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 30%, #5B2EE0 75%, #2E0E80 100%)` : `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: side === "sell" ? "#fff" : "#04121E", fontSize: 12, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em", textTransform: "uppercase" }}>Open</button>
                   </div>
                 </Card>
               ))}
@@ -958,7 +962,7 @@ export default function MarketplacePage() {
         </div>
         </div>
         {/* TRUST CARDS — full width below the grid */}
-        <div className="chx-trust-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 4 }}>
+        <div className="chx-trust-grid" style={{ display: "grid", gap: 12, marginTop: 4 }}>
           {([
             { iconKind: "escrow" as const, label: "Secure Escrow", desc: "Funds locked until trade completes", color: "cyan" as const, kind: "default" },
             { iconKind: "verified" as const, label: "Verified Traders", desc: "", color: "purple" as const, kind: "soon" },
