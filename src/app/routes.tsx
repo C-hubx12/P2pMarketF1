@@ -25,6 +25,9 @@ import MyAds from "./pages/dashboard/MyAds";
 import TradeHistory from "./pages/dashboard/TradeHistory";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDisputeQueue from "./pages/admin/AdminDisputeQueue";
+import AdminDisputeDetail from "./pages/admin/AdminDisputeDetail";
+import NotificationsCenter from "./pages/dashboard/NotificationsCenter";
+import TraderProfile from "./pages/dashboard/TraderProfile";
 import { seedPreviewIfNeeded } from "./p2p/PreviewBoot";
 import PreviewIndex from "./pages/PreviewIndex";
 
@@ -63,6 +66,10 @@ export const router = createBrowserRouter([
   
   { path: "/admin", Component: AdminDashboard },
   { path: "/admin/disputes", Component: AdminDisputeQueue },
+  { path: "/admin/dispute/:id", Component: AdminDisputeDetail },
+
+  { path: "/p2p/notifications", Component: NotificationsCenter },
+  { path: "/p2p/trader/:id", Component: TraderProfile },
 
   { path: "/auth/signup", Component: Signup },
   { path: "/auth/login", Component: Login },

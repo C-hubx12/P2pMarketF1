@@ -655,7 +655,7 @@ export default function MarketplacePage() {
               </Field>
             </div>
 
-            <button onClick={() => side === "buy" ? navigate("/p2p/buy", { state: { amount, currency, asset, payMethod } }) : goSell()} className="chx-ib-cta" style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            <button onClick={() => side === "buy" ? navigate("/p2p/buy") : navigate("/p2p/sell")} className="chx-ib-cta" style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
               <span className="chx-sheen" />
               <Zap size={18} fill="#fff" /> Find Best Offer
             </button>
@@ -696,7 +696,7 @@ export default function MarketplacePage() {
               {(["buy", "sell"] as const).map((s) => {
                 const active = side === s;
                 return (
-                  <button key={s} onClick={() => { setSide(s); s === "buy" ? navigate("/p2p/buy") : goSell(); }} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
+                  <button key={s} onClick={() => setSide(s)} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
                 );
               })}
             </div>
@@ -857,9 +857,9 @@ export default function MarketplacePage() {
                     </div>
                   ))}
                 </div>
-                <button onClick={() => side === "buy" ? navigate("/p2p/buy") : goSell()} style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
+                <button onClick={() => side === "buy" ? navigate("/p2p/sell") : navigate("/p2p/buy")} style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
                   <span className="chx-sheen" />
-                  {side === "buy" ? "Buy" : "Sell"} {asset}
+                  {side === "buy" ? "Sell" : "Buy"} {asset}
                 </button>
               </div>
             </Card>
