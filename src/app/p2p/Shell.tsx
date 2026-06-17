@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
 import { Bell, Menu, ChevronLeft } from "lucide-react";
-import { BG_1, BG_2, TEXT, TEXT_DIM, STROKE, ShieldLogo, Pill, RoundBtn, CYAN } from "./shared";
+import { BG_1, BG_2, TEXT, TEXT_DIM, STROKE, ShieldLogo, Pill, RoundBtn } from "./shared";
 
 export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; back?: string }) {
   const navigate = useNavigate();
@@ -40,11 +40,8 @@ export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; 
           </Link>
           <div style={{ flex: 1 }} />
           <Pill><span style={{ width: 6, height: 6, borderRadius: 99, background: "#4ADE80", boxShadow: "0 0 8px #4ADE80" }} />Live</Pill>
-          <Link to="/preview" style={{ display: "flex", alignItems: "center", gap: 6, color: CYAN, textDecoration: "none", fontSize: 11, fontWeight: 800, padding: "6px 14px", borderRadius: 99, border: `1px solid rgba(0,229,255,0.4)`, background: "rgba(0,229,255,0.1)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            All Pages
-          </Link>
           <RoundBtn glow><Bell size={16} color={TEXT_DIM} /></RoundBtn>
-          <RoundBtn onClick={() => navigate("/preview")}><Menu size={16} color={TEXT_DIM} /></RoundBtn>
+          <RoundBtn onClick={() => navigate("/p2p")}><Menu size={16} color={TEXT_DIM} /></RoundBtn>
         </div>
       </header>
 

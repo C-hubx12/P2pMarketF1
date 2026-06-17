@@ -27,10 +27,6 @@ export function Pill({ children }: { children: React.ReactNode }) {
   return <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 13, fontWeight: 500 }}>{children}</div>;
 }
 
-export const pillStyle: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 13, fontWeight: 500
-};
-
 export function RoundBtn({ children, glow, onClick }: { children: React.ReactNode; glow?: boolean; onClick?: () => void }) {
   return <button onClick={onClick} style={{ position: "relative", width: 40, height: 40, borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${glow ? CYAN_SOFT : STROKE}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: glow ? `0 0 14px rgba(0,229,255,0.2)` : "none" }}>{children}</button>;
 }

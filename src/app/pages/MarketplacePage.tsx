@@ -28,6 +28,7 @@ import {
   RefreshCw,
   AlertTriangle,
   Lock,
+  ShieldCheck,
   CheckCircle2,
   Clock,
 } from "lucide-react";
@@ -343,7 +344,7 @@ function TrustChip({ icon, label, tone }: { icon: React.ReactNode; label: string
   const bg = tone === "cyan" ? "rgba(0,229,255,0.08)" : tone === "purple" ? "rgba(139,92,246,0.08)" : "rgba(74,222,128,0.08)";
   const border = tone === "cyan" ? CYAN_SOFT : tone === "purple" ? PURPLE_SOFT : "rgba(74,222,128,0.35)";
   return (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 10px", borderRadius: 999, background: bg, border: `1px solid ${border}`, color: c, fontSize: 11, fontWeight: 700, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
+    <div className="chx-trust-chip" style={{ display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 999, background: bg, border: `1px solid ${border}`, color: c, fontWeight: 600, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>
       {icon}
       {label}
     </div>
@@ -524,6 +525,15 @@ export default function MarketplacePage() {
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0,229,255,0.35), rgba(139,92,246,0.35)); border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(0,229,255,0.6), rgba(139,92,246,0.6)); }
         html, body { background: #05070F; }
+        .chx-trust-chip { padding: 6px 9px; font-size: 10.5px; }
+        @media (max-width: 767px) {
+          .chx-hide-narrow { display: none !important; }
+          .chx-hide-mobile { display: none !important; }
+        }
+        @media (min-width: 768px) {
+          .chx-hide-desktop { display: none !important; }
+          .chx-trust-chip { padding: 8px 12px; font-size: 12px; }
+        }
         @keyframes chxTickerDot { 0%,100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px ${GREEN}; } 50% { transform: scale(1.4); opacity: 0.7; box-shadow: 0 0 14px ${GREEN}; } }
         .chx-ticker-dot { animation: chxTickerDot 1.8s ease-in-out infinite; }
       `}</style>
@@ -564,6 +574,7 @@ export default function MarketplacePage() {
           <button
             onClick={togglePreview}
             title={preview ? "Exit preview mode" : "Enter preview mode — explore all flows without signup"}
+            className="chx-hide-narrow"
             style={{
               height: 32, padding: "0 12px", borderRadius: 99, cursor: "pointer", fontFamily: "inherit",
               fontSize: 11, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase",
@@ -577,7 +588,7 @@ export default function MarketplacePage() {
             <span style={{ width: 6, height: 6, borderRadius: 99, background: preview ? CYAN : TEXT_MUTE, boxShadow: preview ? `0 0 8px ${CYAN}` : "none" }} />
             {preview ? "Preview" : "Preview off"}
           </button>
-          <Pill><span style={{ fontSize: 14 }}>{findCurrency(currency).flag}</span><span>{currency}</span></Pill>
+          <Pill><span style={{ fontSize: 14 }}>🇬🇧</span><span>English</span></Pill>
           <RoundBtn glow>
             <Bell size={16} color={TEXT} />
             <span style={{ position: "absolute", top: 8, right: 9, width: 7, height: 7, borderRadius: 99, background: CYAN, boxShadow: `0 0 8px ${CYAN}` }} />
@@ -595,17 +606,34 @@ export default function MarketplacePage() {
           <div style={{ position: "absolute", right: -20, bottom: -30, fontSize: 140, fontWeight: 800, letterSpacing: "-0.04em", color: "rgba(255,255,255,0.025)", pointerEvents: "none", lineHeight: 1, fontFamily: "'Space Grotesk', sans-serif" }}>CHX</div>
           <div className="chx-hero-grid" style={{ position: "relative", display: "flex", gap: 12, alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="chx-hero-title" style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.1, background: `linear-gradient(135deg, #FFFFFF 0%, ${CYAN} 60%, ${PURPLE} 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: "-0.015em", paddingRight: 6, paddingBottom: 4, display: "inline-block" }}>P2P Marketplace</div>
-              <div className="chx-hero-sub" style={{ marginTop: 10, color: "#B6C5E2", fontSize: 13, lineHeight: 1.45, maxWidth: 540 }}>Buy and sell crypto directly with verified traders. Protected by escrow, settled in seconds.</div>
+              <div className="chx-hero-title" style={{ fontSize: 32, fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
+                <div style={{ color: "#FFF" }}>P2P</div>
+                <div style={{ background: `linear-gradient(135deg, ${CYAN} 0%, #3B82F6 100%)`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", paddingRight: 4, paddingBottom: 2, display: "inline-block" }}>Marketplace</div>
+              </div>
+              <div className="chx-hero-sub" style={{ marginTop: 12, color: "#B6C5E2", fontSize: 13, lineHeight: 1.5, maxWidth: 220 }}>Buy and sell crypto directly with verified traders. Protected by escrow, settled in seconds.</div>
+              {/* Trust chips - DESKTOP ONLY (renders directly under text) */}
+              <div className="chx-hide-mobile" style={{ marginTop: 32, display: "flex", flexWrap: "wrap", gap: 12 }}>
+                <TrustChip tone="green" icon={<span style={{ position: "relative", width: 8, height: 8, borderRadius: 99, background: `radial-gradient(circle at 30% 30%, #B8FFD9, ${GREEN} 60%, #0A8B3D)`, boxShadow: `0 0 10px ${GREEN}, 0 0 20px rgba(74,222,128,0.6), inset 0 1px 0 rgba(255,255,255,0.4)`, animation: "chxPulse 1.6s infinite" }} />} label="LIVE" />
+                <TrustChip tone="purple" icon={<ShieldCheck size={13} />} label="Escrow enabled" />
+                <TrustChip tone="cyan" icon={<BadgeCheck size={14} />} label="Verified traders" />
+                <TrustChip tone="cyan" icon={<Zap size={13} />} label="Fast settlement" />
+              </div>
             </div>
-            <div className="chx-phone-anim chx-hero-illus" style={{ width: 150, height: 130, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
+            <div className="chx-phone-anim chx-hero-illus" style={{ width: 140, height: 140, flexShrink: 0, filter: "drop-shadow(0 12px 28px rgba(0,229,255,0.35)) drop-shadow(0 0 24px rgba(139,92,246,0.3))" }}><HeroIllustration /></div>
           </div>
-          {/* Trust chips */}
-          <div style={{ position: "relative", marginTop: 16, display: "flex", flexWrap: "wrap", gap: 6 }}>
-            <TrustChip tone="green" icon={<span style={{ position: "relative", width: 8, height: 8, borderRadius: 99, background: `radial-gradient(circle at 30% 30%, #B8FFD9, ${GREEN} 60%, #0A8B3D)`, boxShadow: `0 0 10px ${GREEN}, 0 0 20px rgba(74,222,128,0.6), inset 0 1px 0 rgba(255,255,255,0.4)`, animation: "chxPulse 1.6s infinite" }} />} label="LIVE" />
-            <TrustChip tone="purple" icon={<Lock size={11} />} label="Escrow enabled" />
-            <TrustChip tone="cyan" icon={<BadgeCheck size={12} />} label="Verified traders" />
-            <TrustChip tone="cyan" icon={<Zap size={11} />} label="Fast settlement" />
+          
+          {/* Trust chips - MOBILE ONLY (renders below illustration exactly matching the screenshot) */}
+          <div className="chx-hide-desktop" style={{ position: "relative", marginTop: 24, display: "flex", flexDirection: "column", gap: 8 }}>
+            {/* Top row */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <TrustChip tone="green" icon={<span style={{ position: "relative", width: 8, height: 8, borderRadius: 99, background: `radial-gradient(circle at 30% 30%, #B8FFD9, ${GREEN} 60%, #0A8B3D)`, boxShadow: `0 0 10px ${GREEN}, 0 0 20px rgba(74,222,128,0.6), inset 0 1px 0 rgba(255,255,255,0.4)`, animation: "chxPulse 1.6s infinite" }} />} label="LIVE" />
+              <TrustChip tone="purple" icon={<ShieldCheck size={13} />} label="Escrow enabled" />
+            </div>
+            {/* Bottom row */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <TrustChip tone="cyan" icon={<BadgeCheck size={14} />} label="Verified traders" />
+              <TrustChip tone="cyan" icon={<Zap size={13} />} label="Fast settlement" />
+            </div>
           </div>
         </Card>
 
@@ -655,7 +683,7 @@ export default function MarketplacePage() {
               </Field>
             </div>
 
-            <button onClick={() => side === "buy" ? navigate("/p2p/buy") : navigate("/p2p/sell")} className="chx-ib-cta" style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            <button onClick={() => side === "buy" ? navigate("/p2p/buy", { state: { amount, currency, asset, payMethod } }) : goSell()} className="chx-ib-cta" style={{ position: "relative", overflow: "hidden", marginTop: 20, width: "100%", height: 58, borderRadius: 16, border: "1px solid rgba(180,230,255,0.75)", background: `linear-gradient(180deg, #9FF5FF 0%, ${CYAN} 18%, #0096D6 55%, ${BLUE} 100%)`, color: "#fff", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 22px 44px rgba(46,123,255,0.6), 0 0 60px rgba(0,229,255,0.55), 0 0 100px rgba(0,229,255,0.25), inset 0 2.5px 0 rgba(255,255,255,0.6), inset 0 -2.5px 0 rgba(0,30,60,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.18)`, textShadow: "0 1px 1.5px rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
               <span className="chx-sheen" />
               <Zap size={18} fill="#fff" /> Find Best Offer
             </button>
@@ -696,7 +724,7 @@ export default function MarketplacePage() {
               {(["buy", "sell"] as const).map((s) => {
                 const active = side === s;
                 return (
-                  <button key={s} onClick={() => setSide(s)} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
+                  <button key={s} onClick={() => { setSide(s); s === "buy" ? navigate("/p2p/buy") : goSell(); }} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
                 );
               })}
             </div>
@@ -857,9 +885,9 @@ export default function MarketplacePage() {
                     </div>
                   ))}
                 </div>
-                <button onClick={() => side === "buy" ? navigate("/p2p/sell") : navigate("/p2p/buy")} style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
+                <button onClick={() => side === "buy" ? navigate("/p2p/buy") : goSell()} style={{ position: "relative", overflow: "hidden", height: 38, padding: "0 20px", borderRadius: 12, border: "1px solid rgba(180,240,255,0.7)", background: `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 30%, #00A8CC 75%, #007A99 100%)`, color: "#04121E", fontSize: 12.5, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.02em", boxShadow: `0 6px 14px rgba(0,120,160,0.55), 0 0 18px rgba(0,229,255,0.5), inset 0 1.5px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,50,70,0.4), inset 0 0 0 1px rgba(255,255,255,0.18)`, textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>
                   <span className="chx-sheen" />
-                  {side === "buy" ? "Sell" : "Buy"} {asset}
+                  {side === "buy" ? "Buy" : "Sell"} {asset}
                 </button>
               </div>
             </Card>

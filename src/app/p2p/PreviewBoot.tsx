@@ -34,9 +34,9 @@ const MOCK_OFFERS: Offer[] = [
 export function seedPreviewIfNeeded() {
   try {
     const path = typeof window !== "undefined" ? window.location.pathname : "";
-    
-    // Always seed in the Figma preview environment to prevent auth walls
-    localStorage.setItem(PREVIEW_KEY, "1");
+    const onPreviewRoute = path.includes("-preview");
+    if (onPreviewRoute) localStorage.setItem(PREVIEW_KEY, "1");
+    if (!isPreviewMode()) return;
 
     if (!localStorage.getItem(USER_KEY)) {
       localStorage.setItem(USER_KEY, JSON.stringify(MOCK_USER));

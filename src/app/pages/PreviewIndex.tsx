@@ -67,22 +67,11 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "Admin Panel",
-    tone: "#F87171",
-    items: [
-      { label: "P2P Dashboard",      path: "/admin",          sub: "System metrics & overview" },
-      { label: "Dispute Queue",      path: "/admin/disputes", sub: "Active disputes & SLA" },
-      { label: "Dispute Detail",     path: "/admin/dispute/CHX-9F2A", sub: "3-panel admin ruling screen" },
-    ],
-  },
-  {
-    title: "Dashboard & Reputation",
+    title: "Dashboard",
     tone: PURPLE,
     items: [
       { label: "My ads",             path: "/p2p/my-ads",   sub: "Active / paused / completed" },
       { label: "Trade history",      path: "/p2p/history",  sub: "Completed / cancelled / disputed" },
-      { label: "Notifications",      path: "/p2p/notifications", sub: "Alerts, disputes, chat" },
-      { label: "Trader Profile",     path: "/p2p/trader/CoinSwap", sub: "Reputation, feedback, stats" },
     ],
   },
 ];
