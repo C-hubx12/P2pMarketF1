@@ -9,6 +9,7 @@ import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
 import { AssetSelect } from "../p2p/AssetSelect";
 import { isPreviewMode, setPreviewMode, exitPreview } from "../p2p/PreviewBoot";
 import { AdRow } from "../components/p2p/AdRow";
+import OnboardingTour from "../components/p2p/OnboardingTour";
 import {
   Bell,
   Menu,
@@ -979,6 +980,7 @@ export default function MarketplacePage() {
           </div>
         </div>
       </main>
+      <OnboardingTour />
     </div>
   );
 }
