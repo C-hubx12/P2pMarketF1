@@ -411,6 +411,89 @@ function PaymentMethodFilter({ value, onChange }: { value: "All" | PaymentMethod
   );
 }
 
+function FilterPanel({ side, setSide, asset, setAsset, currency, setCurrency, amount, setAmount, payMethod, setPayMethod, onSearch, navigate, goSell }: any) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  
+  const activeFilters = (amount ? 1 : 0) + (payMethod !== "All" ? 1 : 0);
+
+  const innerContent = (
+    <>
+      {/* Buy/Sell Primary Toggle */}
+      <div style={{ position: "relative", display: "flex", padding: 4, borderRadius: 14, background: "linear-gradient(180deg, rgba(5,8,20,0.9), rgba(8,12,26,0.7))", border: `1px solid ${STROKE}`, boxShadow: "inset 0 2px 6px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(255,255,255,0.04)", marginBottom: 20 }}>
+        <div style={{ position: "absolute", top: 4, bottom: 4, left: side === "buy" ? 4 : "calc(50% + 0px)", width: "calc(50% - 4px)", borderRadius: 10, background: side === "buy" ? `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 35%, #00A8CC 100%)` : `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 35%, #5B2EE0 100%)`, boxShadow: side === "buy" ? `0 4px 12px rgba(0,229,255,0.45), 0 0 20px rgba(0,229,255,0.4), inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1.5px 0 rgba(0,40,60,0.4)` : `0 4px 12px rgba(139,92,246,0.45), 0 0 20px rgba(139,92,246,0.4), inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1.5px 0 rgba(40,15,80,0.4)`, transition: "left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s ease, box-shadow 0.28s ease" }} />
+        {(["buy", "sell"] as const).map((s) => {
+          const active = side === s;
+          return (
+            <button key={s} onClick={() => { setSide(s); s === "buy" ? navigate("/p2p/buy") : goSell(); }} style={{ position: "relative", zIndex: 1, flex: 1, height: 44, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 15, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
+          );
+        })}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <Field label="ASSET">
+          <AssetSelect value={asset} onChange={setAsset} />
+        </Field>
+        <Field label="FIAT CURRENCY">
+          <CurrencySelect value={currency} onChange={setCurrency} />
+        </Field>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12, marginBottom: 24 }}>
+        <Field label="AMOUNT">
+          <input placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} style={{ ...input, height: 48 }} inputMode="decimal" />
+        </Field>
+        <Field label="PAYMENT METHOD">
+          <PaymentMethodFilter value={payMethod} onChange={setPayMethod} />
+        </Field>
+      </div>
+
+      <button onClick={() => { onSearch(); setMobileOpen(false); }} style={{ width: "100%", height: 50, borderRadius: 12, border: "none", background: CYAN, color: "#000", fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: "pointer", boxShadow: `0 0 20px rgba(0,229,255,0.3)` }}>
+        <Search size={16} /> Search Offers
+      </button>
+
+      {activeFilters > 0 && (
+        <div style={{ textAlign: "center", marginTop: 12 }}>
+          <button onClick={() => { setAmount(""); setPayMethod("All"); }} style={{ background: "none", border: "none", color: TEXT_MUTE, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Reset {activeFilters} filters</button>
+        </div>
+      )}
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Collapsed State */}
+      <div className="chx-hide-desktop" style={{ position: "sticky", top: 60, zIndex: 30, background: "rgba(5,7,15,0.9)", padding: "12px 14px", borderBottom: `1px solid ${STROKE}`, backdropFilter: "blur(10px)" }}>
+        <button onClick={() => setMobileOpen(true)} style={{ width: "100%", height: 48, borderRadius: 12, background: "rgba(8,12,26,0.8)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px" }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 8 }}><SlidersHorizontal size={16} color={CYAN} /> Filters</span>
+          {activeFilters > 0 && <span style={{ background: CYAN, color: "#000", padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 800 }}>{activeFilters} active</span>}
+        </button>
+      </div>
+
+      {/* Mobile Bottom Sheet Drawer */}
+      {mobileOpen && (
+        <div className="chx-hide-desktop" style={{ position: "fixed", inset: 0, zIndex: 100 }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={() => setMobileOpen(false)} />
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: BG_2, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: "24px 20px 40px", borderTop: `1px solid ${CYAN_SOFT}`, boxShadow: `0 -20px 40px rgba(0,0,0,0.8), 0 0 40px rgba(0,229,255,0.1)` }}>
+            <div style={{ width: 40, height: 4, background: STROKE, borderRadius: 2, margin: "0 auto 20px" }} />
+            {innerContent}
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sticky Panel */}
+      <div className="chx-hide-mobile" style={{ position: "sticky", top: 80 }}>
+        <Card style={{ padding: 24 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>Filters</div>
+            {activeFilters > 0 && <span style={{ background: "rgba(0,229,255,0.1)", border: `1px solid ${CYAN_SOFT}`, color: CYAN, padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 800 }}>{activeFilters} applied</span>}
+          </div>
+          {innerContent}
+        </Card>
+      </div>
+    </>
+  );
+}
+
 export default function MarketplacePage() {
   const navigate = useNavigate();
   const [side, setSide] = useState<"buy" | "sell">("buy");
@@ -721,34 +804,14 @@ export default function MarketplacePage() {
             <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: "0.18em", color: "#9FE9FF", padding: "5px 10px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.12), rgba(0,229,255,0.04))", border: `1px solid rgba(0,229,255,0.3)`, boxShadow: "0 0 12px rgba(0,229,255,0.2), inset 0 1px 0 rgba(255,255,255,0.08)" }}>MANUAL</span>
           </div>
 
-          {/* Buy/Sell + asset */}
+          {/* Replace this manual sorting/filters with FilterPanel implementation */}
           <div style={{ display: "flex", gap: 10 }}>
-            <div style={{ flex: 1, position: "relative", display: "flex", padding: 4, borderRadius: 14, background: "linear-gradient(180deg, rgba(5,8,20,0.9), rgba(8,12,26,0.7))", border: `1px solid ${STROKE}`, boxShadow: "inset 0 2px 6px rgba(0,0,0,0.5), inset 0 -1px 0 rgba(255,255,255,0.04)" }}>
-              <div style={{ position: "absolute", top: 4, bottom: 4, left: side === "buy" ? 4 : "calc(50% + 0px)", width: "calc(50% - 4px)", borderRadius: 10, background: side === "buy" ? `linear-gradient(180deg, #7DF2FF 0%, ${CYAN} 35%, #00A8CC 100%)` : `linear-gradient(180deg, #C7B5FF 0%, ${PURPLE} 35%, #5B2EE0 100%)`, boxShadow: side === "buy" ? `0 4px 12px rgba(0,229,255,0.45), 0 0 20px rgba(0,229,255,0.4), inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1.5px 0 rgba(0,40,60,0.4)` : `0 4px 12px rgba(139,92,246,0.45), 0 0 20px rgba(139,92,246,0.4), inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1.5px 0 rgba(40,15,80,0.4)`, transition: "left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s ease, box-shadow 0.28s ease" }} />
-              {(["buy", "sell"] as const).map((s) => {
-                const active = side === s;
-                return (
-                  <button key={s} onClick={() => { setSide(s); s === "buy" ? navigate("/p2p/buy") : goSell(); }} style={{ position: "relative", zIndex: 1, flex: 1, height: 38, borderRadius: 10, border: "none", cursor: "pointer", color: active ? "#04121E" : TEXT_DIM, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", background: "transparent", fontFamily: "inherit", textShadow: active ? "0 1px 0 rgba(255,255,255,0.35)" : "none", transition: "color 0.2s ease" }}>{s}</button>
-                );
-              })}
-            </div>
-            <div style={{ width: 128 }}>
-              <AssetSelect value={asset} onChange={setAsset} />
-            </div>
+            {/* The main FilterPanel handles this layout logic inside */}
           </div>
-
-          {/* Search + Filters */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 46, padding: "0 14px", borderRadius: 14, background: "rgba(8,12,26,0.8)", border: `1px solid ${STROKE}` }}>
-            <Search size={15} color={TEXT_MUTE} />
-            <input placeholder="Amount or payment method…" style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: TEXT, fontSize: 13, fontFamily: "inherit" }} />
-            <button style={{ display: "flex", alignItems: "center", gap: 6, color: "#D5DEF1", fontSize: 11.5, fontWeight: 700, padding: "6px 11px", borderRadius: 999, background: "linear-gradient(180deg, rgba(0,229,255,0.1), rgba(0,229,255,0.03))", border: `1px solid rgba(0,229,255,0.25)`, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 0 10px rgba(0,229,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
-              <SlidersHorizontal size={12} color={CYAN} />
-              Filters
-            </button>
-          </div>
+          <FilterPanel side={side} setSide={setSide} asset={asset} setAsset={setAsset} currency={currency} setCurrency={setCurrency} amount={amount} setAmount={setAmount} payMethod={payMethod} setPayMethod={setPayMethod} onSearch={() => console.log('Searching...')} navigate={navigate} goSell={goSell} />
 
           {/* Sort */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 4px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 4px", marginTop: 16 }}>
             <div style={{ color: TEXT, fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               Live Offers
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", color: TEXT_MUTE }}>

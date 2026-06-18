@@ -11,6 +11,28 @@ const CREATE_STEPS = [
   { label: "Ad Type" }, { label: "Pricing" }, { label: "Amount" }, { label: "Payments" }, { label: "Terms" }, { label: "Review" }
 ];
 
+// Responsive layout + cohesion styles, shared by the flow and success screens.
+const CO_STYLES = `
+  .co-wrap { max-width: 760px; margin: 0 auto; }
+  .co-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .co-card { padding: 22px; }
+  .co-success { padding: 28px 20px; max-width: 600px; margin: 0 auto; text-align: center; }
+  .co-actions { margin-top: 28px; display: flex; gap: 12px; }
+  .co-side { position: relative; top: 0; }
+  .co-heading-title { font-size: 22px; }
+  @media (min-width: 768px) {
+    .co-card { padding: 32px; }
+    .co-success { padding: 40px; }
+    .co-actions { margin-top: 32px; gap: 16px; }
+    .co-heading-title { font-size: 26px; }
+  }
+  @media (min-width: 960px) {
+    .co-wrap { max-width: 1000px; }
+    .co-grid { grid-template-columns: 1fr 320px; gap: 24px; }
+    .co-side { position: sticky; top: 100px; }
+  }
+`;
+
 export default function CreateOffer() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -64,7 +86,8 @@ export default function CreateOffer() {
   if (isSuccess) {
     return (
       <Shell back="/p2p">
-        <Card accent="green" bright style={{ padding: 40, maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
+        <style>{CO_STYLES}</style>
+        <Card accent="green" bright className="co-success">
           <div style={{ margin: "0 auto 24px", display: "flex", justifyContent: "center" }}>
             <div style={{ width: 80, height: 80, borderRadius: "50%", background: "linear-gradient(180deg, rgba(74,222,128,0.2), rgba(74,222,128,0.05))", border: `2px solid ${GREEN}`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 40px rgba(74,222,128,0.3)` }}>
               <Check size={40} strokeWidth={3} color={GREEN} />
@@ -74,16 +97,16 @@ export default function CreateOffer() {
           <div style={{ marginTop: 12, fontSize: 15, color: TEXT_DIM, lineHeight: 1.5, maxWidth: 400, margin: "12px auto 0" }}>
             {amount} {asset} has been locked in escrow and your ad is visible to buyers.
           </div>
-          
+
           <div style={{ marginTop: 30, padding: 20, borderRadius: 16, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}`, textAlign: "left" }}>
             <SummaryRow label="TYPE" value={`${side === "sell" ? "Selling" : "Buying"} ${asset}`} />
             <SummaryRow label="PRICE" value={priceType === "fixed" ? `£${fixedPrice}` : `Market ${floatingPercent}%`} />
             <SummaryRow label="AMOUNT" value={`${amount} ${asset}`} />
           </div>
 
-          <div style={{ marginTop: 30, display: "flex", gap: 16 }}>
-            <button onClick={() => { setIsSuccess(false); setStep(0); }} style={{ ...secondaryBtnStyle(54), flex: 1 }}>Post Another Ad</button>
-            <button onClick={() => navigate(`/p2p/order/${publishedId}`)} style={{ ...primaryBtnStyle(54), flex: 1 }}><Eye size={18} /> View My Ad</button>
+          <div style={{ marginTop: 30, display: "flex", flexWrap: "wrap", gap: 12 }}>
+            <button onClick={() => { setIsSuccess(false); setStep(0); }} style={{ ...secondaryBtnStyle(54), flex: "1 1 160px" }}>Post Another Ad</button>
+            <button onClick={() => navigate(`/p2p/order/${publishedId}`)} style={{ ...primaryBtnStyle(54), flex: "1 1 160px" }}><Eye size={18} /> View My Ad</button>
           </div>
           <div style={{ marginTop: 20, fontSize: 12, color: TEXT_MUTE }}>Your {asset} is safe in escrow. It will only move when a trade completes or you cancel your ad.</div>
         </Card>
@@ -94,15 +117,16 @@ export default function CreateOffer() {
   const isStep1Valid = asset && fiat;
   const isStep2Valid = priceType === "fixed" ? fixedPrice.length > 0 : floatingPercent.length > 0;
   const isStep3Valid = amount && parseFloat(amount) > 0 && parseFloat(amount) <= 0.8; // Mock balance of 0.8
-  const isStep4Valid = methods.length > 0 && payWindow;
+  const isStep4Valid = methods.length > 0 && payWindow && (!methods.includes("Other") || customMethod.trim().length > 0);
 
   return (
     <Shell back="/p2p">
-      <div style={{ maxWidth: 840, margin: "0 auto" }}>
+      <style>{CO_STYLES}</style>
+      <div className="co-wrap">
         <Stepper steps={CREATE_STEPS} current={step} />
 
-        <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 340px", gap: 24 }}>
-          <Card accent="cyan" bright style={{ padding: 32 }}>
+        <div className="co-grid" style={{ marginTop: 24 }}>
+          <Card accent="cyan" bright className="co-card">
             {step === 0 && <Step1 side={side} setSide={setSide} asset={asset} setAsset={setAsset} fiat={fiat} setFiat={setFiat} />}
             {step === 1 && <Step2 priceType={priceType} setPriceType={setPriceType} fixedPrice={fixedPrice} setFixedPrice={setFixedPrice} floatingPercent={floatingPercent} setFloatingPercent={setFloatingPercent} asset={asset} fiat={fiat} marketRate={getMarketRate()} />}
             {step === 2 && <Step3 amount={amount} setAmount={setAmount} min={min} setMin={setMin} max={max} setMax={setMax} asset={asset} fiat={fiat} marketRate={getMarketRate()} balance={0.8} />}
@@ -110,7 +134,7 @@ export default function CreateOffer() {
             {step === 4 && <Step5 terms={terms} setTerms={setTerms} />}
             {step === 5 && <Step6 side={side} asset={asset} fiat={fiat} priceType={priceType} fixedPrice={fixedPrice} floatingPercent={floatingPercent} amount={amount} min={min} max={max} methods={methods} payWindow={payWindow} terms={terms} marketRate={getMarketRate()} />}
 
-            <div style={{ marginTop: 32, display: "flex", gap: 16 }}>
+            <div className="co-actions">
               <button onClick={back} style={{ ...secondaryBtnStyle(56), flex: 1, fontSize: 16 }}>{step === 0 ? "Cancel" : "Back"}</button>
               {step < 5 ? (
                 <button onClick={next} disabled={(step===0 && !isStep1Valid) || (step===1 && !isStep2Valid) || (step===2 && !isStep3Valid) || (step===3 && !isStep4Valid)} style={{ ...primaryBtnStyle(56), flex: 2, opacity: ((step===0 && !isStep1Valid) || (step===1 && !isStep2Valid) || (step===2 && !isStep3Valid) || (step===3 && !isStep4Valid)) ? 0.5 : 1 }}>Continue <ArrowRight size={18} /></button>
@@ -122,8 +146,8 @@ export default function CreateOffer() {
             </div>
           </Card>
 
-          <div>
-            <Card accent="cyan" style={{ padding: 24, position: "sticky", top: 100 }}>
+          <div className="co-side">
+            <Card accent="cyan" style={{ padding: 24 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
                 <EscrowShield3D size={48} />
                 <div>
@@ -159,7 +183,7 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 function Heading({ title, sub }: { title: string; sub: string }) {
   return (
     <div style={{ marginBottom: 28 }}>
-      <div style={{ fontSize: 26, fontWeight: 800, color: TEXT }}>{title}</div>
+      <div className="co-heading-title" style={{ fontWeight: 800, color: TEXT }}>{title}</div>
       <div style={{ marginTop: 8, fontSize: 14, color: TEXT_DIM, lineHeight: 1.5 }}>{sub}</div>
     </div>
   );
@@ -256,9 +280,11 @@ function Step2({ priceType, setPriceType, fixedPrice, setFixedPrice, floatingPer
       ) : (
         <Field label="% ABOVE OR BELOW MARKET">
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
-            <button onClick={() => setFloatingPercent((p:any) => p.startsWith("-") ? p.replace("-","+") : p.startsWith("+") ? p.replace("+","-") : "-"+p)} style={{ width: 60, height: 60, borderRadius: 14, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 24, cursor: "pointer" }}>{floatingPercent.startsWith("-") ? "-" : "+"}</button>
-            <input value={floatingPercent.replace(/[+-]/,"")} onChange={e => setFloatingPercent((floatingPercent.startsWith("-")?"-":"+") + e.target.value)} type="number" style={{ ...input, height: 60, fontSize: 20, fontWeight: 800, flex: 1 }} />
-            <span style={{ fontSize: 20, color: TEXT_MUTE, fontWeight: 800, position: "absolute", right: 20 }}>%</span>
+            <button onClick={() => setFloatingPercent((p:any) => p.startsWith("-") ? p.replace("-","+") : p.startsWith("+") ? p.replace("+","-") : "-"+p)} style={{ width: 60, height: 60, borderRadius: 14, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 24, cursor: "pointer", flexShrink: 0 }}>{floatingPercent.startsWith("-") ? "-" : "+"}</button>
+            <div style={{ position: "relative", flex: 1 }}>
+              <input value={floatingPercent.replace(/[+-]/,"")} onChange={e => setFloatingPercent((floatingPercent.startsWith("-")?"-":"+") + e.target.value)} type="number" style={{ ...input, height: 60, fontSize: 20, fontWeight: 800, width: "100%", paddingRight: 36 }} />
+              <span style={{ fontSize: 20, color: TEXT_MUTE, fontWeight: 800, position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>%</span>
+            </div>
           </div>
           <div style={{ marginTop: 16, padding: 16, borderRadius: 12, background: "rgba(0,229,255,0.06)", border: `1px solid ${CYAN_SOFT}`, fontSize: 14, color: CYAN }}>
             Your ad will show at <strong>£{(rate * (1 + parseFloat(floatingPercent||"0")/100)).toLocaleString(undefined, {maximumFractionDigits:2})} per {asset}</strong> ({floatingPercent}%)
@@ -290,11 +316,11 @@ function Step3({ amount, setAmount, min, setMin, max, setMax, asset, fiat, marke
           <div style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: TEXT_DIM, fontWeight: 600 }}>≈ £{fiatEquivalent}</div>
         </div>
         {isError ? (
-          <div style={{ color: "#EF4444", fontSize: 13, marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} /> Insufficient balance. You have {balance} {asset} available.</div>
+          <div style={{ color: "#EF4444", fontSize: 13, marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} /> Insufficient balance. You have {balance} {asset} available but entered {amount} {asset}.</div>
         ) : (
           <div style={{ color: TEXT_DIM, fontSize: 13, marginTop: 8 }}>Available balance: {balance} {asset}</div>
         )}
-        {isError && <div style={{ color: CYAN, fontSize: 13, marginTop: 4, cursor: "pointer", fontWeight: 700 }}>Deposit more {asset}</div>}
+        {isError && <div style={{ color: CYAN, fontSize: 13, marginTop: 4, cursor: "pointer", fontWeight: 700 }} onClick={() => navigate("/wallet/deposit")}>Deposit more {asset}</div>}
       </Field>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 32 }}>
@@ -311,6 +337,12 @@ function Step3({ amount, setAmount, min, setMin, max, setMax, asset, fiat, marke
           </div>
         </Field>
       </div>
+      {min && max && parseFloat(min) > parseFloat(max) && (
+        <div style={{ color: "#EF4444", fontSize: 13, marginTop: 12, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} /> Min cannot exceed max order.</div>
+      )}
+      {max && amount && parseFloat(max) > (parseFloat(amount) * marketRate) && (
+        <div style={{ color: "#EF4444", fontSize: 13, marginTop: 12, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} /> Max cannot exceed total ad value.</div>
+      )}
     </>
   );
 }
@@ -324,7 +356,7 @@ function Step4({ methods, setMethods, customMethod, setCustomMethod, payWindow, 
       <Heading title="Payment Methods" sub="Select all payment methods you accept." />
       
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, marginBottom: 24 }}>
-        {PAYMENT_METHODS.filter(m => m !== "Other").map((m) => {
+        {PAYMENT_METHODS.map((m) => {
           const active = methods.includes(m);
           return (
             <button key={m} onClick={() => toggle(m)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 16px", borderRadius: 14, background: active ? "rgba(0,229,255,0.08)" : "rgba(8,12,26,0.5)", border: `1px solid ${active ? CYAN : STROKE}`, cursor: "pointer", transition: "all 0.2s" }}>
@@ -335,6 +367,12 @@ function Step4({ methods, setMethods, customMethod, setCustomMethod, payWindow, 
           );
         })}
       </div>
+
+      {methods.includes("Other") && (
+        <Field label="CUSTOM METHOD NAME">
+          <input value={customMethod} onChange={e => setCustomMethod(e.target.value)} type="text" placeholder="e.g. Alipay" style={{ ...input, height: 54, fontSize: 16, marginTop: 8, marginBottom: 24 }} />
+        </Field>
+      )}
 
       <Field label="PAYMENT WINDOW">
         <div style={{ display: "flex", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
