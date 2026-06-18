@@ -1,0 +1,277 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "../auth/AuthContext";
+import { useOffers } from "../offers/OfferStore";
+import escrowShieldImg from "../../imports/a19fa6bb-e9ab-401f-982b-dd8eaffb5835_(1)_2.jpg";
+import chxLogo from "../../imports/image.png";
+import { EscrowShield3D, PaymentSelect, PaymentMethod, PAYMENT_METHODS, PaymentIcon } from "../p2p/PaymentSelect";
+import { CurrencySelect, findCurrency } from "../p2p/CurrencySelect";
+import { AssetSelect } from "../p2p/AssetSelect";
+import { isPreviewMode, setPreviewMode, exitPreview } from "../p2p/PreviewBoot";
+import { AdRow } from "../components/p2p/AdRow";
+import {
+  Bell,
+  Menu,
+  Search,
+  ChevronDown,
+  SlidersHorizontal,
+  Shield,
+  Zap,
+  Star,
+  BadgeCheck,
+  TrendingUp,
+  Users,
+  CreditCard,
+  Building2,
+  Wallet,
+  Headphones,
+  Inbox,
+  RefreshCw,
+  AlertTriangle,
+  Lock,
+  ShieldCheck,
+  CheckCircle2,
+  Clock,
+} from "lucide-react";
+
+const BG_1 = "#05070F";
+const BG_2 = "#0A0F1F";
+const CARD_BG = "rgba(13, 20, 40, 0.6)";
+const CYAN = "#00E5FF";
+const CYAN_SOFT = "rgba(0,229,255,0.35)";
+const BLUE = "#2E7BFF";
+const PURPLE = "#8B5CF6";
+const PURPLE_SOFT = "rgba(139,92,246,0.35)";
+const GREEN = "#4ADE80";
+const TEXT = "#F1F5FF";
+const TEXT_DIM = "#A8B5D1";
+const TEXT_MUTE = "#5B6A8A";
+const STROKE = "rgba(120,170,220,0.12)";
+
+const ShieldLogo = ({ size = 44 }: { size?: number }) => (
+  <div style={{ position: "relative", width: size, height: size, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ position: "absolute", inset: -6, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,194,255,0.5), rgba(58,123,255,0.22) 55%, transparent 75%)", filter: "blur(8px)", zIndex: 0 }} />
+    <img
+      src={chxLogo}
+      alt="CoinHubX"
+      style={{
+        position: "relative",
+        zIndex: 1,
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+        filter: "drop-shadow(0 0 8px rgba(0,194,255,0.45))",
+      }}
+    />
+  </div>
+);
+
+const HeroIllustration = () => (
+  <svg viewBox="0 0 220 190" width="100%" height="100%" style={{ display: "block", overflow: "visible" }}>
+    <defs>
+      <linearGradient id="hPhone" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#1a2348" />
+        <stop offset="100%" stopColor="#0a0f24" />
+      </linearGradient>
+      <linearGradient id="hScreen" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#0d1632" />
+        <stop offset="100%" stopColor="#050814" />
+      </linearGradient>
+      <linearGradient id="hCoin" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#E9F7FF" />
+        <stop offset="100%" stopColor="#7AB8FF" />
+      </linearGradient>
+      <linearGradient id="hArrow" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor={CYAN} />
+        <stop offset="100%" stopColor={PURPLE} />
+      </linearGradient>
+      <radialGradient id="hGlowBg" cx="0.5" cy="0.6" r="0.55">
+        <stop offset="0%" stopColor={CYAN} stopOpacity="0.45" />
+        <stop offset="55%" stopColor={PURPLE} stopOpacity="0.2" />
+        <stop offset="100%" stopColor="transparent" />
+      </radialGradient>
+      <filter id="hBlur" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="3" />
+      </filter>
+      <filter id="hGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="b" />
+        <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
+    <ellipse className="chx-glow-pulse" cx="110" cy="110" rx="100" ry="70" fill="url(#hGlowBg)" />
+    {/* Phone - tilted 3D */}
+    <g transform="translate(55 30) rotate(-10 45 70)">
+      <rect x="-2" y="-2" width="94" height="144" rx="18" fill={PURPLE} opacity="0.35" filter="url(#hBlur)" />
+      <rect x="0" y="0" width="90" height="140" rx="16" fill="url(#hPhone)" stroke={CYAN_SOFT} strokeWidth="1.4" />
+      <rect x="5" y="5" width="80" height="130" rx="12" fill="url(#hScreen)" />
+      <rect x="38" y="9" width="14" height="3" rx="1.5" fill="#1a2348" />
+      <rect x="12" y="24" width="30" height="3" rx="1.5" fill={CYAN} opacity="0.55" />
+      <rect x="12" y="33" width="48" height="3" rx="1.5" fill="#2a3868" />
+      <rect x="12" y="42" width="40" height="3" rx="1.5" fill="#2a3868" />
+      <rect x="12" y="62" width="66" height="22" rx="6" fill={CYAN} opacity="0.12" stroke={CYAN_SOFT} strokeWidth="0.8" />
+      <text x="45" y="77" textAnchor="middle" fontSize="9" fontWeight="700" fill={CYAN}>BUY USDT</text>
+      <rect x="12" y="94" width="66" height="6" rx="2" fill="#1b2448" />
+      <rect x="12" y="104" width="50" height="6" rx="2" fill="#1b2448" />
+    </g>
+    {/* Coin floating front */}
+    <g className="chx-float" filter="url(#hGlow)">
+      <circle cx="152" cy="95" r="26" fill="url(#hCoin)" stroke="#E9F7FF" strokeWidth="1.2" />
+      <circle cx="152" cy="95" r="21" fill="none" stroke={CYAN} strokeWidth="0.8" opacity="0.6" />
+      <text x="152" y="105" textAnchor="middle" fontSize="24" fontFamily="Georgia, serif" fontWeight="700" fill="#1B2A52">₮</text>
+    </g>
+    {/* Curved arrows */}
+    <g filter="url(#hGlow)">
+      <path className="chx-dash" d="M35 75 Q90 30 160 55" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <polygon points="155,46 170,55 153,64" fill={PURPLE} />
+      <path className="chx-dash" d="M170 140 Q115 170 45 145" stroke="url(#hArrow)" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <polygon points="52,137 38,145 53,154" fill={CYAN} />
+    </g>
+    {/* Small escrow shield badge */}
+    <g transform="translate(170 140)" filter="url(#hGlow)">
+      <circle r="14" fill="#0e1530" stroke={PURPLE_SOFT} strokeWidth="1.2" />
+      <path d="M0 -7 L6 -4 V0 C6 3.5 3 6 0 7 C-3 6 -6 3.5 -6 0 V-4 Z" fill="none" stroke={PURPLE} strokeWidth="1.4" />
+      <path d="M-2.5 0 L-0.5 2 L2.5 -2" stroke={PURPLE} strokeWidth="1.4" strokeLinecap="round" fill="none" />
+    </g>
+  </svg>
+);
+
+function Pill({ children }: { children: React.ReactNode }) {
+  return <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 13, fontWeight: 500 }}>{children}</div>;
+}
+
+function RoundBtn({ children, glow }: { children: React.ReactNode; glow?: boolean }) {
+  return <button style={{ position: "relative", width: 40, height: 40, borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${glow ? CYAN_SOFT : STROKE}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: glow ? `0 0 14px rgba(0,229,255,0.2)` : "none" }}>{children}</button>;
+}
+
+function Card({ children, accent = "cyan", bright, style, className }: { children: React.ReactNode; accent?: "cyan" | "purple" | "none"; bright?: boolean; style?: React.CSSProperties; className?: string }) {
+  const ring = accent === "cyan" ? `1px solid rgba(0,229,255,${bright ? 0.45 : 0.22})` : accent === "purple" ? `1px solid rgba(139,92,246,${bright ? 0.45 : 0.22})` : `1px solid ${STROKE}`;
+  const glow = accent === "cyan" ? `0 0 ${bright ? 40 : 24}px rgba(0,229,255,${bright ? 0.18 : 0.05})` : accent === "purple" ? `0 0 ${bright ? 40 : 24}px rgba(139,92,246,${bright ? 0.18 : 0.05})` : "none";
+  return <div className={className} style={{ position: "relative", borderRadius: 22, background: bright ? "linear-gradient(180deg, rgba(16,24,52,0.8), rgba(8,12,30,0.9))" : CARD_BG, border: ring, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, ${glow}`, ...style }}>{children}</div>;
+}
+
+function IconTile({ color, children, size = 38 }: { color: "cyan" | "purple" | "blue"; children: React.ReactNode; size?: number }) {
+  const map = { cyan: CYAN, purple: PURPLE, blue: BLUE };
+  const bgMap = {
+    cyan: "linear-gradient(180deg, rgba(0,229,255,0.18), rgba(0,229,255,0.04))",
+    purple: "linear-gradient(180deg, rgba(139,92,246,0.18), rgba(139,92,246,0.04))",
+    blue: "linear-gradient(180deg, rgba(46,123,255,0.2), rgba(46,123,255,0.04))",
+  };
+  const borderMap = { cyan: CYAN_SOFT, purple: PURPLE_SOFT, blue: "rgba(46,123,255,0.4)" };
+  const shadowMap = { cyan: "rgba(0,229,255,0.25)", purple: "rgba(139,92,246,0.25)", blue: "rgba(46,123,255,0.3)" };
+  return <div style={{ width: size, height: size, borderRadius: 10, background: bgMap[color], border: `1px solid ${borderMap[color]}`, display: "flex", alignItems: "center", justifyContent: "center", color: map[color], boxShadow: `0 0 14px ${shadowMap[color]}, inset 0 1px 0 rgba(255,255,255,0.08)`, flexShrink: 0 }}>{children}</div>;
+}
+
+const input: React.CSSProperties = {
+  height: 48,
+  padding: "0 16px",
+  borderRadius: 14,
+  background: "linear-gradient(180deg, rgba(5,8,20,0.85), rgba(8,12,28,0.65))",
+  border: `1px solid rgba(0,229,255,0.18)`,
+  color: TEXT,
+  fontSize: 14,
+  fontWeight: 500,
+  outline: "none",
+  width: "100%",
+  fontFamily: "inherit",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 14px rgba(0,229,255,0.04), inset 0 0 0 1px rgba(0,0,0,0.2)",
+  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+};
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", color: TEXT_MUTE, marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function SelectBox({ value, options, onChange }: { value: string; options: string[]; onChange?: (v: string) => void }) {
+  return (
+    <div style={{ position: "relative" }}>
+      <select value={value} onChange={(e) => onChange?.(e.target.value)} style={{ ...input, appearance: "none", paddingRight: 34, cursor: "pointer" }}>
+        {options.map((o) => <option key={o} style={{ background: "#07101f" }}>{o}</option>)}
+      </select>
+      <ChevronDown size={14} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: TEXT_DIM, pointerEvents: "none" }} />
+    </div>
+  );
+}
+
+function AssetSelector({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const assets = ["USDT", "USDC", "BTC", "ETH"];
+  return (
+    <div style={{ position: "relative" }}>
+      <select value={value} onChange={(e) => onChange(e.target.value)} style={{ ...input, appearance: "none", paddingLeft: 40, paddingRight: 34, cursor: "pointer", fontWeight: 600 }}>
+        {assets.map((a) => <option key={a} style={{ background: "#07101f" }}>{a}</option>)}
+      </select>
+      <div style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 22, height: 22, borderRadius: 99, background: "#26A17B", color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>₮</div>
+      <ChevronDown size={14} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: TEXT_DIM, pointerEvents: "none" }} />
+    </div>
+  );
+}
+
+type Offer = { id: string; name: string; letter: string; accent: "cyan" | "purple"; rating: number; completion: number; trades: number; limit: string; price: string; available: string; methods: string[]; online?: boolean; responseMin?: number; topPick?: boolean };
+type ListState = { kind: "loading" } | { kind: "empty" } | { kind: "error" } | { kind: "live"; offers: Offer[] };
+
+function Skeleton({ w, h, round }: { w: number | string; h: number; round?: boolean }) {
+  return <div style={{ width: w, height: h, borderRadius: round ? "50%" : 6, background: "linear-gradient(90deg, rgba(0,229,255,0.04), rgba(0,229,255,0.14), rgba(0,229,255,0.04))", backgroundSize: "200% 100%", animation: "chxShim 1.4s linear infinite" }} />;
+}
+
+function MiniPremiumIcon({ kind, size = 30 }: { kind: "lock" | "check" | "alert" | "clock" | "inbox"; size?: number }) {
+  const id = `mp-${kind}`;
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      <defs>
+        <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(139,92,246,0.32)" />
+          <stop offset="100%" stopColor="rgba(139,92,246,0.06)" />
+        </linearGradient>
+        <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#C7B5FF" />
+          <stop offset="100%" stopColor="#5B2EE0" />
+        </linearGradient>
+        <radialGradient id={`${id}-glow`} cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0%" stopColor="#B49BFF" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+      <rect x="2" y="2" width="28" height="28" rx="9" fill={`url(#${id}-bg)`} stroke="rgba(180,150,255,0.5)" strokeWidth="1" />
+      <rect x="3" y="3" width="26" height="11" rx="8" fill={`url(#${id}-glow)`} opacity="0.65" />
+      <rect x="4.5" y="4" width="23" height="1.5" rx="0.75" fill="#fff" fillOpacity="0.2" />
+      {kind === "lock" && (
+        <g>
+          <path d="M11 14 V11 C11 8.5 13 6.5 16 6.5 C19 6.5 21 8.5 21 11 V14" stroke="url(#mp-lock-fill)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+          <rect x="9" y="14" width="14" height="11" rx="2.5" fill="url(#mp-lock-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.5" />
+          <circle cx="16" cy="19" r="1.4" fill="#fff" fillOpacity="0.85" />
+          <rect x="15.4" y="20" width="1.2" height="3" rx="0.6" fill="#fff" fillOpacity="0.85" />
+        </g>
+      )}
+      {kind === "check" && (
+        <g>
+          <circle cx="16" cy="16" r="9" fill="url(#mp-check-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M11.5 16.5 L14.5 19.5 L20.5 13" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        </g>
+      )}
+      {kind === "alert" && (
+        <g>
+          <path d="M16 6 L26 24 H6 Z" fill="url(#mp-alert-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" strokeLinejoin="round" />
+          <rect x="15" y="12" width="2" height="6.5" rx="1" fill="#fff" />
+          <circle cx="16" cy="21" r="1.2" fill="#fff" />
+        </g>
+      )}
+      {kind === "clock" && (
+        <g>
+          <circle cx="16" cy="16" r="9" fill="url(#mp-clock-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" />
+          <path d="M16 11 V16 L19.5 18" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <circle cx="16" cy="16" r="1.2" fill="#fff" />
+        </g>
+      )}
+      {kind === "inbox" && (
+        <g>
+          <path d="M6 16 L9 8 H23 L26 16 V23 C26 24 25 25 24 25 H8 C7 25 6 24 6 23 Z" fill="url(#mp-inbox-fill)" stroke="#fff" strokeOpacity="0.4" strokeWidth="0.6" strokeLinejoin="round" />
+          <path d="M6 16 H11 L13 18 H19 L21 16 H26" stroke="#fff" strokeOpacity="0.7" strokeWidth="1.4" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+        </g>
+      )}
+    </svg>
+  );
+}
