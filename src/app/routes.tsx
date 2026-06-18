@@ -26,6 +26,7 @@ import TradeHistory from "./pages/dashboard/TradeHistory";
 import P2PSettings from "./pages/dashboard/P2PSettings";
 import TradeReceipt from "./pages/order/TradeReceipt";
 import ProfilePage from "./pages/ProfilePage";
+import DesignSystem from "./pages/dashboard/DesignSystem";
 import { seedPreviewIfNeeded } from "./p2p/PreviewBoot";
 import PreviewIndex from "./pages/PreviewIndex";
 
@@ -34,6 +35,7 @@ seedPreviewIfNeeded();
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/p2p" replace /> },
   { path: "/preview", Component: PreviewIndex },
+  { path: "/p2p/design-system", Component: DesignSystem },
   { path: "/p2p", Component: MarketplacePage },
   { path: "/p2p/buy", Component: BuySetup },
   { path: "/p2p/buy/confirm", Component: BuyConfirm },

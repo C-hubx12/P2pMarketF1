@@ -22,8 +22,8 @@ export default function P2PSettings() {
 
         <div style={{ display: "grid", gap: 24 }}>
           {/* Defaults */}
-          <Card style={{ padding: 24 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: TEXT, marginBottom: 16 }}>Trading Defaults</div>
+          <Card className="chx-card-hover" style={{ padding: 32 }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: TEXT, marginBottom: 20 }}>Trading Defaults</div>
             <Field label="DEFAULT FIAT CURRENCY">
               <select value={fiat} onChange={e => setFiat(e.target.value)} style={{ ...input, appearance: "none", marginTop: 8, height: 50 }}>
                 <option value="GBP">GBP - British Pound</option>
@@ -50,8 +50,8 @@ export default function P2PSettings() {
           </Card>
 
           {/* Auto Reply */}
-          <Card style={{ padding: 24 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: TEXT, marginBottom: 16 }}>Auto-reply Message</div>
+          <Card className="chx-card-hover" style={{ padding: 32 }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: TEXT, marginBottom: 20 }}>Auto-reply Message</div>
             <div style={{ position: "relative" }}>
               <textarea value={autoReply} onChange={e => setAutoReply(e.target.value)} maxLength={500} placeholder="Set an automatic first message sent to every buyer when a new trade starts." style={{ ...input, height: 140, padding: 16, resize: "none", fontSize: 14, lineHeight: 1.5 }} />
               <div style={{ position: "absolute", bottom: 16, right: 16, fontSize: 12, color: TEXT_MUTE }}>{autoReply.length}/500</div>
@@ -60,9 +60,9 @@ export default function P2PSettings() {
           </Card>
 
           {/* Notifications */}
-          <Card style={{ padding: 24 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: TEXT, marginBottom: 16 }}>Notification Preferences</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <Card className="chx-card-hover" style={{ padding: 32 }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: TEXT, marginBottom: 20 }}>Notification Preferences</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <ToggleRow label="New Orders" sub="When someone starts a trade with you" active={notifs.newOrder} onToggle={() => setNotifs(n => ({...n, newOrder: !n.newOrder}))} />
               <ToggleRow label="Chat Messages" sub="When you receive a new message in a trade" active={notifs.chatMsg} onToggle={() => setNotifs(n => ({...n, chatMsg: !n.chatMsg}))} />
               <ToggleRow label="Order Cancellations" sub="When a trade is cancelled or expires" active={notifs.orderCancel} onToggle={() => setNotifs(n => ({...n, orderCancel: !n.orderCancel}))} />
@@ -71,9 +71,9 @@ export default function P2PSettings() {
           </Card>
 
           {/* Lists */}
-          <Card style={{ padding: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}><ShieldBan size={18} color="#EF4444" /> <span style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>Blocked Users</span></div>
+          <Card className="chx-card-hover" style={{ padding: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}><ShieldBan size={20} color="#EF4444" /> <span style={{ fontSize: 18, fontWeight: 800, color: TEXT }}>Blocked Users</span></div>
               <span style={{ fontSize: 13, color: TEXT_DIM }}>1 user</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: 16, borderRadius: 12, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}` }}>
@@ -87,8 +87,8 @@ export default function P2PSettings() {
               <button style={{ ...secondaryBtnStyle(32), fontSize: 12 }}>Unblock</button>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 32, marginBottom: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}><Heart size={18} color="#F43F5E" /> <span style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>Favourite Sellers</span></div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 40, marginBottom: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}><Heart size={20} color="#F43F5E" /> <span style={{ fontSize: 18, fontWeight: 800, color: TEXT }}>Favourite Sellers</span></div>
               <span style={{ fontSize: 13, color: TEXT_DIM }}>1 user</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: 16, borderRadius: 12, background: "rgba(8,12,26,0.6)", border: `1px solid ${STROKE}` }}>
@@ -104,10 +104,10 @@ export default function P2PSettings() {
           </Card>
 
           {/* Payment Method Profiles */}
-          <Card style={{ padding: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>Payment Details</div>
-              <button style={{ ...secondaryBtnStyle(32), fontSize: 12 }}>+ Add New</button>
+          <Card className="chx-card-hover" style={{ padding: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: TEXT }}>Payment Details</div>
+              <button style={{ ...secondaryBtnStyle(36), fontSize: 13, background: "rgba(8,12,26,0.6)" }}>+ Add New</button>
             </div>
             <div style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 20 }}>Save your bank and app details here to auto-fill trade instructions.</div>
             
@@ -141,8 +141,8 @@ function ToggleRow({ label, sub, active, onToggle }: any) {
         <div style={{ fontSize: 14, fontWeight: 700, color: TEXT }}>{label}</div>
         <div style={{ fontSize: 12, color: TEXT_DIM, marginTop: 2 }}>{sub}</div>
       </div>
-      <button onClick={onToggle} style={{ width: 44, height: 24, borderRadius: 99, background: active ? CYAN : "rgba(8,12,26,0.8)", border: `1px solid ${active ? CYAN : STROKE}`, position: "relative", cursor: "pointer", transition: "all 0.2s" }}>
-        <div style={{ position: "absolute", top: 2, left: active ? 22 : 2, width: 18, height: 18, borderRadius: "50%", background: active ? "#000" : TEXT_MUTE, transition: "left 0.2s" }} />
+      <button onClick={onToggle} style={{ width: 48, height: 26, borderRadius: 99, background: active ? CYAN : "rgba(8,12,26,0.8)", border: `1px solid ${active ? CYAN : STROKE}`, position: "relative", cursor: "pointer", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", boxShadow: active ? `0 0 16px rgba(0,229,255,0.4)` : "none" }}>
+        <div style={{ position: "absolute", top: 2, left: active ? 24 : 2, width: 20, height: 20, borderRadius: "50%", background: active ? "#000" : TEXT_MUTE, transition: "left 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} />
       </button>
     </div>
   );

@@ -34,7 +34,7 @@ export function RoundBtn({ children, glow, onClick }: { children: React.ReactNod
 export function Card({ children, accent = "cyan", bright, style, className }: { children: React.ReactNode; accent?: "cyan" | "purple" | "none"; bright?: boolean; style?: React.CSSProperties; className?: string }) {
   const ring = accent === "cyan" ? `1px solid rgba(0,229,255,${bright ? 0.45 : 0.22})` : accent === "purple" ? `1px solid rgba(139,92,246,${bright ? 0.45 : 0.22})` : `1px solid ${STROKE}`;
   const glow = accent === "cyan" ? `0 0 ${bright ? 40 : 24}px rgba(0,229,255,${bright ? 0.18 : 0.05})` : accent === "purple" ? `0 0 ${bright ? 40 : 24}px rgba(139,92,246,${bright ? 0.18 : 0.05})` : "none";
-  return <div className={className} style={{ position: "relative", borderRadius: 22, background: bright ? "linear-gradient(180deg, rgba(16,24,52,0.8), rgba(8,12,30,0.9))" : CARD_BG, border: ring, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, ${glow}`, ...style }}>{children}</div>;
+  return <div className={className} style={{ position: "relative", borderRadius: 24, background: bright ? "linear-gradient(180deg, rgba(16,24,52,0.8), rgba(8,12,30,0.9))" : CARD_BG, backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: ring, boxShadow: `0 1px 0 rgba(255,255,255,0.04) inset, ${glow}`, transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease", ...style }}>{children}</div>;
 }
 
 export function IconTile({ color, children, size = 38 }: { color: "cyan" | "purple" | "blue"; children: React.ReactNode; size?: number }) {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router";
-import { Bell, Menu, ChevronLeft } from "lucide-react";
-import { BG_1, BG_2, TEXT, TEXT_DIM, STROKE, ShieldLogo, Pill, RoundBtn } from "./shared";
+import { Bell, Menu, ChevronLeft, MessageCircleQuestion } from "lucide-react";
+import { BG_1, BG_2, TEXT, TEXT_DIM, STROKE, ShieldLogo, Pill, RoundBtn, CYAN, PURPLE } from "./shared";
 
 export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; back?: string }) {
   const navigate = useNavigate();
@@ -21,9 +21,12 @@ export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; 
         @keyframes chxShimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
         .chx-shell-main { width: 100%; max-width: 600px; margin: 0 auto; padding: 24px 18px 80px; position: relative; z-index: 1; display: flex; flex-direction: column; gap: 22px; }
         .chx-grid-2 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        .chx-support-btn { position: fixed; bottom: 24px; right: 24px; z-index: 100; width: 56px; height: 56px; border-radius: 28px; background: linear-gradient(135deg, ${CYAN}, ${PURPLE}); display: flex; alignItems: center; justifyContent: center; cursor: pointer; border: none; box-shadow: 0 10px 24px rgba(0,229,255,0.4), inset 0 2px 4px rgba(255,255,255,0.4); color: #fff; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .chx-support-btn:hover { transform: scale(1.05) translateY(-4px); box-shadow: 0 14px 32px rgba(139,92,246,0.5), inset 0 2px 4px rgba(255,255,255,0.5); }
         @media (min-width: 768px) {
           .chx-shell-main { max-width: 980px; padding: 32px 24px 80px; }
           .chx-grid-2 { grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: start; }
+          .chx-support-btn { bottom: 32px; right: 32px; width: 64px; height: 64px; border-radius: 32px; }
         }
         @media (min-width: 1024px) { .chx-shell-main { max-width: 1240px; padding: 32px 32px 100px; } .chx-grid-2 { grid-template-columns: 1.4fr 1fr; gap: 22px; } }
       `}</style>
@@ -46,6 +49,10 @@ export function Shell({ children, back = "/p2p" }: { children: React.ReactNode; 
       </header>
 
       <main className="chx-shell-main">{children}</main>
+
+      <button className="chx-support-btn" title="Live Support" onClick={() => alert("Support Chat Opened")}>
+        <MessageCircleQuestion size={28} />
+      </button>
     </div>
   );
 }

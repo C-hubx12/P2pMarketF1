@@ -40,12 +40,12 @@ export default function MyAds() {
         <button onClick={() => navigate("/p2p/create")} style={{ ...primaryBtnStyle(44), width: "auto", padding: "0 18px" }}><Plus size={15} /> Post New Ad</button>
       </div>
 
-      <div style={{ display: "flex", gap: 6, padding: 6, borderRadius: 14, background: "rgba(8,12,26,0.5)", border: `1px solid ${STROKE}`, alignSelf: "flex-start", marginBottom: 24 }}>
+      <div style={{ display: "flex", gap: 6, padding: 6, borderRadius: 16, background: "rgba(8,12,26,0.6)", backdropFilter: "blur(12px)", border: `1px solid ${STROKE}`, alignSelf: "flex-start", marginBottom: 24, boxShadow: `0 8px 24px rgba(0,0,0,0.4)` }}>
         {(["active", "paused", "completed", "cancelled"] as Tab[]).map((k) => (
           <button key={k} onClick={() => setTab(k)} style={{
-            padding: "10px 20px", borderRadius: 10, border: 0, cursor: "pointer", fontFamily: "inherit",
+            padding: "10px 20px", borderRadius: 12, border: 0, cursor: "pointer", fontFamily: "inherit",
             background: tab === k ? `linear-gradient(180deg, rgba(0,229,255,0.18), rgba(0,229,255,0.04))` : "transparent",
-            color: tab === k ? TEXT : TEXT_DIM, fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.2s"
+            color: tab === k ? TEXT : TEXT_DIM, fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", boxShadow: tab === k ? `inset 0 1px 0 rgba(255,255,255,0.1), 0 0 16px rgba(0,229,255,0.15)` : "none"
           }}>{k}</button>
         ))}
       </div>
@@ -57,7 +57,7 @@ export default function MyAds() {
         </Card>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {visible.map((o) => {
+          {visible.map((o, idx) => {
             const isPaused = !!paused[o.id];
             const isCancelled = !!cancelled[o.id];
             const isCompleted = false; // Mock
@@ -67,9 +67,10 @@ export default function MyAds() {
             const remaining = totalOrig * 0.6; // 60% remaining
 
             return (
-              <Card key={o.id} style={{ padding: 0, overflow: "hidden", opacity: isPaused ? 0.7 : 1 }}>
-                <div style={{ padding: "20px 24px", display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start", background: isPaused ? "rgba(13,20,40,0.4)" : "transparent" }}>
-                  <div style={{ flex: 1, minWidth: 280 }}>
+              <div key={o.id} style={{ animation: `chxFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.05}s both`, opacity: 0 }}>
+                <Card className="chx-card-hover" style={{ padding: 0, overflow: "hidden", opacity: isPaused ? 0.7 : 1 }}>
+                  <div style={{ padding: "24px", display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start", background: isPaused ? "rgba(13,20,40,0.4)" : "transparent" }}>
+                    <div style={{ flex: 1, minWidth: 280 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                       <img src={`https://cryptologos.cc/logos/${o.asset.toLowerCase()}-${o.asset.toLowerCase()}-logo.svg?v=024`} alt={o.asset} style={{ width: 28, height: 28 }} onError={(e) => e.currentTarget.style.display='none'} />
                       <div style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>{o.asset}</div>
@@ -138,8 +139,9 @@ export default function MyAds() {
                   </div>
                 </div>
               </Card>
-            );
-          })}
+            </div>
+          );
+        })}
         </div>
       )}
     </Shell>

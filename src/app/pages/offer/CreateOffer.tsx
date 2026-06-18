@@ -31,6 +31,8 @@ const CO_STYLES = `
     .co-grid { grid-template-columns: 1fr 320px; gap: 24px; }
     .co-side { position: sticky; top: 100px; }
   }
+  @keyframes coStepIn { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .co-step-anim { animation: coStepIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 `;
 
 export default function CreateOffer() {
@@ -127,12 +129,12 @@ export default function CreateOffer() {
 
         <div className="co-grid" style={{ marginTop: 24 }}>
           <Card accent="cyan" bright className="co-card">
-            {step === 0 && <Step1 side={side} setSide={setSide} asset={asset} setAsset={setAsset} fiat={fiat} setFiat={setFiat} />}
-            {step === 1 && <Step2 priceType={priceType} setPriceType={setPriceType} fixedPrice={fixedPrice} setFixedPrice={setFixedPrice} floatingPercent={floatingPercent} setFloatingPercent={setFloatingPercent} asset={asset} fiat={fiat} marketRate={getMarketRate()} />}
-            {step === 2 && <Step3 amount={amount} setAmount={setAmount} min={min} setMin={setMin} max={max} setMax={setMax} asset={asset} fiat={fiat} marketRate={getMarketRate()} balance={0.8} />}
-            {step === 3 && <Step4 methods={methods} setMethods={setMethods} customMethod={customMethod} setCustomMethod={setCustomMethod} payWindow={payWindow} setPayWindow={setPayWindow} />}
-            {step === 4 && <Step5 terms={terms} setTerms={setTerms} />}
-            {step === 5 && <Step6 side={side} asset={asset} fiat={fiat} priceType={priceType} fixedPrice={fixedPrice} floatingPercent={floatingPercent} amount={amount} min={min} max={max} methods={methods} payWindow={payWindow} terms={terms} marketRate={getMarketRate()} />}
+            {step === 0 && <div className="co-step-anim"><Step1 side={side} setSide={setSide} asset={asset} setAsset={setAsset} fiat={fiat} setFiat={setFiat} /></div>}
+            {step === 1 && <div className="co-step-anim"><Step2 priceType={priceType} setPriceType={setPriceType} fixedPrice={fixedPrice} setFixedPrice={setFixedPrice} floatingPercent={floatingPercent} setFloatingPercent={setFloatingPercent} asset={asset} fiat={fiat} marketRate={getMarketRate()} /></div>}
+            {step === 2 && <div className="co-step-anim"><Step3 amount={amount} setAmount={setAmount} min={min} setMin={setMin} max={max} setMax={setMax} asset={asset} fiat={fiat} marketRate={getMarketRate()} balance={0.8} /></div>}
+            {step === 3 && <div className="co-step-anim"><Step4 methods={methods} setMethods={setMethods} customMethod={customMethod} setCustomMethod={setCustomMethod} payWindow={payWindow} setPayWindow={setPayWindow} /></div>}
+            {step === 4 && <div className="co-step-anim"><Step5 terms={terms} setTerms={setTerms} /></div>}
+            {step === 5 && <div className="co-step-anim"><Step6 side={side} asset={asset} fiat={fiat} priceType={priceType} fixedPrice={fixedPrice} floatingPercent={floatingPercent} amount={amount} min={min} max={max} methods={methods} payWindow={payWindow} terms={terms} marketRate={getMarketRate()} setStep={setStep} isTermsAccepted={isTermsAccepted} setIsTermsAccepted={setIsTermsAccepted} /></div>}
 
             <div className="co-actions">
               <button onClick={back} style={{ ...secondaryBtnStyle(56), flex: 1, fontSize: 16 }}>{step === 0 ? "Cancel" : "Back"}</button>

@@ -17,8 +17,11 @@ export default function TradeReceipt() {
       <div style={{ maxWidth: 600, margin: "0 auto", paddingBottom: 40 }}>
         <button onClick={() => navigate(-1)} style={{ ...secondaryBtnStyle(40), marginBottom: 24, border: "none", background: "transparent", padding: 0 }}><ArrowLeft size={16} /> Back</button>
 
-        <Card style={{ padding: "40px", background: "#ffffff", color: "#000", border: "none", borderRadius: 16 }} className="chx-receipt-card">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 40 }}>
+        <Card style={{ position: "relative", padding: "48px 40px", background: "linear-gradient(180deg, #FFFFFF, #F8FAFC)", color: "#000", border: "1px solid #E5E7EB", borderRadius: 24, boxShadow: "0 24px 48px rgba(0,0,0,0.4), inset 0 2px 0 #FFF" }} className="chx-receipt-card">
+          {/* Subtle noise texture */}
+          <div style={{ position: "absolute", inset: 0, opacity: 0.4, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, pointerEvents: "none", mixBlendMode: "multiply", borderRadius: 24 }} />
+          
+          <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 40 }}>
             <div>
               <ShieldLogo size={48} />
               <div style={{ fontSize: 24, fontWeight: 800, marginTop: 16, color: "#111827" }}>Trade Receipt</div>
@@ -30,7 +33,7 @@ export default function TradeReceipt() {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
             <Row label="BUYER" value="You" />
             <Row label="SELLER" value="VerifiedTrader" />
             <div style={{ height: 1, background: "#E5E7EB", margin: "8px 0" }} />
@@ -49,7 +52,7 @@ export default function TradeReceipt() {
             <Row label="COMPLETION TIME" value="4 mins 12 secs" />
           </div>
 
-          <div style={{ marginTop: 48, paddingTop: 24, borderTop: "1px dashed #D1D5DB", fontSize: 11, color: "#9CA3AF", textAlign: "center", lineHeight: 1.5 }}>
+          <div style={{ position: "relative", zIndex: 1, marginTop: 48, paddingTop: 24, borderTop: "1px dashed #D1D5DB", fontSize: 11, color: "#9CA3AF", textAlign: "center", lineHeight: 1.5 }}>
             This receipt is for record keeping purposes only. CoinHubX is not responsible for tax obligations.
           </div>
         </Card>

@@ -29,7 +29,7 @@ export default function OnboardingTour() {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, pointerEvents: "auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
       {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(5, 7, 15, 0.8)", backdropFilter: "blur(2px)", WebkitBackdropFilter: "blur(2px)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "rgba(5, 7, 15, 0.8)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", animation: "chxFadeInOverlay 0.5s ease-out" }} />
 
       {/* Skip button */}
       <button onClick={skip} style={{ position: "absolute", top: 24, right: 24, padding: "8px 16px", borderRadius: 99, background: "rgba(255,255,255,0.1)", border: `1px solid ${STROKE}`, color: TEXT, fontSize: 13, fontWeight: 700, cursor: "pointer", zIndex: 102 }}>Skip Tour</button>
@@ -73,6 +73,10 @@ export default function OnboardingTour() {
         @keyframes chxPopIn {
           from { opacity: 0; transform: scale(0.9) translateY(20px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes chxFadeInOverlay {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </div>

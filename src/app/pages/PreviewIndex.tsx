@@ -18,6 +18,7 @@ const GROUPS: Group[] = [
     tone: CYAN,
     items: [
       { label: "Marketplace home", path: "/p2p", sub: "Instant Buy + offers feed" },
+      { label: "Design System", path: "/p2p/design-system", sub: "Component states & edge cases" },
     ],
   },
   {

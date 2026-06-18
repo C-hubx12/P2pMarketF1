@@ -472,8 +472,8 @@ function FilterPanel({ side, setSide, asset, setAsset, currency, setCurrency, am
       {/* Mobile Bottom Sheet Drawer */}
       {mobileOpen && (
         <div className="chx-hide-desktop" style={{ position: "fixed", inset: 0, zIndex: 100 }}>
-          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }} onClick={() => setMobileOpen(false)} />
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: BG_2, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: "24px 20px 40px", borderTop: `1px solid ${CYAN_SOFT}`, boxShadow: `0 -20px 40px rgba(0,0,0,0.8), 0 0 40px rgba(0,229,255,0.1)` }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", animation: "chxFadeIn 0.3s ease-out" }} onClick={() => setMobileOpen(false)} />
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: BG_2, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: "24px 20px 40px", borderTop: `1px solid ${CYAN_SOFT}`, boxShadow: `0 -20px 40px rgba(0,0,0,0.8), 0 0 40px rgba(0,229,255,0.1)`, animation: "chxSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={{ width: 40, height: 4, background: STROKE, borderRadius: 2, margin: "0 auto 20px" }} />
             {innerContent}
           </div>
@@ -481,9 +481,9 @@ function FilterPanel({ side, setSide, asset, setAsset, currency, setCurrency, am
       )}
 
       {/* Desktop Sticky Panel */}
-      <div className="chx-hide-mobile" style={{ position: "sticky", top: 80 }}>
-        <Card style={{ padding: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+      <div className="chx-hide-mobile" style={{ position: "sticky", top: 100 }}>
+        <Card style={{ padding: 32 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
             <div style={{ fontSize: 16, fontWeight: 800, color: TEXT }}>Filters</div>
             {activeFilters > 0 && <span style={{ background: "rgba(0,229,255,0.1)", border: `1px solid ${CYAN_SOFT}`, color: CYAN, padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 800 }}>{activeFilters} applied</span>}
           </div>
@@ -501,6 +501,24 @@ export default function MarketplacePage() {
   const [currency, setCurrency] = useState("USD");
   const [payMethod, setPayMethod] = useState<"All" | PaymentMethod>("All");
   const [amount, setAmount] = useState("");
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement | null>(null);
+  const [activeLang, setActiveLang] = useState({ code: "GB", label: "English", icon: "🇬🇧" });
+  
+  const langs = [
+    { code: "GB", label: "English", icon: "🇬🇧" },
+    { code: "DE", label: "Deutsch", icon: "🇩🇪" },
+    { code: "FR", label: "Français", icon: "🇫🇷" },
+    { code: "ES", label: "Español", icon: "🇪🇸" },
+    { code: "IT", label: "Italiano", icon: "🇮🇹" },
+    { code: "AE", label: "العربية", icon: "🇦🇪" }
+  ];
+
+  useEffect(() => {
+    const onDocLang = (e: MouseEvent) => { if (!langRef.current?.contains(e.target as Node)) setLangOpen(false); };
+    document.addEventListener("mousedown", onDocLang);
+    return () => document.removeEventListener("mousedown", onDocLang);
+  }, []);
 
   const { isLoggedIn } = useAuth();
   const { offers: storeOffers } = useOffers();
@@ -541,6 +559,7 @@ export default function MarketplacePage() {
         @keyframes chxBorder { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes chxBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
         @keyframes chxTilt { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-7px) rotate(1.5deg); } }
+        @keyframes chxSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes chxFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes chxBadgePulse { 0%,100% { box-shadow: 0 0 12px rgba(139,92,246,0.4), inset 0 0 10px rgba(139,92,246,0.25), 0 0 0 0 rgba(139,92,246,0.35); } 50% { box-shadow: 0 0 22px rgba(139,92,246,0.7), inset 0 0 14px rgba(139,92,246,0.4), 0 0 0 5px rgba(139,92,246,0); } }
         .chx-badge-pulse { animation: chxBadgePulse 2.6s ease-in-out infinite; }
@@ -567,14 +586,16 @@ export default function MarketplacePage() {
         .chx-col { display: contents; }
         @media (min-width: 768px) {
           .chx-main { max-width: 920px !important; padding: 28px 32px 56px !important; gap: 32px !important; }
-          .chx-grid-row { display: grid !important; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: start; }
+          .chx-grid-row { display: grid !important; grid-template-columns: 1fr; gap: 24px; align-items: start; }
           .chx-col { display: flex !important; flex-direction: column; gap: 24px; }
-          .chx-col-right { position: sticky !important; top: 80px; }
+          .chx-col-right { position: static !important; }
           .chx-hero-card { padding: 40px 40px !important; min-height: 240px; }
           .chx-hero-grid { display: grid !important; grid-template-columns: 1fr 300px; align-items: center; gap: 32px; }
           .chx-hero-illus { width: 300px !important; height: 260px !important; }
           .chx-trust-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
           .chx-ib-grid { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+          .chx-nav-desktop { display: flex !important; margin-left: 16px; flex-wrap: wrap; }
+          .chx-logo-container { gap: 6px !important; }
         }
         @media (min-width: 1024px) {
           .chx-main { max-width: 1100px !important; padding: 48px !important; gap: 40px !important; }
@@ -593,9 +614,10 @@ export default function MarketplacePage() {
           .chx-ib-title { font-size: 22px !important; }
           .chx-ib-cta { height: 56px !important; font-size: 16px !important; }
           .chx-section-title { font-size: 20px !important; }
-          .chx-nav-desktop { display: flex !important; }
+          .chx-nav-desktop { display: flex !important; margin-left: 32px; flex-wrap: nowrap; }
+          .chx-logo-container { gap: 10px !important; }
         }
-        .chx-nav-desktop { display: none; gap: 6px; align-items: center; margin-left: 32px; }
+        .chx-nav-desktop { display: none; gap: 6px; align-items: center; }
         .chx-nav-desktop a { padding: 8px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 500; color: rgba(214,222,240,0.72); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s, background 0.2s; }
         .chx-nav-desktop a:hover { color: #fff; background: rgba(0,229,255,0.06); }
         .chx-nav-desktop a.active { color: #9FF5FF; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.22); }
@@ -615,6 +637,7 @@ export default function MarketplacePage() {
         @media (max-width: 767px) {
           .chx-hide-narrow { display: none !important; }
           .chx-hide-mobile { display: none !important; }
+          .chx-logo-container .chx-logo-text { display: none !important; }
         }
         @media (min-width: 768px) {
           .chx-hide-desktop { display: none !important; }
@@ -642,10 +665,12 @@ export default function MarketplacePage() {
       <header style={{ position: "sticky", top: 0, zIndex: 20, padding: "14px 16px", background: "rgba(5,7,15,0.72)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${STROKE}`, boxShadow: `0 1px 0 rgba(0,229,255,0.08), 0 8px 24px rgba(0,0,0,0.4)` }}>
         <div style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 1, background: `linear-gradient(90deg, transparent, ${CYAN}, ${PURPLE}, transparent)`, opacity: 0.5 }} />
         <div className="chx-main" style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 auto" }}>
-          <ShieldLogo />
-          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
-            <span style={{ color: "#fff", fontSize: 16, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif", textShadow: `0 0 14px rgba(0,229,255,0.45)` }}>COINHUBX</span>
-            <span style={{ color: CYAN, fontSize: 8.5, fontWeight: 600, letterSpacing: "0.32em", marginTop: 3, opacity: 0.85 }}>CRYPTO · P2P</span>
+          <div className="chx-logo-container" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <ShieldLogo size={36} />
+            <div className="chx-logo-text" style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+              <span style={{ color: "#fff", fontSize: 16, fontWeight: 800, letterSpacing: "0.16em", fontFamily: "'Space Grotesk', sans-serif", textShadow: `0 0 14px rgba(0,229,255,0.45)` }}>COINHUBX</span>
+              <span style={{ color: CYAN, fontSize: 8.5, fontWeight: 600, letterSpacing: "0.32em", marginTop: 3, opacity: 0.85 }}>CRYPTO · P2P</span>
+            </div>
           </div>
           <nav className="chx-nav-desktop">
             <a href="#">Dashboard</a>
@@ -674,7 +699,23 @@ export default function MarketplacePage() {
             <span style={{ width: 6, height: 6, borderRadius: 99, background: preview ? CYAN : TEXT_MUTE, boxShadow: preview ? `0 0 8px ${CYAN}` : "none" }} />
             {preview ? "Preview" : "Preview off"}
           </button>
-          <Pill><span style={{ fontSize: 14 }}>🇬🇧</span><span>English</span></Pill>
+          <div ref={langRef} style={{ position: "relative" }}>
+            <button onClick={() => setLangOpen(!langOpen)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 999, background: "rgba(13,20,40,0.6)", border: `1px solid ${langOpen ? CYAN_SOFT : STROKE}`, color: TEXT, fontSize: 13, fontWeight: 500, cursor: "pointer" }}>
+              <span style={{ fontSize: 14 }}>{activeLang.icon}</span>
+              <span className="chx-hide-narrow">{activeLang.label}</span>
+              <ChevronDown size={14} color={TEXT_DIM} style={{ transform: langOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+            </button>
+            {langOpen && (
+              <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, width: 140, background: "linear-gradient(180deg, rgba(16,24,52,0.96), rgba(8,12,30,0.98))", borderRadius: 12, border: `1px solid ${CYAN_SOFT}`, boxShadow: `0 12px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,229,255,0.15)`, padding: 6, zIndex: 100 }}>
+                {langs.map(l => (
+                  <button key={l.code} onClick={() => { setActiveLang(l); setLangOpen(false); }} style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderRadius: 8, background: activeLang.code === l.code ? "rgba(0,229,255,0.1)" : "transparent", border: "none", color: TEXT, fontSize: 13, cursor: "pointer", textAlign: "left" }}>
+                    <span style={{ fontSize: 14 }}>{l.icon}</span>
+                    <span>{l.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <RoundBtn glow>
             <Bell size={16} color={TEXT} />
             <span style={{ position: "absolute", top: 8, right: 9, width: 7, height: 7, borderRadius: 99, background: CYAN, boxShadow: `0 0 8px ${CYAN}` }} />
